@@ -1,3 +1,5 @@
+C:\cocos2d-x\templates\cpp-template-default\Classes 의 각각 수정
+
 HelloWorldScene.h -> 고급 저장 옵션 -> 유니코드 서명있는 -> 맨밑함수선언 삭제 -> LayerColor 바꿈
 class HelloWorld : public cocos2d::LayerColor
 {
