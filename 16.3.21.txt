@@ -1,0 +1,66 @@
+HelloWorldScene.h -> 고급 저장 옵션 -> 유니코드 서명있는 -> 맨밑함수선언 삭제 -> LayerColor 바꿈
+class HelloWorld : public cocos2d::LayerColor
+{
+public:
+    static cocos2d::Scene* createScene();
+    virtual bool init();
+// implement the "static create()" method manually
+    CREATE_FUNC(HelloWorld);
+};
+
+
+HelloWorldScene.cpp -> 맨밑함수 삭제 -> init if(!Layer::) return true 만 남기고 삭제 -> 고급 저장 옵션 -> 유니코드 서명있는
+bool HelloWorld::init()
+{
+    if ( !LayerColor::initWithColor(Color4B(255, 255, 255, 255) ))
+    {
+        return false;
+    }
+    return true;
+}
+
+
+AppDelegate.h -> 고급 저장 옵션 -> 유니코드 서명있는
+
+
+
+AppDelegate.cpp -> 고급 저장 옵션 -> 유니코드 서명있는
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)   //59줄
+	frameSize = Size(480, 320);
+#endif //CC_PLATFORM_WIN32
+
+
+
+cmd -> 프로젝트 생성 -> 속성 lib 체크취소
+
+
+
+안드로이드 jdk 설치
+설치경로 -> C:\Android
+
+
+환경변수 -> 사용자 변수 -> 새로 만들기 -> classpath -> C:\Android\jdk1.8.0_73\lib\tools.jar;.;
+
+
+
+Android SDK -> tools, tools(Preview Channel), Android N, Android 6.0, Android 4.0.3(API 15), Android 2.2(API 8), Extras 체크 후 Install
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
