@@ -1,0 +1,49 @@
+cocos 카페에서 설치방법 있음.
+
+www.cocos2d-x.org
+download - cocos2d-x - download v3.10
+python 설치 -> 환경변수 설정
+
+
+libcocos2d - base - ccconsole.cpp 227라인 복붙 CP_UTF8 -> CP_ACP로 수정
+platform - win32 - ccdevice - win32.cpp 276라인 복붙 CP_UTF8 -> CP_ACP로 수정
+
+C:\에 cocos2d-x-work 폴더 생성 //프로젝트 작업용
+
+cocos2d-x 폴더에 templates - cpp-template-default 복사붙여넣기 //백업용
+
+C:\cocos2d-x\templates\cpp-template-default\proj.win32\Debug.win32 ->  lib, dll 빼고 삭제
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
