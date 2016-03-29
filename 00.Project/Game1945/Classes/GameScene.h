@@ -18,9 +18,6 @@ public:
     static cocos2d::Scene* createScene();
     void menuCloseCallback(Ref* pSender);
 	CREATE_FUNC(GameScene);
-
-	void onEnter();
-	void onExit();
 	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
 	void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
 	void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
@@ -32,16 +29,15 @@ public:
 	void PutCrashEffect(const cocos2d::Vec2 &pos);
 	
 	void AddEnemy(const Vec2& position);
-	CCSprite *player_;//주인공 플레이어
-	Array *missile_[MAX_MISSILE];
-	Array *enemy_;//적비행기 CCArray(배열, 리스트 구조)
+	Sprite *player_;//주인공 플레이어
+	cocos2d::Vector<cocos2d::Sprite*> missile_;
+	cocos2d::Vector<cocos2d::Sprite*> enemy_;//적비행기 CCArray(배열, 리스트 구조)
 	Sprite *enemy;
 	Vec2 distance_;
 	Size size_;
-	CCSprite *spr;
+	Sprite *spr;
 	Ref *obj;
 	int a;
-	CCSprite *missile;
 	float regenCheckTime_;
 
 private:
