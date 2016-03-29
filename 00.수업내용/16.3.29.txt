@@ -1,0 +1,13 @@
+고급시스템 설정 -> 환경변수 ->사용자 변수
+
+sdk -> 맨뒤 ';' 빼기
+ant -> 맨뒤 ';' 빼기
+java_home -> jdk18까지
+ndk -> 맨뒤 ';' 빼기
+
+프롬프트
+> java -version
+> javac -version
+
+> cd c:\cocos2d-x\build
+> python android-build.py cpp-tests
