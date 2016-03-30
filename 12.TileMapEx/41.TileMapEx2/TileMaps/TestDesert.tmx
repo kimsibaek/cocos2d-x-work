@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="32" tileheight="32" nextobjectid="2">
+ <tileset firstgid="1" name="TestDesert" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="48" columns="8">
+  <image source="tmw_desert_spacing.png" width="265" height="199"/>
+ </tileset>
+ <layer name="Background" width="20" height="10">
+  <data encoding="base64" compression="zlib">
+   eJylzmsHgDAUgOFVdBFd6UqWKBX9/5/XGSdmTttJHx67v9YLIQbNCKYfZmO94CgZuL3VIF/2qN4ODpyr8cT7IYgIsaOnXMReBnJCweiZNkfvy78k9hrQEjo894CvUW8DS88lId6mLz2b5x63x1WCylCDG0alFec=
+  </data>
+ </layer>
+ <objectgroup name="Objects">
+  <object id="1" name="SpawnPoint" x="80" y="176"/>
+ </objectgroup>
+ <layer name="Items" width="20" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYKA+kKeBmaNgFKADeqQzAGXwAD8=
+  </data>
+ </layer>
+</map>
