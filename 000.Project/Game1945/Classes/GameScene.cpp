@@ -1,6 +1,16 @@
 #include "GameScene.h"
 #include "SimpleAudioEngine.h"
 
+//android effect only support ogg
+
+#if (CC_TARGET_PLATFORM == CC_PLATFOAM_WIN32)
+#define MUSIC_FILE		"Music/music.mid"
+#elif (CC_TARGET_PLATFORM == CC_PLATFOAM_BLACKBERRY)
+#define MUSIC_FILE		"Music/mainMainMusic.ogg"
+#else
+#define MUSIC_FILE		"Music/mainMainMusic.mp3"
+#endif
+
 using namespace cocos2d;
 using namespace CocosDenshion;
 
@@ -23,7 +33,6 @@ bool GameScene::init()
 	{
 		return false;
 	}
-
     MenuItemImage *pCloseItem = MenuItemImage::create("Images/CloseNormal.png", "Images/CloseSelected.png", this, menu_selector(GameScene::menuCloseCallback));
     pCloseItem->setPosition( Vec2(Director::getInstance()->getVisibleSize().width - 20, 20) );
 	//log("%lf, %lf", Director::getInstance()->getVisibleSize().width, Director::getInstance()->getVisibleSize().height);
@@ -69,7 +78,9 @@ bool GameScene::init()
 	//{
 	//	missile_[a].begin();
 	//}
-
+	SimpleAudioEngine::getInstance()->preloadBackgroundMusic(MUSIC_FILE);
+	SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(0.5);
+	SimpleAudioEngine::getInstance()->playBackgroundMusic(MUSIC_FILE, true);
     return true;
 }
 
@@ -117,6 +128,13 @@ void GameScene::Shooting(float time)
 		missile->runAction(move);
 		
 		missile_.pushBack(missile);
+		
+	}
+	if (player_) {
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("Music/fireEffect.mp3");
+	}
+	else {
+		SimpleAudioEngine::getInstance()->stopEffect(m_nSoundId);
 	}
 }
 
@@ -160,11 +178,11 @@ void GameScene::tick1(float time)
 				//적 비행기 삭제
 				removeChild(spr, false);
 				enemy_.eraseObject(spr);
-
+				SimpleAudioEngine::getInstance()->playEffect("Music/explodeEffect.mp3");
 				//미사일 삭제
 				removeChild(missile_.at(i), false);
 				missile_.eraseObject(missile_.at(i));
-
+				
 			}
 		}
 		if (player_)
@@ -180,7 +198,8 @@ void GameScene::tick1(float time)
 				PutCrashEffect(spr->getPosition());
 
 				//2.적 비행기를 화면에서 없애준다
-
+				SimpleAudioEngine::getInstance()->playEffect("Music/shipDestroyEffect.mp3");
+				SimpleAudioEngine::getInstance()->playEffect("Music/explodeEffect.mp3");
 				//Scene에서 적비행기 스프라이트를 Remove한다
 				removeChild(spr, false);
 				enemy_.eraseObject(spr);
