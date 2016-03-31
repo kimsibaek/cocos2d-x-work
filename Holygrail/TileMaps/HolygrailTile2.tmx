@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="32" tileheight="32" nextobjectid="6">
+ <tileset firstgid="1" name="ortho-test1" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="961" columns="31">
+  <image source="ortho-test1.png" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="962" name="Holygrail" tilewidth="30" tileheight="45" spacing="1" margin="1" tilecount="40" columns="8">
+  <image source="Holygrail.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="1002" name="metaset10way" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="10" columns="5">
+  <image source="metaset10way.png" width="166" height="67"/>
+  <tile id="0">
+   <properties>
+    <property name="Item" value="sword"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Item" value="water"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Item" value="bag"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Item" value="wolf"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="Item" value="monster"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="Item" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="Item" value="sword2"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="Item" value="key"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="1012" name="Holygrail" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="49" columns="7">
+  <image source="Holygrail.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="1061" name="holy_tmw" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="5" columns="5">
+  <image source="holy_tmw.png" width="166" height="34"/>
+ </tileset>
+ <layer name="Background" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJz7yMDA8JEILMCIwE+YIBhZDBvGZg6xerHhUb1DRy8AJicnuw==
+  </data>
+ </layer>
+ <objectgroup name="Objects">
+  <object id="4" name="SpawnPoint" x="206" y="48" width="1" height="1"/>
+ </objectgroup>
+ <layer name="Items2" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJwTZmFgECYCYwMw8UvMuNXhMgfGVwXi08yY4jBwAiinhkMvDCPbD8OnmXHbq8mC6n41qPoTaO7QwKIXm9/w8bG5GRZmMP+BACgc0O1HB8hiyH5G1odPL7L9yOFPTFyjm0FIPQAx3xDM
+  </data>
+ </layer>
+ <layer name="MetaInfo" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJyNUQsKQCEIC7r/RbPvDerBG5gsazBImTqtxRDaAxmQL47u1AdxX6wkD8h6p0MtWIjf6szNcfeffr0Y3SC1bDcvZp5xM+z3oZP5Fjqndxbii9Xq+fr+L39te9z0E/FMUDQ=
+  </data>
+ </layer>
+</map>
