@@ -8,15 +8,27 @@ class SecondScene : public cocos2d::LayerColor
 {
 public:
     static cocos2d::Scene* createScene();
-
+	bool sword;
+	bool right_sword;
+	bool mase;
+	bool key;
+	int item;
     virtual bool init();
-	void createDragon();
+	void createDragon(cocos2d::Vec2 vector);
+	void createMenubar();
+	cocos2d::Sprite* ItemsMenu;
+	cocos2d::RepeatForever* rep;
+	cocos2d::Animation* animation;
+	cocos2d::Animate* animate;
+	cocos2d::Texture2D* texture;
+	cocos2d::Sprite* Resetbar;
 	cocos2d::Size winSize;
 	cocos2d::Vec2 dragonPosition;
 	cocos2d::Sprite* dragon;
 	cocos2d::TMXTiledMap* tmap;
 	cocos2d::TMXLayer* background;
 	cocos2d::TMXLayer* items2;
+	cocos2d::TMXLayer* Tree;
 	cocos2d::TMXLayer* metainfo;
     // implement the "static create()" method manually
     CREATE_FUNC(SecondScene);

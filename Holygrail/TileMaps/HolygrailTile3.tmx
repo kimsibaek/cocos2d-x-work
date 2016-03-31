@@ -1,55 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="32" tileheight="32" nextobjectid="2">
- <tileset firstgid="1" name="metaset10way" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="10" columns="5">
-  <image source="metaset10way.png" width="166" height="67"/>
+ <tileset firstgid="1" name="ortho-test1" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="961" columns="31">
+  <image source="ortho-test1.png" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="962" name="Items" tilewidth="32" tileheight="48" tilecount="14" columns="7">
+  <image source="Items.png" width="224" height="96"/>
+ </tileset>
+ <tileset firstgid="976" name="tree" tilewidth="32" tileheight="32" tilecount="2" columns="2">
+  <image source="tree.png" width="64" height="32"/>
+ </tileset>
+ <tileset firstgid="978" name="metaset10way" tilewidth="32" tileheight="32" tilecount="10" columns="5">
+  <image source="metaset10way.png" width="160" height="64"/>
   <tile id="0">
    <properties>
-    <property name="Item" value="sword"/>
+    <property name="Items" value="sword"/>
    </properties>
   </tile>
   <tile id="1">
    <properties>
-    <property name="Item" value="water"/>
+    <property name="Items" value="water"/>
    </properties>
   </tile>
   <tile id="2">
    <properties>
-    <property name="Item" value="bag"/>
+    <property name="Items" value="right_sword"/>
    </properties>
   </tile>
   <tile id="3">
    <properties>
-    <property name="Item" value="wolf"/>
+    <property name="Items" value="box"/>
    </properties>
   </tile>
   <tile id="4">
    <properties>
-    <property name="Item" value="monster"/>
+    <property name="Items" value="wolf"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="Items" value="mase"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="Items" value="devil"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="Items" value="key"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Items" value="wall"/>
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="11" name="ortho-test1" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="961" columns="31">
-  <image source="ortho-test1.png" width="1024" height="1024"/>
- </tileset>
- <tileset firstgid="972" name="Holygrail" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="49" columns="7">
-  <image source="Holygrail.png" width="256" height="256"/>
- </tileset>
  <layer name="Background" width="15" height="10">
   <data encoding="base64" compression="zlib">
-   eJxbxMjAsGgUj2IqYwCzrl+D
+   eJybwcjAMGMUj2IqYwDJvVmn
   </data>
  </layer>
- <layer name="Items2" width="15" height="10">
+ <layer name="Tree" width="15" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYEAFr5lRMSkAWT0t9aLL49NLCh+djUstOk1IjpDZ2PjogJjwxKcGV3wSG8+kpgsAWCIkQw==
+   eJxjYEAFF5hRMSkAWT0t9aLL49NLCh+djUstOk1IjpDZ2PjogJjwxKcGV3wSG8+kpgsAp5sgJg==
+  </data>
+ </layer>
+ <layer name="Items" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYKA+OMFMnr6TzOTrPcQM0U+uvYeI1HsMTR1I33E0saM4zDoCFD+MJAdiH0FTexiPOw5B1R9nRrgZJkas+08wI8KZ3PACAXQ/owMA2WEWtQ==
   </data>
  </layer>
  <objectgroup name="Objects">
-  <object id="1" x="176" y="48" width="1" height="1"/>
+  <object id="1" name="SpawnPoint" x="176" y="48" width="1" height="1"/>
  </objectgroup>
  <layer name="MetaInfo" width="15" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYKA+YBwAvSwU2EmKfmYK7GUCYlYkPitUjAFNDBdgQVPPgiRGrDsY0WhaAQA2wAA7
+   eJydkoEKwCAIRIP+/+dsW66v2YITLjFqCyQ8e5xZKY2r5TG+LDt//GQl77G+3vMLfFRb5QKea9H9e36Sbr7VafeELW8ozVahsZcGLHsV+FnPpvn+I75hvkL77jv7f1EXzAPOiDog
   </data>
  </layer>
 </map>

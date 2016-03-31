@@ -1,6 +1,7 @@
 ﻿#include "AppDelegate.h"
 #include "HelloWorldScene.h"
-
+#include "SecondScene.h"
+#include "FirstScene.h"
 USING_NS_CC;
 
 static cocos2d::Size designResolutionSize = cocos2d::Size(480, 320);
@@ -79,7 +80,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
     auto scene = HelloWorld::createScene();
-
+	//auto scene = FirstScene::createScene();
+	//auto scene = SecondScene::createScene();
     // run
     director->runWithScene(scene);
 

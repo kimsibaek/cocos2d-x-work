@@ -17,13 +17,17 @@ bool FirstScene::init()
     {
         return false;
     }
-
+	sword = false;
+	right_sword = false;
+	mase = false;
+	key = false;
+	item = 0;
 	winSize2 = Director::getInstance()->getWinSize();
 
 	tmap2 = TMXTiledMap::create("TileMaps/HolygrailTile2.tmx");
 	background2 = tmap2->getLayer("Background");
 	items2 = tmap2->getLayer("Items2");
-	items2->setVisible(true);
+	Tree = tmap2->getLayer("Tree");
 	metainfo2 = tmap2->getLayer("MetaInfo");
 	metainfo2->setVisible(false);
 	this->addChild(tmap2, 0, 11);
@@ -36,9 +40,9 @@ bool FirstScene::init()
 	int y = spawnPoint["y"].asInt();
 
 	dragonPosition2 = Vec2(x, y);
-
-	this->createDragon2();
-
+	texture = Director::getInstance()->getTextureCache()->addImage("TileMaps/front_man.png");
+	this->createDragon2(dragonPosition2);
+	createMenubar();
     return true;
 }
 void FirstScene::onEnter() {
@@ -67,6 +71,15 @@ bool FirstScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) {
 void FirstScene::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 
 	auto touchPoint = touch->getLocation();
+
+	bool bTouch = Resetbar->getBoundingBox().containsPoint(touchPoint);
+	if (bTouch) {
+		auto pScene = FirstScene::createScene();
+		Director::getInstance()->replaceScene(pScene);
+		return;
+	}
+
+
 	touchPoint = this->convertToNodeSpace(touchPoint);
 
 	Vec2 playerPos = dragon2->getPosition();
@@ -75,21 +88,33 @@ void FirstScene::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 	//animation->addSpriteFrameWithTexture(texture, Rect(index * 130, rowIndex * 140, 130, 140));
 	if (abs(diff.x) > abs(diff.y)) {
 		if (diff.x > 0) {
+			
+			texture = Director::getInstance()->getTextureCache()->addImage("TileMaps/right_man.png");
+			removeChild(dragon2);
+			this->createDragon2(playerPos);
 			playerPos.x += tmap2->getTileSize().width;
-
-			dragon2->setFlippedX(true);
 		}
 		else {
+			
+			texture = Director::getInstance()->getTextureCache()->addImage("TileMaps/left_man.png");
+			removeChild(dragon2);
+			this->createDragon2(playerPos);
 			playerPos.x -= tmap2->getTileSize().width;
-
-			dragon2->setFlippedX(false);
 		}
 	}
 	else {
 		if (diff.y > 0) {
+			
+			texture = Director::getInstance()->getTextureCache()->addImage("TileMaps/rear_man.png");
+			removeChild(dragon2);
+			this->createDragon2(playerPos);
 			playerPos.y += tmap2->getTileSize().height;
 		}
 		else {
+			
+			texture = Director::getInstance()->getTextureCache()->addImage("TileMaps/front_man.png");
+			removeChild(dragon2);
+			this->createDragon2(playerPos);
 			playerPos.y -= tmap2->getTileSize().height;
 		}
 	}
@@ -117,17 +142,46 @@ void FirstScene::setViewpointCenter2(Vec2 position) {
 	this->setPosition(viewPoint);
 }
 
-void FirstScene::createDragon2() {
-	auto texture = Director::getInstance()->getTextureCache()->addImage("Images/Holygrail.png");
+void FirstScene::createDragon2(Vec2 vector) {
+	animation = Animation::create();
+	animation->setDelayPerUnit(0.2f);
+
+	for (int i = 0; i < 3; i++) {
+		int index = i % 3;
+		int rowIndex = i / 3;
+
+		animation->addSpriteFrameWithTexture(texture, Rect(index * 32, rowIndex * 48, 32, 48));
+	}
 
 	dragon2 = Sprite::createWithTexture(texture, Rect(0, 0, 32, 48));
-	dragon2->setPosition(dragonPosition2);
+	dragon2->setPosition(vector);
 	this->addChild(dragon2);
 
-	dragon2->setFlippedX(true);
+	animate = Animate::create(animation);
+	rep = RepeatForever::create(animate);
+	dragon2->runAction(rep);
 
-	dragon2->setScale(0.5);
 
+}
+
+void FirstScene::createMenubar() {
+	auto Menuber = Sprite::create("TileMaps/Menuber.png");
+	Menuber->setPosition(Vec2(448, 160));
+	Menuber->setOpacity(128);
+	this->addChild(Menuber);
+
+	auto Itembar = Sprite::create("TileMaps/Itembar.png");
+	Itembar->setPosition(Vec2(448, 288));
+	this->addChild(Itembar);
+
+	Resetbar = Sprite::create("TileMaps/Resetbar.png");
+	Resetbar->setPosition(Vec2(448, 32));
+	this->addChild(Resetbar);
+
+	auto statusLabel = LabelTTF::create("Stage2", "", 18);
+	statusLabel->setColor(Color3B::WHITE);
+	statusLabel->setPosition(Vec2(448, 80));
+	addChild(statusLabel);
 }
 
 Vec2 FirstScene::tileCoordForPosition2(cocos2d::Vec2 position) {
@@ -145,41 +199,133 @@ void FirstScene::setPlayerPosition2(Vec2 position) {
 		Value properties = tmap2->getPropertiesForGID(tileGid);
 
 		if (!properties.isNull()) {
-			std::string item1 = properties.asValueMap()["Item"].asString();
+			std::string item1 = properties.asValueMap()["Items"].asString();
+			if (item1 == "wall") {
+				log("wall....");
+				return;
+			}
+			if (sword) {
+				if (item1 == "wolf") {
+					item++;
+					this->metainfo2->removeTileAt(tileCoord);
+					items2->removeTileAt(tileCoord);
+					log("아이템 획득 !!! wolf");
+				}
+			}
+			else {
+				if (item1 == "wolf") {
+					log("wolf를 죽이지 못합니다.");
+					return;
+				}
+			}
+
+			if (right_sword) {
+				if (item1 == "devil") {
+					item++;
+					this->metainfo2->removeTileAt(tileCoord);
+					items2->removeTileAt(tileCoord);
+					log("아이템 획득 !!! devil");
+				}
+			}
+			else {
+				if (item1 == "devil") {
+					log("devil을 죽이지 못합니다.");
+					return;
+				}
+			}
+			if (mase) {
+				if (item1 == "water") {
+					item++;
+					this->metainfo2->removeTileAt(tileCoord);
+					items2->removeTileAt(tileCoord);
+					log("아이템 획득 !!! water");
+				}
+			}
+			else {
+				if (item1 == "water") {
+					log("water을 죽이지 못합니다.");
+					return;
+				}
+			}
+			if (key) {
+				if (item == 22) {
+					if (item1 == "box") {
+						this->metainfo2->removeTileAt(tileCoord);
+						items2->removeTileAt(tileCoord);
+						auto pScene = SecondScene::createScene();
+						Director::getInstance()->replaceScene(pScene);
+						log("아이템 획득 !!! box");
+					}
+				}
+				else {
+					log("Item이 부족 합니다.");
+					return;
+				}
+			}
+			else {
+				if (item1 == "box") {
+					log("box를 가지지 못합니다.");
+					return;
+				}
+			}
 			if (item1 == "sword") {
+				item++;
+				sword = true;
+				right_sword = false;
+				mase = false;
+				key = false;
+				removeChild(ItemsMenu);
+				ItemsMenu = Sprite::create("TileMaps/sword.png");
+				ItemsMenu->setPosition(Vec2(448, 288));
+				this->addChild(ItemsMenu);
 				this->metainfo2->removeTileAt(tileCoord);
 				items2->removeTileAt(tileCoord);
-
 				log("아이템 획득 !!! sword");
 			}
-			if (item1 == "monster") {
+			if (item1 == "right_sword") {
+				item++;
+				sword = false;
+				right_sword = true;
+				mase = false;
+				key = false;
+				removeChild(ItemsMenu);
+				ItemsMenu = Sprite::create("TileMaps/right_sword.png");
+				ItemsMenu->setPosition(Vec2(448, 288));
+				this->addChild(ItemsMenu);
 				this->metainfo2->removeTileAt(tileCoord);
 				items2->removeTileAt(tileCoord);
+				log("아이템 획득 !!! right_sword");
+			}
 
-				log("아이템 획득 !!! monster");
-			}
-			if (item1 == "wolf") {
-				this->metainfo2->removeTileAt(tileCoord);
-				items2->removeTileAt(tileCoord);
 
-				log("아이템 획득 !!! wolf");
-			}
-			if (item1 == "water") {
+			if (item1 == "mase") {
+				item++;
+				sword = false;
+				right_sword = false;
+				mase = true;
+				key = false;
+				removeChild(ItemsMenu);
+				ItemsMenu = Sprite::create("TileMaps/mase.png");
+				ItemsMenu->setPosition(Vec2(448, 288));
+				this->addChild(ItemsMenu);
 				this->metainfo2->removeTileAt(tileCoord);
 				items2->removeTileAt(tileCoord);
+				log("아이템 획득 !!! mase");
+			}
 
-				log("아이템 획득 !!! water");
-			}
-			if (item1 == "bag") {
+			if (item1 == "key") {
+				item++;
+				sword = false;
+				right_sword = false;
+				mase = false;
+				key = true;
+				removeChild(ItemsMenu);
+				ItemsMenu = Sprite::create("TileMaps/key.png");
+				ItemsMenu->setPosition(Vec2(448, 288));
+				this->addChild(ItemsMenu);
 				this->metainfo2->removeTileAt(tileCoord);
 				items2->removeTileAt(tileCoord);
-				auto pScene = SecondScene::createScene();
-				Director::getInstance()->replaceScene(pScene);
-				log("아이템 획득 !!! bag");
-			}
-			if (item1 == "wall") {
-				log("Wall...");
-				return;
+				log("아이템 획득 !!! key");
 			}
 		}
 	}

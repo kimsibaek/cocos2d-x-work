@@ -10,8 +10,14 @@ public:
 
     virtual bool init();
     
-	void createDragon();
-
+	void createDragon(cocos2d::Vec2 vector);
+	void createMenubar();
+	cocos2d::Sprite* ItemsMenu;
+	cocos2d::RepeatForever* rep;
+	cocos2d::Animation* animation;
+	cocos2d::Animate* animate;
+	cocos2d::Texture2D* texture;
+	cocos2d::Sprite* Resetbar;
 	cocos2d::Size winSize;
 	cocos2d::Vec2 dragonPosition;
 	cocos2d::Sprite* dragon;
@@ -19,6 +25,11 @@ public:
 	cocos2d::TMXLayer* background;
 	cocos2d::TMXLayer* items;
 	cocos2d::TMXLayer* metainfo;
+	bool sword;
+	bool right_sword;
+	bool mase;
+	bool key;
+	int item;
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 	virtual void onEnter();

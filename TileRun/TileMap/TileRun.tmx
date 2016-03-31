@@ -13,15 +13,10 @@
  </tileset>
  <layer name="Background" width="40" height="10">
   <data encoding="base64" compression="zlib">
-   eJyLZ2BgiB/EmGEQuGEUDxxmxYEH2l2jeHhgNiIwqeqpiVXRsBoWMWT3ocvRGgMA6dh8uA==
+   eJyLZ2BgiB/EmGEQuGEUDxwWJREPtHthGARYseCBdtdQwww0Np+FAowMKDEHH1alACMDSszBhwGGNXZX
   </data>
  </layer>
  <objectgroup name="Objects">
   <object id="1" name="SpawnPoint" x="144" y="240" width="1" height="1"/>
  </objectgroup>
- <layer name="MetaInfo" width="40" height="10">
-  <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRgAscR8KDEQyk+wCrPQSr
-  </data>
- </layer>
 </map>

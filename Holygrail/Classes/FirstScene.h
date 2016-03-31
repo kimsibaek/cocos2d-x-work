@@ -11,13 +11,26 @@ public:
 
     virtual bool init();
     
-	void createDragon2();
+	void createDragon2(cocos2d::Vec2 vector);
+	bool sword;
+	bool right_sword;
+	bool mase;
+	bool key;
+	int item;
+	void createMenubar();
 
+	cocos2d::Sprite* ItemsMenu;
+	cocos2d::RepeatForever* rep;
+	cocos2d::Animation* animation;
+	cocos2d::Animate* animate;
+	cocos2d::Texture2D* texture;
+	cocos2d::Sprite* Resetbar;
 	cocos2d::Size winSize2;
 	cocos2d::Vec2 dragonPosition2;
 	cocos2d::Sprite* dragon2;
 	cocos2d::TMXTiledMap* tmap2;
 	cocos2d::TMXLayer* background2;
+	cocos2d::TMXLayer* Tree;
 	cocos2d::TMXLayer* items2;
 	cocos2d::TMXLayer* metainfo2;
     // implement the "static create()" method manually

@@ -21,10 +21,10 @@ bool HelloWorld::init()
 	tmap = TMXTiledMap::create("TileMap/TileRun.tmx");
 	tmap->setPosition(Vec2(0, 0));
 	background = tmap->getLayer("Background");
-	metainfo = tmap->getLayer("MetaInfo");
-	metainfo->setVisible(false);
+	//metainfo = tmap->getLayer("MetaInfo");
+	//metainfo->setVisible(false);
 
-	auto myAction3 = MoveTo::create(0.1, Vec2(-32, 0));
+	auto myAction3 = MoveBy::create(0.1, Vec2(-32, 0));
 	auto rep2 = RepeatForever::create(myAction3);
 	tmap->runAction(rep2);
 
@@ -54,6 +54,7 @@ Vec2 HelloWorld::tileCoordForPosition(cocos2d::Vec2 position) {
 void HelloWorld::tick1(float f) {
 	//log("tick1");
 	Vec2 playerPos = Women->getPosition();
+	
 	this->setPlayerPosition(playerPos);
 	
 	
@@ -61,10 +62,15 @@ void HelloWorld::tick1(float f) {
 
 void HelloWorld::setPlayerPosition(Vec2 position) {
 	//15번
-	Vec2 point = this->background->convertToNodeSpace(Women->getPosition());
+	Vec2 point = this->background->convertToNodeSpace(position);
+	//log("%f", point.x);
+	if (point.x > 944) {
+		tmap->setPosition(Vec2(0, 0));
+	}
 	Vec2 tileCoord = this->tileCoordForPosition(Vec2(point.x, point.y-32));
 
 	int tileGid = this->background->getTileGIDAt(tileCoord);
+	//log("%d", tileGid);
 	if (!tileGid) {
 		log("%d", tileGid);
 	}
