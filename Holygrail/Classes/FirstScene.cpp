@@ -30,7 +30,7 @@ bool FirstScene::init()
 	Tree = tmap2->getLayer("Tree");
 	metainfo2 = tmap2->getLayer("MetaInfo");
 	metainfo2->setVisible(false);
-	this->addChild(tmap2, 0, 11);
+	this->addChild(tmap2);
 
 	auto objects = tmap2->getObjectGroup("Objects");
 
@@ -43,6 +43,100 @@ bool FirstScene::init()
 	texture = Director::getInstance()->getTextureCache()->addImage("TileMaps/front_man.png");
 	this->createDragon2(dragonPosition2);
 	createMenubar();
+
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 15; j++) {
+			Vec2 tileCoord = this->tileCoordForPosition2(Vec2(j * 32 + 16, i * 32 + 16));
+			//log("%f, %f", tileCoord.x , tileCoord.y);
+			int tileGid = this->metainfo2->getTileGIDAt(tileCoord);
+			//log("%d", tileGid);
+
+			if (tileGid) {
+				Value properties = tmap2->getPropertiesForGID(tileGid);
+
+				if (!properties.isNull()) {
+					std::string item1 = properties.asValueMap()["Items"].asString();
+					if (item1 == "wall") {
+						continue;
+					}
+					if (item1 == "wolf") {
+						texture = Director::getInstance()->getTextureCache()->addImage("TileMaps/act_wolf.png");
+						Animation* animation_wolf = Animation::create();
+						animation_wolf->setDelayPerUnit(0.2f);
+
+						for (int i = 0; i < 3; i++) {
+							int index = i % 3;
+							int rowIndex = i / 3;
+
+							animation_wolf->addSpriteFrameWithTexture(texture, Rect(index * 32, rowIndex * 48, 32, 48));
+						}
+
+						wolf = Sprite::createWithTexture(texture, Rect(0, 0, 32, 48));
+						wolf->setPosition(Vec2(j * 32 + 16, i * 32 + 16));
+
+						wolf->setTag(TagNum++);
+						MonsterVector.pushBack(wolf);
+						this->addChild(wolf);
+						Animate *animate_wolf = Animate::create(animation_wolf);
+						auto rep = RepeatForever::create(animate_wolf);
+						wolf->runAction(rep);
+						//this->metainfo2->removeTileAt(tileCoord);
+						items2->removeTileAt(tileCoord);
+					}
+
+					if (item1 == "devil") {
+						texture = Director::getInstance()->getTextureCache()->addImage("TileMaps/act_devil.png");
+						Animation* animation_devil = Animation::create();
+						animation_devil->setDelayPerUnit(0.2f);
+
+						for (int i = 0; i < 3; i++) {
+							int index = i % 3;
+							int rowIndex = i / 3;
+
+							animation_devil->addSpriteFrameWithTexture(texture, Rect(index * 32, rowIndex * 48, 32, 48));
+						}
+
+						devil = Sprite::createWithTexture(texture, Rect(0, 0, 32, 48));
+						devil->setPosition(Vec2(j * 32 + 16, i * 32 + 16));
+						devil->setTag(TagNum++);
+						MonsterVector.pushBack(devil);
+						this->addChild(devil);
+						Animate *animate_devil = Animate::create(animation_devil);
+						auto rep = RepeatForever::create(animate_devil);
+						devil->runAction(rep);
+						//this->metainfo2->removeTileAt(tileCoord);
+						items2->removeTileAt(tileCoord);
+					}
+					if (item1 == "water") {
+						texture = Director::getInstance()->getTextureCache()->addImage("TileMaps/act_water.png");
+						Animation* animation_water = Animation::create();
+						animation_water->setDelayPerUnit(0.2f);
+
+						for (int i = 0; i < 3; i++) {
+							int index = i % 3;
+							int rowIndex = i / 3;
+
+							animation_water->addSpriteFrameWithTexture(texture, Rect(index * 32, rowIndex * 48, 32, 48));
+						}
+
+						water = Sprite::createWithTexture(texture, Rect(0, 0, 32, 48));
+						water->setPosition(Vec2(j * 32 + 16, i * 32 + 16));
+						water->setTag(TagNum++);
+						MonsterVector.pushBack(water);
+						this->addChild(water);
+						Animate *animate_water = Animate::create(animation_water);
+						auto rep = RepeatForever::create(animate_water);
+						water->runAction(rep);
+						//this->metainfo2->removeTileAt(tileCoord);
+						items2->removeTileAt(tileCoord);
+					}
+				}
+			}
+		}
+	}
+	for (int i = 0; i < MonsterVector.size(); i++) {
+		log("%d, %f, %f", MonsterVector.at(i)->getTag(), MonsterVector.at(i)->getPosition().x, MonsterVector.at(i)->getPosition().y);
+	}
     return true;
 }
 void FirstScene::onEnter() {
@@ -123,9 +217,9 @@ void FirstScene::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 		this->setPlayerPosition2(playerPos);
 		//dragon->setPosition(playerPos);
 	}
-
+	
 	this->setViewpointCenter2(dragon2->getPosition());
-
+	
 }
 
 void FirstScene::setViewpointCenter2(Vec2 position) {
@@ -209,6 +303,15 @@ void FirstScene::setPlayerPosition2(Vec2 position) {
 					item++;
 					this->metainfo2->removeTileAt(tileCoord);
 					items2->removeTileAt(tileCoord);
+					for (int i = 0; i < MonsterVector.size(); i++) {
+						if (MonsterVector.at(i)->getPosition().x - 16 <= position.x && MonsterVector.at(i)->getPosition().x + 16 >= position.x && MonsterVector.at(i)->getPosition().y + 16 >= position.y && MonsterVector.at(i)->getPosition().y - 16 <= position.y) {
+							//log("%f, %f, %f, %f", position.x, position.y, MonsterVector.at(i)->getPosition().x, MonsterVector.at(i)->getPosition().y);
+							log("%d, %f, %f", MonsterVector.at(i)->getTag(), MonsterVector.at(i)->getPosition().x, MonsterVector.at(i)->getPosition().y);
+
+							removeChildByTag(MonsterVector.at(i)->getTag());
+							break;
+						}
+					}
 					log("아이템 획득 !!! wolf");
 				}
 			}
@@ -224,6 +327,15 @@ void FirstScene::setPlayerPosition2(Vec2 position) {
 					item++;
 					this->metainfo2->removeTileAt(tileCoord);
 					items2->removeTileAt(tileCoord);
+					for (int i = 0; i < MonsterVector.size(); i++) {
+						if (MonsterVector.at(i)->getPosition().x - 16 <= position.x && MonsterVector.at(i)->getPosition().x + 16 >= position.x && MonsterVector.at(i)->getPosition().y + 16 >= position.y && MonsterVector.at(i)->getPosition().y - 16 <= position.y) {
+							//log("%f, %f, %f, %f", position.x, position.y, MonsterVector.at(i)->getPosition().x, MonsterVector.at(i)->getPosition().y);
+							log("%d, %f, %f", MonsterVector.at(i)->getTag(), MonsterVector.at(i)->getPosition().x, MonsterVector.at(i)->getPosition().y);
+
+							removeChildByTag(MonsterVector.at(i)->getTag());
+							break;
+						}
+					}
 					log("아이템 획득 !!! devil");
 				}
 			}
@@ -238,6 +350,15 @@ void FirstScene::setPlayerPosition2(Vec2 position) {
 					item++;
 					this->metainfo2->removeTileAt(tileCoord);
 					items2->removeTileAt(tileCoord);
+					for (int i = 0; i < MonsterVector.size(); i++) {
+						if (MonsterVector.at(i)->getPosition().x - 16 <= position.x && MonsterVector.at(i)->getPosition().x + 16 >= position.x && MonsterVector.at(i)->getPosition().y + 16 >= position.y && MonsterVector.at(i)->getPosition().y - 16 <= position.y) {
+							//log("%f, %f, %f, %f", position.x, position.y, MonsterVector.at(i)->getPosition().x, MonsterVector.at(i)->getPosition().y);
+							log("%d, %f, %f", MonsterVector.at(i)->getTag(), MonsterVector.at(i)->getPosition().x, MonsterVector.at(i)->getPosition().y);
+
+							removeChildByTag(MonsterVector.at(i)->getTag());
+							break;
+						}
+					}
 					log("아이템 획득 !!! water");
 				}
 			}

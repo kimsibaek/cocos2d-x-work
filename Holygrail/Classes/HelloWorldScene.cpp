@@ -16,6 +16,7 @@ bool HelloWorld::init()
 	{
 		return false;
 	}
+	TagNum = 0;
 	sword = false;
 	right_sword = false;
 	mase = false;
@@ -29,10 +30,10 @@ bool HelloWorld::init()
 	items->setVisible(true);
 	metainfo = tmap->getLayer("MetaInfo");
 	metainfo->setVisible(false);
-	this->addChild(tmap, 0, 11);
-
+	this->addChild(tmap);
+	
 	auto objects = tmap->getObjectGroup("Objects");
-
+	
 	ValueMap spawnPoint = objects->getObject("SpawnPoint");
 
 	int x = spawnPoint["x"].asInt();
@@ -42,6 +43,100 @@ bool HelloWorld::init()
 	texture = Director::getInstance()->getTextureCache()->addImage("TileMaps/front_man.png");
 	this->createDragon(dragonPosition);
 	createMenubar();
+
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 15; j++) {
+			Vec2 tileCoord = this->tileCoordForPosition(Vec2(j * 32 + 16, i * 32 + 16));
+			//log("%f, %f", tileCoord.x , tileCoord.y);
+			int tileGid = this->metainfo->getTileGIDAt(tileCoord);
+			//log("%d", tileGid);
+
+			if (tileGid) {
+				Value properties = tmap->getPropertiesForGID(tileGid);
+
+				if (!properties.isNull()) {
+					std::string item1 = properties.asValueMap()["Items"].asString();
+					if (item1 == "wall") {
+						continue;
+					}
+					if (item1 == "wolf") {
+						texture = Director::getInstance()->getTextureCache()->addImage("TileMaps/act_wolf.png");
+						Animation* animation_wolf = Animation::create();
+						animation_wolf->setDelayPerUnit(0.2f);
+
+						for (int i = 0; i < 3; i++) {
+							int index = i % 3;
+							int rowIndex = i / 3;
+
+							animation_wolf->addSpriteFrameWithTexture(texture, Rect(index * 32, rowIndex * 48, 32, 48));
+						}
+
+						wolf = Sprite::createWithTexture(texture, Rect(0, 0, 32, 48));
+						wolf->setPosition(Vec2(j * 32 + 16, i * 32 + 16));
+
+						wolf->setTag(TagNum++);
+						MonsterVector.pushBack(wolf);
+						this->addChild(wolf);
+						Animate *animate_wolf = Animate::create(animation_wolf);
+						auto rep = RepeatForever::create(animate_wolf);
+						wolf->runAction(rep);
+						//this->metainfo->removeTileAt(tileCoord);
+						items->removeTileAt(tileCoord);
+					}
+
+					if (item1 == "devil") {
+						texture = Director::getInstance()->getTextureCache()->addImage("TileMaps/act_devil.png");
+						Animation* animation_devil = Animation::create();
+						animation_devil->setDelayPerUnit(0.2f);
+
+						for (int i = 0; i < 3; i++) {
+							int index = i % 3;
+							int rowIndex = i / 3;
+
+							animation_devil->addSpriteFrameWithTexture(texture, Rect(index * 32, rowIndex * 48, 32, 48));
+						}
+
+						devil = Sprite::createWithTexture(texture, Rect(0, 0, 32, 48));
+						devil->setPosition(Vec2(j * 32 + 16, i * 32 + 16));
+						devil->setTag(TagNum++);
+						MonsterVector.pushBack(devil);
+						this->addChild(devil);
+						Animate *animate_devil = Animate::create(animation_devil);
+						auto rep = RepeatForever::create(animate_devil);
+						devil->runAction(rep);
+						//this->metainfo->removeTileAt(tileCoord);
+						items->removeTileAt(tileCoord);
+					}
+					if (item1 == "water") {
+						texture = Director::getInstance()->getTextureCache()->addImage("TileMaps/act_water.png");
+						Animation* animation_water = Animation::create();
+						animation_water->setDelayPerUnit(0.2f);
+
+						for (int i = 0; i < 3; i++) {
+							int index = i % 3;
+							int rowIndex = i / 3;
+
+							animation_water->addSpriteFrameWithTexture(texture, Rect(index * 32, rowIndex * 48, 32, 48));
+						}
+
+						water = Sprite::createWithTexture(texture, Rect(0, 0, 32, 48));
+						water->setPosition(Vec2(j * 32 + 16, i * 32 + 16));
+						water->setTag(TagNum++);
+						MonsterVector.pushBack(water);
+						this->addChild(water);
+						Animate *animate_water = Animate::create(animation_water);
+						auto rep = RepeatForever::create(animate_water);
+						water->runAction(rep);
+						//this->metainfo->removeTileAt(tileCoord);
+						items->removeTileAt(tileCoord);
+					}
+				}
+			}
+		}
+	}
+	for (int i = 0; i < MonsterVector.size(); i++) {
+		log("%d, %f, %f", MonsterVector.at(i)->getTag(), MonsterVector.at(i)->getPosition().x, MonsterVector.at(i)->getPosition().y);
+	}
 	return true;
 }
 void HelloWorld::onEnter() {
@@ -187,9 +282,9 @@ Vec2 HelloWorld::tileCoordForPosition(cocos2d::Vec2 position) {
 
 void HelloWorld::setPlayerPosition(Vec2 position) {
 	Vec2 tileCoord = this->tileCoordForPosition(position);
-
+	//log("%f, %f", tileCoord.x , tileCoord.y);
 	int tileGid = this->metainfo->getTileGIDAt(tileCoord);
-
+	//log("%d", tileGid);
 	if (tileGid) {
 		Value properties = tmap->getPropertiesForGID(tileGid);
 
@@ -204,6 +299,16 @@ void HelloWorld::setPlayerPosition(Vec2 position) {
 					item++;
 					this->metainfo->removeTileAt(tileCoord);
 					items->removeTileAt(tileCoord);
+					dragon->getBoundingBox().containsPoint(position);
+					for (int i = 0; i < MonsterVector.size(); i++) {
+						if (MonsterVector.at(i)->getPosition().x - 16 <= position.x && MonsterVector.at(i)->getPosition().x + 16 >= position.x && MonsterVector.at(i)->getPosition().y + 16 >= position.y && MonsterVector.at(i)->getPosition().y - 16 <= position.y) {
+							//log("%f, %f, %f, %f", position.x, position.y, MonsterVector.at(i)->getPosition().x, MonsterVector.at(i)->getPosition().y);
+							log("%d, %f, %f", MonsterVector.at(i)->getTag(), MonsterVector.at(i)->getPosition().x, MonsterVector.at(i)->getPosition().y);
+
+							removeChildByTag(MonsterVector.at(i)->getTag());
+							break;
+						}
+					}
 					log("아이템 획득 !!! wolf");
 				}
 			}
@@ -219,6 +324,15 @@ void HelloWorld::setPlayerPosition(Vec2 position) {
 					item++;
 					this->metainfo->removeTileAt(tileCoord);
 					items->removeTileAt(tileCoord);
+					for (int i = 0; i < MonsterVector.size(); i++) {
+						if (MonsterVector.at(i)->getPosition().x - 16 <= position.x && MonsterVector.at(i)->getPosition().x + 16 >= position.x && MonsterVector.at(i)->getPosition().y + 16 >= position.y && MonsterVector.at(i)->getPosition().y - 16 <= position.y) {
+							//log("%f, %f, %f, %f", position.x, position.y, MonsterVector.at(i)->getPosition().x, MonsterVector.at(i)->getPosition().y);
+							log("%d, %f, %f", MonsterVector.at(i)->getTag(), MonsterVector.at(i)->getPosition().x, MonsterVector.at(i)->getPosition().y);
+
+							removeChildByTag(MonsterVector.at(i)->getTag());
+							break;
+						}
+					}
 					log("아이템 획득 !!! devil");
 				}
 			}
@@ -233,6 +347,15 @@ void HelloWorld::setPlayerPosition(Vec2 position) {
 					item++;
 					this->metainfo->removeTileAt(tileCoord);
 					items->removeTileAt(tileCoord);
+					for (int i = 0; i < MonsterVector.size(); i++) {
+						if (MonsterVector.at(i)->getPosition().x - 16 <= position.x && MonsterVector.at(i)->getPosition().x + 16 >= position.x && MonsterVector.at(i)->getPosition().y + 16 >= position.y && MonsterVector.at(i)->getPosition().y - 16 <= position.y) {
+							//log("%f, %f, %f, %f", position.x, position.y, MonsterVector.at(i)->getPosition().x, MonsterVector.at(i)->getPosition().y);
+							log("%d, %f, %f", MonsterVector.at(i)->getTag(), MonsterVector.at(i)->getPosition().x, MonsterVector.at(i)->getPosition().y);
+
+							removeChildByTag(MonsterVector.at(i)->getTag());
+							break;
+						}
+					}
 					log("아이템 획득 !!! water");
 				}
 			}
@@ -327,3 +450,9 @@ void HelloWorld::setPlayerPosition(Vec2 position) {
 	}
 	dragon->setPosition(position);
 }
+
+
+
+
+
+

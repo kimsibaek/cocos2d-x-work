@@ -18,7 +18,9 @@ public:
 	bool key;
 	int item;
 	void createMenubar();
-
+	cocos2d::Sprite *wolf;
+	cocos2d::Sprite *devil;
+	cocos2d::Sprite *water;
 	cocos2d::Sprite* ItemsMenu;
 	cocos2d::RepeatForever* rep;
 	cocos2d::Animation* animation;
@@ -33,6 +35,8 @@ public:
 	cocos2d::TMXLayer* Tree;
 	cocos2d::TMXLayer* items2;
 	cocos2d::TMXLayer* metainfo2;
+	cocos2d::Vector<cocos2d::Sprite*> MonsterVector;
+	int TagNum;
     // implement the "static create()" method manually
     CREATE_FUNC(FirstScene);
 	virtual void onEnter();

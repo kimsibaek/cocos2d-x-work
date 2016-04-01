@@ -12,6 +12,9 @@ public:
     
 	void createDragon(cocos2d::Vec2 vector);
 	void createMenubar();
+	cocos2d::Sprite *wolf;
+	cocos2d::Sprite *devil;
+	cocos2d::Sprite *water;
 	cocos2d::Sprite* ItemsMenu;
 	cocos2d::RepeatForever* rep;
 	cocos2d::Animation* animation;
@@ -25,6 +28,8 @@ public:
 	cocos2d::TMXLayer* background;
 	cocos2d::TMXLayer* items;
 	cocos2d::TMXLayer* metainfo;
+	cocos2d::Vector<cocos2d::Sprite*> MonsterVector;
+	int TagNum;
 	bool sword;
 	bool right_sword;
 	bool mase;
