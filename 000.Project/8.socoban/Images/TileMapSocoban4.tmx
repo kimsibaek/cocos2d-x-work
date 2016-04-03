@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="24" height="16" tilewidth="20" tileheight="20" nextobjectid="2">
+ <tileset firstgid="1" name="game" tilewidth="20" tileheight="20" tilecount="9" columns="3">
+  <image source="game.png" width="60" height="60"/>
+ </tileset>
+ <tileset firstgid="10" name="metaset10way" tilewidth="20" tileheight="20" tilecount="10" columns="5">
+  <image source="metaset10way.png" width="100" height="40"/>
+  <tile id="0">
+   <properties>
+    <property name="Items" value="ice"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Items" value="finish"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Items" value="wall"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Background" width="24" height="16">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAfYKQSpsR8YtQOJvPJcQshPfjMImQ2seaj08S6nVTz0eWJsYNc8xnQ5CkNf3x+oGb8optLqfnYzMCnllzzSTGTWvl3MJtPCwAASpoAwg==
+  </data>
+ </layer>
+ <layer name="IceTile" width="24" height="16">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2DoAnY0eqiBoe7+UTC0AQBWEAAd
+  </data>
+ </layer>
+ <layer name="FinishPoint" width="24" height="16">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFIxkwD7QDqAyGin+GijuJBcPNPyMFAAAoUAAN
+  </data>
+ </layer>
+ <objectgroup name="Objects">
+  <object id="1" name="SpawnPoint" x="250" y="50" width="1" height="1"/>
+ </objectgroup>
+ <layer name="MetaInfo" width="24" height="16">
+  <data encoding="base64" compression="zlib">
+   eJxjYBhcgAeKaWU2NjalZiJjapiPzTxsasg1GxlwY7GPUrdjo/G5gRLzuZBokBg3hXYQCgNKwwimDxbuyO6npvm4xKkdxzDMjUMNJeZjE6dW+YCeb2lV5gx2AABg6ALF
+  </data>
+ </layer>
+</map>
