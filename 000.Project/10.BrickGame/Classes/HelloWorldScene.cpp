@@ -1,6 +1,12 @@
 ﻿#include "HelloWorldScene.h"
-
+#include "GameOver.h"
 USING_NS_CC;
+
+#define FIX_POS(_pos, _min, _max) \
+if (_pos < _min) \
+	_pos = _min; \
+else if (_pos > _max) \
+	_pos = _max; \
 
 Scene* HelloWorld::createScene()
 {
@@ -12,7 +18,7 @@ Scene* HelloWorld::createScene()
 
 bool HelloWorld::init()
 {
-    if ( !LayerColor::initWithColor(Color4B(255, 255, 255, 255) ))
+    if ( !Layer::init())
     {
         return false;
     }
@@ -35,12 +41,53 @@ bool HelloWorld::init()
     return true;
 }
 
+HelloWorld::~HelloWorld(void) {
+	paddle->release();
+	Device::setAccelerometerEnabled(false);
+}
+
 void HelloWorld::onEnter() {
+	Layer::onEnter();
+	auto listener = EventListenerTouchOneByOne::create();
+	listener->setSwallowTouches(true);
+	Device::setAccelerometerEnabled(true);
+	listener->onTouchBegan = CC_CALLBACK_2(HelloWorld::onTouchBegan, this);
+	listener->onTouchMoved = CC_CALLBACK_2(HelloWorld::onTouchMoved, this);
+	//listener->onTouchEnded = CC_CALLBACK_2(HelloWorld::onTouchEnded, this);
+	auto listener1 = EventListenerAcceleration::create(CC_CALLBACK_2(HelloWorld::onAcceleration, this));
+
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, this);
 
 }
 void HelloWorld::onExit() {
-
+	_eventDispatcher->removeEventListenersForType(EventListener::Type::TOUCH_ONE_BY_ONE);
+	Layer::onExit();
 }
+
+void HelloWorld::onAcceleration(Acceleration* acc, Event* event) {
+	auto pDir = Director::getInstance();
+
+	winSize = pDir->getVisibleSize();
+
+	if (paddle == nullptr) {
+		return;
+	}
+
+	auto ballSize = paddle->getContentSize();
+	auto ptNow = paddle->getPosition();
+	auto ptTemp = pDir->convertToUI(ptNow);
+
+	ptTemp.x += acc->x*9.81f;
+	ptTemp.y -= acc->y*9.81f;
+
+	auto ptNext = pDir->convertToGL(ptTemp);
+	FIX_POS(ptNext.x, (ballSize.width / 2.0), (winSize.width - ballSize.width / 2.0));
+	FIX_POS(ptNext.y, (ballSize.height / 2.0), (winSize.height - ballSize.height / 2.0));
+
+	paddle->setPosition(ptNext);
+}
+
 bool HelloWorld::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) {
 	if (!isPlaying) {
 		return true;
@@ -114,6 +161,7 @@ void HelloWorld::initializePaddle(){
 	paddle->setColor(Color3B(255, 255, 0));
 	paddle->setPosition(Vec2(160, 50));
 	this->addChild(paddle);
+	paddle->retain();
 }
 void HelloWorld::startGame(float dt) {
 	ball->setPosition(Vec2(160, 240));
@@ -130,7 +178,7 @@ void HelloWorld::startGame(float dt) {
 void HelloWorld::gameLogic(float dt) {
 	ball->setPosition(Vec2(ball->getPosition().x + ballMovement.x, ball->getPosition().y + ballMovement.y));
 	bool paddleCollision =	ball->getPosition().y <= paddle->getPosition().y + 13 && 
-							ball->getPosition().x >= paddle->getPosition().y - 48 && 
+							ball->getPosition().x >= paddle->getPosition().x - 48 && 
 							ball->getPosition().x <= paddle->getPosition().x + 48;
 	if (paddleCollision) {
 		if (ball->getPosition().y <= paddle->getPosition().y + 13 && ballMovement.y < 0) {
@@ -161,6 +209,10 @@ void HelloWorld::gameLogic(float dt) {
 		this->unscheduleAllSelectors();
 
 		log("You win !!!");
+
+		//게임에 이겼다. 새로운 게임 대기 화면
+		Scene* pScene = GameOver::createScene();
+		Director::getInstance()->replaceScene(TransitionProgressRadialCCW::create(1, pScene));
 	}
 
 	if (ball->getPosition().x > 312 || ball->getPosition().x < 8) {
@@ -175,8 +227,12 @@ void HelloWorld::gameLogic(float dt) {
 		ball->setOpacity(0);
 
 		this->unscheduleAllSelectors();
+		log("You lose..");
+		//게임에 졌다. 새로운 게임 대기 화면
+		Scene* pScene = GameOver::createScene();
+		Director::getInstance()->replaceScene(TransitionProgressRadialCCW::create(1, pScene));
 	}
-	log("You lose..");
+	
 }
 void HelloWorld::processCollision(Sprite* brick) {
 	Vec2 brickPos = brick->getPosition();
