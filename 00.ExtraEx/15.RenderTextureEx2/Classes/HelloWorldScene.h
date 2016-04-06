@@ -25,17 +25,10 @@ public:
 	cocos2d::Sprite* sprite_brush;
 	cocos2d::Sprite* sprite_1;
 	cocos2d::Sprite* sprite_2;
-	cocos2d::Sprite* sprite_3;
-	cocos2d::Sprite* sprite_4;
-	cocos2d::Sprite* sprite_5;
-	cocos2d::Sprite* sprite_6;
-	cocos2d::Sprite* sprite_7;
-	cocos2d::Sprite* sprite_8;
-	cocos2d::Sprite* sprite_9;
-	cocos2d::Sprite* sprite_10;
-	cocos2d::Sprite* sprite_11;
-	cocos2d::Sprite* sprite_12;
-	cocos2d::Sprite* sprite_13;
+	cocos2d::MenuItemFont* item1;
+	cocos2d::MenuItemFont* item2;
+	cocos2d::Menu* menu;
+	TableView* tableView1;
 	int num;
 	~HelloWorld();
 	virtual void onEnter();
@@ -44,7 +37,6 @@ public:
 	void saveImage(Ref* sender);
 	void clearImage(Ref* sender);
 	void SelectColor(int number);
-	void SelectPosition(int number);
 	// implement the "static create()" method manually
 	CREATE_FUNC(HelloWorld);
 	cocos2d::Vector<cocos2d::Sprite*> sprite_vector;
