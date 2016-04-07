@@ -18,8 +18,6 @@ bool HelloWorld::init()
 		return false;
 	}
 	
-	
-
 	winSize = Director::getInstance()->getWinSize();
 
 	m_pTarget = RenderTexture::create(winSize.width, winSize.height, Texture2D::PixelFormat::RGBA8888);
@@ -49,7 +47,6 @@ bool HelloWorld::init()
 	tableView1->reloadData();
 	num = 0;
 	
-
 	return true;
 }
 
@@ -108,8 +105,7 @@ void HelloWorld::onTouchesMoved(const std::vector<Touch*>& touches, Event* event
 
 void HelloWorld::saveImage(Ref* sender) {
 	static int counter = 0;
-	
-	
+
 	m_pTarget->getSprite();
 
 	char png[20];
@@ -125,7 +121,6 @@ void HelloWorld::saveImage(Ref* sender) {
 	Director::getInstance()->getRenderer()->render();
 	log("Image saved %s", png);
 	
-
 	counter++;
 }
 
