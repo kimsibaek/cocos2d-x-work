@@ -1,0 +1,14 @@
+http://www.aurelienribon.com/blog/projects/physics-body-editor/
+Download page (application, loaders and demos):
+http://code.google.com/p/box2d-editor/downloads/list
+
+
+
+https://github.com/cocos2d/cocos2d-x/releases
+cocos2d-x-3.0beta2 다운
+C:\에 붙여넣기
+ex) C:\cocos2d-x-3.0
+
+
+https://github.com/cocos2d/cocos2d-js-samples
+예제 다운로드

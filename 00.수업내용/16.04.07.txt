@@ -1,0 +1,13 @@
+http://www.cocos2d-x.org/download
+
+cocos creator 설치
+
+
+cocos_templete path
+C:\cocos2d-x\templates
+cocos_console path
+C:\cocos2d-x\tools\cocos2d-console\bin
+cocos_x_root path
+C:\
+path 설정
+C:\Cocos2d-x\templates;C:\Cocos2d-x\tools\cocos2d-console\bin;C:\Users\ky3-19\AppData\Roaming\npm;C:\Python27;C:\Android\jdk1.8.0_73\bin
