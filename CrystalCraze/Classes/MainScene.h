@@ -10,6 +10,8 @@ public:
 
     virtual bool init();
 
+	
+
 	cocos2d::Size winSize;
 	unsigned int m_nSoundId;
 	void onPressPlay(Ref *pSender);

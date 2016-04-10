@@ -1,5 +1,6 @@
 ﻿#include "MainScene.h"
 #include "GameScene.h"
+#include "stdafx.h"
 #include "SimpleAudioEngine.h"
 USING_NS_CC;
 
@@ -28,6 +29,7 @@ bool MainScene::init()
 
 	auto pSprite = Sprite::create("Images/background.png");
 	pSprite->setPosition(winSize.width / 2, winSize.height / 2);
+	pSprite->setScale(0.5);
 	pSprite->setZOrder(0);
 	this->addChild(pSprite);
 
@@ -67,15 +69,27 @@ bool MainScene::init()
 	this->schedule(schedule_selector(MainScene::onUpdate), 0.4f);
 
 	//UserDefault::getInstance()->setIntegerForKey("int_key", 10);
-	int score = UserDefault::getInstance()->getIntegerForKey("int_key");
-	log("int is %d", score);
+	gLastScore = UserDefault::getInstance()->getIntegerForKey("int_key");
+	log("int is %d", gLastScore);
 	char png[25];
-	sprintf(png, "%d", score);
+	sprintf(png, "%d", gLastScore);
 	log("%s", png);
-	auto pLabel3 = Label::createWithCharMap("fonts/scorefont.png", 26, 35, '6');
-	pLabel3->setString(png);
-	pLabel3->setPosition(Vec2(winSize.width/2, 30));
-	this->addChild(pLabel3);
+
+	auto label = Label::createWithBMFont("fonts/scorefont.fnt", png, TextHAlignment::CENTER, 10);
+	label->setScale(0.5f);
+	label->setPosition(Vec2(winSize.width / 2, 30));
+	this->addChild(label);
+
+	auto pLabel = LabelTTF::create("HIGH SCORE", "fonts1/Paint Boy.ttf", 10);
+	//레이블의 위치 지정
+	pLabel->setPosition(Vec2(winSize.width / 2, 20));
+	//레이블의 색 지정
+	pLabel->setColor(Color3B::WHITE);
+	//레이블의 투명도 지정
+	//pLabel->setOpacity(100.0);
+	//레이어에 레이블 객체 추가
+	this->addChild(pLabel);
+
 
     return true;
 }
@@ -108,4 +122,30 @@ void MainScene::onUpdate(float f) {
 	
 	auto myAction = MoveTo::create(speed, Vec2(x, -20));
 	pSprite->runAction(myAction);
+
+	int randomNum1 = rand() % 5;
+	int randomPosition1 = rand() % 320;
+	int randomPosition2 = rand() % 480;
+	int randomScale1 = rand() % 5 + 2;
+	float x1 = randomPosition1 * winSize.width / 320;
+	float y1 = randomPosition2 * winSize.height / 480;
+	auto pSprite1 = Sprite::create("Images/p1.png");
+	pSprite1->setPosition(x1, y1);
+	pSprite1->setScale(1+(randomScale1/7));
+	pSprite1->setZOrder(0.5);
+	this->addChild(pSprite1);
+	int randomPosition3 = rand() % 50 + 10;
+	int randomPosition4 = rand() % 50 + 10;
+	int PM = rand() % 2;
+	int PM2 = rand() % 2;
+	if (PM == 1) {
+		randomPosition3 = -randomPosition3;
+	}
+	else if(PM2 == 1){
+		randomPosition4 = -randomPosition4;
+	}
+	auto myAction3 = MoveBy::create(7, Vec2(randomPosition3, randomPosition4));
+	auto myAction1 = FadeOut::create(7.0f);
+	auto myAction2 = Spawn::create(myAction3, myAction1, nullptr);
+	pSprite1->runAction(myAction2);
 }
