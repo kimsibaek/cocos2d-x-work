@@ -1,0 +1,180 @@
+void GameScene::onUpdate(float f) {
+	if (!gIsGameOver)
+	{
+		removeMarkedGems();
+		int x;
+		//Sprite_num gem;
+		// Add falling gems
+		for (x = 0; x < kBoardWidth; x++)
+		{
+			if (gNumGemsInColumn[x] + gFallingGemsSize[x] < 24 && gTimeSinceAddInColumn[x] >= kTimeBetweenGemAdds)
+			{
+				// A gem should be added to this column!
+				auto gemType = rand() % 5;
+				char png[25];
+				sprintf(png, "Images/%d.png", gemType);
+				auto gemSprite = Sprite::create(png);
+				gemSprite->setScale(0.4);
+				gemSprite->setPosition(Vec2(x * kGemSize, kBoardHeight * kGemSize));
+				gemSprite->setAnchorPoint(Vec2(0, 0));
+
+				if (gFallingGemsSize[x])
+					gFallingGems[x].sprite_num = (Sprite_num*)realloc(gFallingGems[x].sprite_num, (gFallingGemsSize[x] + 1) * sizeof(Sprite_num));
+				else
+					gFallingGems[x].sprite_num = (Sprite_num*)malloc(1 * sizeof(Sprite_num));
+
+				gFallingGems[x].sprite_num[gFallingGemsSize[x]].gemType = gemType;
+				gFallingGems[x].sprite_num[gFallingGemsSize[x]].sprite = gemSprite;
+				gFallingGems[x].sprite_num[gFallingGemsSize[x]].yPos = kBoardHeight;
+				gFallingGems[x].sprite_num[gFallingGemsSize[x]].ySpeed = 0;
+				gFallingGemsSize[x]++;
+				
+				this->addChild(gFallingGems[x].sprite_num[gFallingGemsSize[x]-1].sprite);
+
+				gTimeSinceAddInColumn[x] = 0;
+			}
+
+			gTimeSinceAddInColumn[x]++;
+		}
+
+		// Move falling gems
+		bool gemLanded = false;
+		for (x = 0; x < kBoardWidth; x++)
+		{
+			//log("%d", gFallingGemsSize[x]);
+			auto numFallingGems = gFallingGemsSize[x];
+			for (int i = numFallingGems - 1; i >= gNumGemsInColumn[x]; i--)
+			{
+				//gem = gFallingGems[x].sprite_num[i];
+				//log("%f", gem.yPos);
+				gFallingGems[x].sprite_num[i].ySpeed += 0.06;
+				gFallingGems[x].sprite_num[i].ySpeed *= 0.99;
+				gFallingGems[x].sprite_num[i].yPos -= gFallingGems[x].sprite_num[i].ySpeed;
+				//gFallingGems[x].sprite_num[i] = gem;
+				//log("%f", gem.yPos);
+				if (gFallingGems[x].sprite_num[i].yPos <= gNumGemsInColumn[x])
+				{
+					// The gem hit the ground or a fixed gem
+					if (!gemLanded)
+					{
+						char wav[25];
+						sprintf(wav, "sounds/tap-%d.wav", rand() % 4);
+						m_nSoundId = SimpleAudioEngine::getInstance()->playEffect(wav);
+						gemLanded = true;
+					}
+					
+					
+					// Insert into board
+					int y = gNumGemsInColumn[x];
+
+					if (gBoard[x + y*kBoardWidth] != -1)
+					{
+						char wav[60];
+						sprintf(wav, "Warning! Overwriting board idx: %d  type: %d", x + y*kBoardWidth, gBoard[x + y*kBoardWidth]);
+					}
+
+					gBoard[x + y*kBoardWidth] = gFallingGems[x].sprite_num[i].gemType;
+
+					//sprite 교체
+					
+					gBoardSprites.pushBack(gFallingGems[x].sprite_num[i].sprite);
+					// Update fixed position
+					gFallingGems[x].sprite_num[i].sprite->setPosition(x*kGemSize, y*kGemSize);
+					//gFallingGems[x].sprite_num[i].sprite = gem;
+					gNumGemsInColumn[x]++;
+					//log("gFallingGems[%d].sprite_num[%d] : %f, %f", x, i, gFallingGems[x].sprite_num[i].sprite->getPosition().x, gFallingGems[x].sprite_num[i].sprite->getPosition().y);
+					gBoardChangedSinceEvaluation = true;
+				}
+				else
+				{
+					// Update the falling gems position
+					gFallingGems[x].sprite_num[i].sprite->setPosition(x*kGemSize, gFallingGems[x].sprite_num[i].yPos*kGemSize);
+					//gFallingGems[x].sprite_num[i] = gem;
+					
+
+					//gFallingGemsSize[x]++;
+					//log("%f, %f", gem.sprite->getPosition().x, gem.sprite->getPosition().y);
+				}
+			}
+		}
+		
+		// Check if there are possible moves and no gems falling
+		bool isFallingGems = false;
+		for (x = 0; x < kBoardWidth; x++)
+		{
+			if (gNumGemsInColumn[x] != kBoardHeight)
+			{
+				isFallingGems = true;
+				break;
+			}
+		}
+
+		if (isFallingGems)
+		{
+			int possibleMove = findMove();
+			if (possibleMove == -1)
+			{
+				// Create a possible move
+				createRandomMove();
+			}
+		}
+
+		time_t currentTime = time(NULL); // 현재 시각을 초 단위로 얻기
+										 // Update timer
+		int elapsedTime = (currentTime - gStartTime) / kTotalGameTime;
+		float timeLeft = (1 - elapsedTime) * 100;
+		if (timeLeft < 0) timeLeft = 0;
+		if (timeLeft > 99.9) timeLeft = 99.9;
+
+		//시간스프라이트 set
+
+		m_pHPProgress->setPercentage(timeLeft);
+
+
+
+		// Update consecutive moves / powerplay
+		if (currentTime - gLastMoveTime > kMaxTimeBetweenConsecutiveMoves)
+		{
+			gNumConsecutiveGems = 0;
+		}
+		updatePowerPlay();
+
+		// Update sparkles
+		updateSparkle();
+
+		// Check if timer sound should be played
+		if (timeLeft < 6.6 && !gEndTimerStarted)
+		{
+			char wav[25];
+			sprintf(wav, "sounds/timer.wav");
+			m_nSoundId = SimpleAudioEngine::getInstance()->playEffect(wav);
+			//gAudioEngine.playEffect("sounds/timer.wav");
+			gEndTimerStarted = true;
+		}
+
+		// Check for game over
+		if (timeLeft == 0)
+		{
+			createGameOver();
+			//보류 :: 무슨기능이지?
+			//this.rootNode.animationManager.runAnimationsForSequenceNamed("Outro");
+			gIsGameOver = true;
+			//gAudioEngine.stopAllEffects();
+			log("stopAllEffects not working!");
+			char wav[25];
+			sprintf(wav, "sounds/endgame.wav");
+			m_nSoundId = SimpleAudioEngine::getInstance()->playEffect(wav);
+			//gAudioEngine.playEffect("sounds/endgame.wav");
+			gLastScore = gScore;
+		}
+		else if (currentTime - gLastMoveTime > kDelayBeforeHint && !gIsDisplayingHint)
+		{
+			displayHint();
+		}
+	}
+	else
+	{
+		// It's game over
+		updateGameOver();
+	}
+}
