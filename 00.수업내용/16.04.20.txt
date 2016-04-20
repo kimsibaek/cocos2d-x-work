@@ -1,0 +1,11 @@
+http://www.eclipse.org/ 
+
+이클립스 다운
+
+help - Install new software
+
+ADT - dl-ssl.google.com/android/eclipse
+
+글꼴 바꾸기
+
+오른쪽 상단 DDMS 표시하기
