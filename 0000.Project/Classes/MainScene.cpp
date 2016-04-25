@@ -1,5 +1,5 @@
 ﻿#include "MainScene.h"
-
+#include "WindMap.h"
 USING_NS_CC;
 
 Scene* MainScene::createScene()
@@ -140,6 +140,8 @@ void MainScene::doClick1(Ref *pSender) {
 	else if (i == 3) {
 		
 	}
-
-
+	else if (i == 4) {
+		auto pScene = WindMap::createScene();
+		Director::getInstance()->replaceScene(pScene);
+	}
 }

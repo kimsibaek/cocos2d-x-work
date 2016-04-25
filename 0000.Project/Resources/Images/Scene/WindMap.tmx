@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="hexagonal" renderorder="right-down" width="32" height="32" tilewidth="63" tileheight="93" hexsidelength="0" staggeraxis="y" staggerindex="odd" nextobjectid="1">
+ <tileset firstgid="1" name="MetaInfo" tilewidth="63" tileheight="62" tilecount="9" columns="3">
+  <image source="MetaInfo.png" width="189" height="186"/>
+  <tile id="0">
+   <properties>
+    <property name="Items" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Items" value="buf"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="Items" value="water"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="MetaInfo" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztlsEOABAMQyvC/3+yqwNCbLTh8BIHpuukkQFkIUJn3dtjSSSt9TLfx48VXrnB2gcINKj675U7anl2emap4oZ3CWMNXh6Hxv23Z38K7ze2Wl8pp2rNFrpn/t/s7OTEzlmrGajycu+sFCAUF3U=
+  </data>
+ </layer>
+</map>

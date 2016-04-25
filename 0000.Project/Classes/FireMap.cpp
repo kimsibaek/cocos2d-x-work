@@ -1,14 +1,14 @@
-﻿#include "GameScene.h"
+﻿#include "FireMap.h"
 
 USING_NS_CC;
 
-Scene* GameScene::createScene()
+Scene* FireMap::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
     
     // 'layer' is an autorelease object
-    auto layer = GameScene::create();
+    auto layer = FireMap::create();
 
     // add layer as a child to scene
     scene->addChild(layer);
@@ -18,7 +18,7 @@ Scene* GameScene::createScene()
 }
 
 // on "init" you need to initialize your instance
-bool GameScene::init()
+bool FireMap::init()
 {
 	if (!LayerColor::initWithColor(Color4B(255, 255, 255, 255)))
 	{
