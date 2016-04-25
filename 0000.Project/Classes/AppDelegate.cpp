@@ -51,10 +51,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->setAnimationInterval(1.0 / 60);
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)   //59줄
-	glview->setFrameSize(960, 640);
+	glview->setFrameSize(1280, 720);
 #endif //CC_PLATFORM_WIN32
     // if the frame's height is larger than the height of medium size.
-	glview->setDesignResolutionSize(960, 640, ResolutionPolicy::SHOW_ALL);
+	glview->setDesignResolutionSize(1280, 720, ResolutionPolicy::SHOW_ALL);
 
     register_all_packages();
 

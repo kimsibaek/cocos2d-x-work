@@ -10,11 +10,17 @@ public:
 	virtual bool init();
 	// implement the "static create()" method manually
 	CREATE_FUNC(WindMap);
+
+	cocos2d::Size winSize;
 	cocos2d::Sprite* BG;
 	cocos2d::TMXTiledMap* tmap;
 	cocos2d::TMXLayer* background;
 	cocos2d::TMXLayer* items;
 	cocos2d::TMXLayer* metainfo;
+
+	float MovePositionX;
+	float MovePositionY;
+
 	virtual void onEnter();
 	virtual void onExit();
 	cocos2d::Vec2 StartDragPosition;

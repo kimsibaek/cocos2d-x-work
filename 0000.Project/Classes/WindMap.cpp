@@ -31,11 +31,14 @@ bool WindMap::init()
 
 	this->setPosition(Vec2(0, 0));
 
-	tmap = TMXTiledMap::create("Images/Scene/WindMap1.tmx");
-	tmap->setPosition(Vec2(-31.5, -15.5));
+	tmap = TMXTiledMap::create("Images/Scene/WindMapTest.tmx");
+	tmap->setPosition(Vec2(-33, -16));
 	metainfo = tmap->getLayer("MetaInfo");
 	//metainfo->setVisible(false);
 	this->addChild(tmap, 2, 11);
+
+	MovePositionX = 0;
+	MovePositionY = 0;
 
 	return true;
 }
@@ -44,7 +47,7 @@ void WindMap::onEnter() {
 	Layer::onEnter();
 
 	auto listener = EventListenerTouchOneByOne::create();
-	listener->setSwallowTouches(true);
+	listener->setSwallowTouches(true);                 
 
 	listener->onTouchBegan = CC_CALLBACK_2(WindMap::onTouchBegan, this);
 	listener->onTouchMoved = CC_CALLBACK_2(WindMap::onTouchMoved, this);
@@ -65,23 +68,22 @@ bool WindMap::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) {
 }
 
 void WindMap::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) {
+	winSize = Director::getInstance()->getWinSize();
 
 	auto touchPoint = touch->getLocation();
 	touchPoint = this->convertToNodeSpace(touchPoint);
 
 	EndDragPosition = touchPoint;
-	log("BG %f, %f", BG->getPosition().x, BG->getPosition().y);
-	log("tmap %f, %f", tmap->getPosition().x, tmap->getPosition().y);
 	float x = BG->getPosition().x + (EndDragPosition.x - StartDragPosition.x);
 	float y = BG->getPosition().y + (EndDragPosition.y - StartDragPosition.y);
-	if (x < -46.5) {
-		x = -46.5;
+	if (x < winSize.width - 1006.5) {
+		x = winSize.width - 1006.5;
 	}
 	else if (x > 1006.5) {
 		x = 1006.5;
 	}
-	if (y < -62.5) {
-		y = -62.5;
+	if (y < 7.75 + winSize.height - 759.75) {
+		y = 7.75 + winSize.height - 759.75;
 	}
 	else if (y > 767.5) {
 		y = 767.5;
@@ -89,19 +91,22 @@ void WindMap::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) {
 	BG->setPosition(Vec2(x,y));
 	float tx = tmap->getPosition().x + (EndDragPosition.x - StartDragPosition.x);
 	float ty = tmap->getPosition().y + (EndDragPosition.y - StartDragPosition.y);
-	if (tx < -1053) {
-		tx = -1053;
+	if (tx < -1039.5 + winSize.width - 1006.5) {
+		tx = -1039.5 + winSize.width - 1006.5;
 	}
-	else if (tx > -31.5) {
-		tx = -31.5;
+	else if (tx > -33) {
+		tx = -33;
 	}
-	if (ty < -845) {
-		ty = -845;
+	if (ty < -775.5 + winSize.height - 759.75) {
+		ty = -775.5 + winSize.height - 759.75;
 	}
-	else if (ty > -15.5) {
-		ty = -15.5;
+	else if (ty > -16) {
+		ty = -16;
 	}
 	tmap->setPosition(Vec2(tx, ty));
+
+	MovePositionX = tx;
+	MovePositionY = ty;
 
 	StartDragPosition = EndDragPosition;
 }
@@ -115,13 +120,62 @@ void WindMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 }
 
 Vec2 WindMap::tileCoordForPosition(cocos2d::Vec2 position) {
-	log("%f, %f", position.x, tmap->getTileSize().width);
-	int x = (position.x + 31.5) / tmap->getTileSize().width;
-	log("%f, %f, %f", tmap->getMapSize().height, tmap->getTileSize().height, position.y);
-	int y = ((tmap->getMapSize().height * tmap->getTileSize().height) - (position.y + 15.5)) / tmap->getTileSize().height;
-	log("%d, %d", x, y);
-	return Vec2(x, y);
+	position.x = position.x - MovePositionX;
+	position.y = (1535.25 + MovePositionY) - position.y;
+	//log("position.x = %f, position.y = %f", position.x, position.y);
+	int x = position.x / 64;
+	float rx = fmodf(position.x, 64);
+	//log("nx = %d, rx = %f", x, rx);
+
+	int nx = position.x / 32;
+
+	int ny = (position.y) / 48;
+	float ry = fmodf((position.y), 48);
+	//log("ny = %d, ry = %f", ny, ry);
+
+	Vec2 p1, p2;
+	//직선의 방정식 활용
+	if (32 < ry) {
+		if (ny%2 == 0) {		//ny 가 짝수일 때
+			if (nx%2 == 0) {	//nx 가 짝수일 때
+				p1 = Vec2(32 * nx + 32,			48 * (ny + 1));
+				p2 = Vec2(32 * (nx + 1) - 32,	48 * ny + 32);
+			}
+			else {				//nx 가 홀수일 때
+				p1 = Vec2(32 * nx + 32,			48 * ny + 32);
+				p2 = Vec2(32 * (nx + 1) - 32,	48 * (ny + 1));
+			}
+		}
+		else {					//ny 가 홀수일 때
+			if (nx % 2 == 0) {	//nx 가 짝수일 때
+				p1 = Vec2(32 * nx + 32,			48 * ny + 32);
+				p2 = Vec2(32 * (nx + 1) - 32,	48 * (ny + 1));
+			}
+			else {				//nx 가 홀수일 때
+				p1 = Vec2(32 * nx + 32,			48 * (ny + 1));
+				p2 = Vec2(32 * (nx + 1) - 32,	48 * ny + 32);
+			}
+		}
+		//log("p1 = (%f, %f), p2 = (%f, %f)", p1.x, p1.y, p2.x, p2.y);
+
+		//직선의 방정식
+		float tempy = (p2.y - p1.y) / (p2.x - p1.x) * (position.x - p1.x) + p1.y;
+		//log("tempy = %f, position.y = %f", tempy, position.y);
+		if (tempy < position.y) {
+			//log("plus 1");
+			ny++;
+		}
+		else {
+			//log("minus 1");
+		}
+	}
+	if (ny%2 == 1) {
+		x = (position.x-32) / 64;
+	}
+	return Vec2(x, ny);
 }
+
+
 
 void WindMap::setPlayerPosition(cocos2d::Vec2 position) {
 	//Vec2 tileCoord = this->tileCoordForPosition(position);
