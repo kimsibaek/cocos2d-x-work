@@ -1,5 +1,6 @@
 ﻿#include "WaterMap.h"
-
+#include "pauseScene.h"
+#include "MainScene.h"
 USING_NS_CC;
 
 Scene* WaterMap::createScene()
@@ -40,7 +41,33 @@ bool WaterMap::init()
 	MovePositionX = 0;
 	MovePositionY = 0;
 
+	pause = Sprite::create("Images/Scene/pause.png");
+	pause->setPosition(Vec2(1230, 670));
+	pause->setScale(0.4);
+	this->addChild(pause, 3);
+
+	NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(WaterMap::doMsgReceived), "TouchStatus", nullptr);
+
 	return true;
+}
+
+void WaterMap::doMsgReceived(Ref* obj) {
+	char *inputStr = (char*)obj;
+	char testText[20];
+	sprintf(testText, "%s", inputStr);
+	log("%s", testText);
+	if (!strcmp(testText, "0")) {
+		Director::getInstance()->pause();
+	}
+	else if (!strcmp(testText, "1")) {
+		Director::getInstance()->resume();
+	}
+	else {
+		Director::getInstance()->resume();
+		auto pScene = MainScene::createScene();
+		Director::getInstance()->replaceScene(pScene);
+	}
+
 }
 
 void WaterMap::onEnter() {
@@ -57,13 +84,22 @@ void WaterMap::onEnter() {
 }
 
 void WaterMap::onExit() {
-	_eventDispatcher->removeEventListenersForType(EventListener::Type::TOUCH_ONE_BY_ONE);
+	//_eventDispatcher->removeEventListenersForType(EventListener::Type::TOUCH_ONE_BY_ONE);
 	Layer::onExit();
 }
 
 bool WaterMap::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) {
 	auto touchPoint = touch->getLocation();
 	StartDragPosition = touchPoint;
+
+	bool bTouch = pause->getBoundingBox().containsPoint(touchPoint);
+	if (bTouch) {
+		log("Sprite clicked...");
+		//Director::getInstance()->pause();
+		Scene* popWin;
+		popWin = pauseScene::createScene();
+		this->addChild(popWin, 2000, 2000);
+	}
 	return true;
 }
 

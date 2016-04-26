@@ -21,6 +21,10 @@ public:
 	float MovePositionX;
 	float MovePositionY;
 
+	cocos2d::Sprite* pause;
+
+	void doMsgReceived(Ref* obj);
+
 	virtual void onEnter();
 	virtual void onExit();
 	cocos2d::Vec2 StartDragPosition;
