@@ -10,6 +10,26 @@ public:
 	virtual bool init();
 	// implement the "static create()" method manually
 	CREATE_FUNC(EarthMap);
+	cocos2d::Size winSize;
+	cocos2d::Sprite* BG;
+	cocos2d::TMXTiledMap* tmap;
+	cocos2d::TMXLayer* background;
+	cocos2d::TMXLayer* items;
+	cocos2d::TMXLayer* metainfo;
+
+	float MovePositionX;
+	float MovePositionY;
+
+	cocos2d::Sprite* pause;
+
+	virtual void onEnter();
+	virtual void onExit();
+	cocos2d::Vec2 StartDragPosition;
+	cocos2d::Vec2 EndDragPosition;
+	virtual bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
+	virtual void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
+	virtual void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
+	cocos2d::Vec2 tileCoordForPosition(cocos2d::Vec2 position);
 };
 
 #endif // __EarthMap_SCENE_H__

@@ -30,27 +30,28 @@ bool IntroScene::init()
 	srand(time(NULL));
 
 
-	CCSprite* BG = CCSprite::create("Images/Scene/BG.png");
-	BG->setPosition(Vec2(480, 320-80));
+	CCSprite* BG = CCSprite::create("Images/Scene/BG2.png");
+	BG->setPosition(Vec2(640, 360-80));
+	BG->setScale(1.6);
 	this->addChild(BG);
 
-	auto myAction = MoveTo::create(5, Vec2(480, 320+80));
+	auto myAction = MoveTo::create(3, Vec2(640, 360+80));
 	//auto myAction2 = FadeTo::create(2.0f, 200);
 	//auto myAction3 = Spawn::create(myAction, nullptr);
 	BG->runAction(myAction);
 
-	this->scheduleOnce(schedule_selector(IntroScene::myTickInce), 5.0f);
+	this->scheduleOnce(schedule_selector(IntroScene::myTickInce), 3.0f);
 	
 	return true;
 }
 
 void IntroScene::myTickInce(float f) {
 	CCSprite* title = CCSprite::create("Images/Scene/title.png");
-	title->setPosition(Vec2(480, 320 + 80));
+	title->setPosition(Vec2(640, 480 + 80));
 	this->addChild(title);
 
-	auto myAction1 = MoveTo::create(2.5, Vec2(480, 320+60));
-	auto myAction2 = MoveTo::create(2.5, Vec2(480, 320+80));
+	auto myAction1 = MoveTo::create(1.5, Vec2(640, 360+60));
+	auto myAction2 = MoveTo::create(1.5, Vec2(640, 360+80));
 	auto myAction3 = Sequence::create(myAction1, myAction2, nullptr);
 	auto myAction7 = Spawn::create(myAction3, nullptr);
 	auto rep1 = RepeatForever::create(myAction7);
@@ -70,7 +71,7 @@ void IntroScene::myTickInce(float f) {
 	pMenuItem3->setTag(3);
 
 	auto pMenu = Menu::create(pMenuItem1, pMenuItem2, pMenuItem3, nullptr);
-	pMenu->setPosition(Vec2(480, 200));
+	pMenu->setPosition(Vec2(640, 200));
 	pMenu->alignItemsVertically();
 	pMenu->alignItemsVerticallyWithPadding(30.0f);
 	this->addChild(pMenu);
@@ -290,7 +291,7 @@ void IntroScene::tick(float dt) {
 		sprite = Sprite::createWithSpriteFrameName("Wind9-1.png");
 		sprintf(str1, "Wind9-");
 	}
-	sprite->setPosition(1000, 50);
+	sprite->setPosition(1300, 50);
 	this->addChild(sprite);
 	for (int i = 1; i < 5; i++) {
 		sprintf(str2, "%s%d.png", str1, i);

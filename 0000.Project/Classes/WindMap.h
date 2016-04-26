@@ -29,7 +29,6 @@ public:
 	virtual void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
 	virtual void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
 	cocos2d::Vec2 tileCoordForPosition(cocos2d::Vec2 position);
-	void setPlayerPosition(cocos2d::Vec2 position);
 };
 
 #endif // __WindMap_SCENE_H__
