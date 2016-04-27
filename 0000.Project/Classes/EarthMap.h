@@ -20,6 +20,18 @@ public:
 	float MovePositionX;
 	float MovePositionY;
 
+	std::string dbfileName;
+
+	cocos2d::SpriteFrameCache *cache;
+
+	//Map test character;
+	void onMapCharacter();
+	cocos2d::Vector<cocos2d::Sprite*> TestPosition;
+
+	void onCreateCharacter();
+
+	cocos2d::Vec2 ChecksPosition(int num1, int num2);
+
 	cocos2d::Sprite* pause;
 
 	void doMsgReceived(Ref* obj);

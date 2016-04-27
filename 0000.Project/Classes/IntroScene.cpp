@@ -2,6 +2,7 @@
 #include "MainScene.h"
 #include <time.h>
 #include <string.h>
+#include "sqlite3.h"
 USING_NS_CC;
 
 Scene* IntroScene::createScene()

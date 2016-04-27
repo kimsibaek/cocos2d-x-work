@@ -1,6 +1,7 @@
 ﻿#include "WaterMap.h"
 #include "pauseScene.h"
 #include "MainScene.h"
+#include "sqlite3.h"
 USING_NS_CC;
 
 Scene* WaterMap::createScene()

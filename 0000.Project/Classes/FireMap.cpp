@@ -1,6 +1,7 @@
 ﻿#include "FireMap.h"
 #include "pauseScene.h"
 #include "MainScene.h"
+#include "sqlite3.h"
 USING_NS_CC;
 
 Scene* FireMap::createScene()

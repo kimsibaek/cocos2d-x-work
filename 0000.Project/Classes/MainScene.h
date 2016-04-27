@@ -2,6 +2,7 @@
 #define __MainScene_H__
 
 #include "cocos2d.h"
+#include "sqlite3.h"
 
 class MainScene : public cocos2d::Layer
 {
@@ -11,6 +12,11 @@ public:
 	// implement the "static create()" method manually
 	CREATE_FUNC(MainScene);
 	void doClick1(Ref *pSender);
+	std::string dbfileName;
+	void createDatabase();
+	void insertData(Ref* pSender);
+	void selectData(Ref* pSender);
+	cocos2d::LabelTTF* lblStatus;;
 };
 
 #endif // __MainScene_SCENE_H__
