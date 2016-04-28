@@ -24,3 +24,6 @@ struct Monster_num {
 //객체 생성
 extern Monster_num *monster_char;
 extern int monsterSize;
+
+extern Monster_num *EmyMonster_char;
+extern int EmyMonsterSize;

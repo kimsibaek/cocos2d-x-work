@@ -29,8 +29,9 @@ public:
 	cocos2d::Vector<cocos2d::Sprite*> TestPosition;
 
 	void onCreateCharacter();
+	void onCreateEmyCharacter();
 
-	cocos2d::Vec2 ChecksPosition(int num1, int num2);
+	bool ChecksPosition(int num1, int num2);
 
 	cocos2d::Sprite* pause;
 

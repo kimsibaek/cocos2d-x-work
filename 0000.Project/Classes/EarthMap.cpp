@@ -102,6 +102,7 @@ bool EarthMap::init()
 	log("%s", dbfileName.c_str());
 	
 	onCreateCharacter();
+	onCreateEmyCharacter();
 	//onMapCharacter();
 	return true;
 }
@@ -156,7 +157,7 @@ void EarthMap::onCreateCharacter() {
 
 	// select data
 	std::string sqlStr;
-	sqlStr = "select Moster_Id, Type, level, Item1, Item2, Item3 from Monster";
+	sqlStr = "select Monster_Id, Type, level, Item1, Item2, Item3 from Monster";
 
 	sqlite3_stmt* statement;
 	if (sqlite3_prepare_v2(pDB, sqlStr.c_str(), -1, &statement, nullptr) == SQLITE_OK)
@@ -190,8 +191,6 @@ void EarthMap::onCreateCharacter() {
 			//log("ID = %d, Type = %d, level = %d, Item1 = %d, Item2 = %d, Item3 = %d", monster_char[monsterSize].ID, monster_char[monsterSize].Type, monster_char[monsterSize].level, monster_char[monsterSize].Item1, monster_char[monsterSize].Item2, monster_char[monsterSize].Item3);
 			monsterSize++;
 		}
-		
-		
 	}
 	sqlite3_finalize(statement);
 
@@ -200,6 +199,12 @@ void EarthMap::onCreateCharacter() {
 	for (int i = 0; i < monsterSize; i++) {
 		int num1 = rand() % 30 + 1;
 		int num2 = rand() % 30 + 1;
+
+		while (!ChecksPosition(num1, num2)) {
+			num1 = rand() % 30 + 1;
+			num2 = rand() % 30 + 1;
+		}
+
 		char str1[100];
 		char str2[100];
 		Vector<SpriteFrame*> animFrames;
@@ -209,7 +214,7 @@ void EarthMap::onCreateCharacter() {
 			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Person1-1.png");
 			sprintf(str1, "Person1-");
 		}
-		else if (monster_char[i].Type == 1) {
+		/*else if (monster_char[i].Type == 1) {
 			
 			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Earth1-1.png");
 			sprintf(str1, "Earth1-");
@@ -404,7 +409,7 @@ void EarthMap::onCreateCharacter() {
 			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind9-1.png");
 			sprintf(str1, "Wind9-");
 		}
-
+*/
 		monster_char[i].sprite->setScale(1.5);
 		if (num2 % 2 == 0) {
 			monster_char[i].sprite->setPosition(32 + 64 * num1, 1551 - (75 + 48 * num2));
@@ -420,7 +425,7 @@ void EarthMap::onCreateCharacter() {
 			monster_char[i].xMovePosition = 64 * num1;
 			monster_char[i].yMovePosition = 1551 - (75 + 48 * num2);
 		}
-		//log("monster_char[i] = %f, %f", monster_char[i].xPosition, monster_char[i].yPosition);
+		log("monster_char[i] = %f, %f", monster_char[i].xPosition, monster_char[i].yPosition);
 		this->addChild(monster_char[i].sprite, 3);
 
 		for (int i = 1; i < 5; i++) {
@@ -437,9 +442,303 @@ void EarthMap::onCreateCharacter() {
 	
 }
 
-Vec2 EarthMap::ChecksPosition(int num1, int num2) {
-	Vec2 pos;
-	return pos;
+void EarthMap::onCreateEmyCharacter() {
+	if (EmyMonsterSize) {
+		free(EmyMonster_char);
+		EmyMonsterSize = 0;
+	}
+
+	std::string str1 = "";
+	for(int i=0; i<10; i++)
+	{
+		//객체생성
+		int num = rand() % 39 + 1;
+		while (num == 10 || num == 20 || num == 30) {
+			num = rand() % 40 + 1;
+		}
+		
+		if (EmyMonsterSize)	EmyMonster_char = (Monster_num*)realloc(EmyMonster_char, sizeof(Monster_num) * (EmyMonsterSize + 1));
+		else				EmyMonster_char = (Monster_num*)malloc(sizeof(Monster_num) * (EmyMonsterSize + 1));
+		int	ID = i;
+		int	Type = num;
+		int	level = 1;
+		int	Item1 = 0;
+		int	Item2 = 0;
+		int	Item3 = 0;
+
+		//log("ID = %d, Type = %d, level = %d, Item1 = %d, Item2 = %d, Item3 = %d", ID, Type, level, Item1, Item2, Item3);
+
+		EmyMonster_char[EmyMonsterSize].ID = ID;
+		EmyMonster_char[EmyMonsterSize].Type = Type;
+		EmyMonster_char[EmyMonsterSize].level = level;
+		EmyMonster_char[EmyMonsterSize].Item1 = Item1;
+		EmyMonster_char[EmyMonsterSize].Item2 = Item2;
+		EmyMonster_char[EmyMonsterSize].Item3 = Item3;
+		//log("ID = %d, Type = %d, level = %d, Item1 = %d, Item2 = %d, Item3 = %d", monster_char[monsterSize].ID, monster_char[monsterSize].Type, monster_char[monsterSize].level, monster_char[monsterSize].Item1, monster_char[monsterSize].Item2, monster_char[monsterSize].Item3);
+		EmyMonsterSize++;
+	}
+
+	for (int i = 0; i < EmyMonsterSize; i++) {
+		int num1 = rand() % 30 + 1;
+		int num2 = rand() % 30 + 1;
+
+		while (!ChecksPosition(num1, num2)) {
+			num1 = rand() % 30 + 1;
+			num2 = rand() % 30 + 1;
+		}
+
+		char str1[100];
+		char str2[100];
+		Vector<SpriteFrame*> animFrames;
+		log("monster_char[i].Type : %d", EmyMonster_char[i].Type);
+		if (EmyMonster_char[i].Type == 0) {
+
+			EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Person1-1.png");
+			sprintf(str1, "Person1-");
+		}
+		else if (EmyMonster_char[i].Type == 1) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Earth1-1.png");
+		sprintf(str1, "Earth1-");
+		}
+		else if (EmyMonster_char[i].Type == 2) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Earth2-1.png");
+		sprintf(str1, "Earth2-");
+		}
+		else if (EmyMonster_char[i].Type == 3) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Earth3-1.png");
+		sprintf(str1, "Earth3-");
+		}
+		else if (EmyMonster_char[i].Type == 4) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Earth4-1.png");
+		sprintf(str1, "Earth4-");
+		}
+		else if (EmyMonster_char[i].Type == 5) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Earth5-1.png");
+		sprintf(str1, "Earth5-");
+		}
+		else if (EmyMonster_char[i].Type == 6) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Earth6-1.png");
+		sprintf(str1, "Earth6-");
+		}
+		else if (EmyMonster_char[i].Type == 7) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Earth7-1.png");
+		sprintf(str1, "Earth7-");
+		}
+		else if (EmyMonster_char[i].Type == 8) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Earth8-1.png");
+		sprintf(str1, "Earth8-");
+		}
+		else if (EmyMonster_char[i].Type == 9) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Earth9-1.png");
+		sprintf(str1, "Earth9-");
+		}
+		else if (EmyMonster_char[i].Type == 10) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Person1-1.png");
+		sprintf(str1, "Person1-");
+		}
+		else if (EmyMonster_char[i].Type == 11) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Fire1-1.png");
+		sprintf(str1, "Fire1-");
+		}
+		else if (EmyMonster_char[i].Type == 12) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Fire2-1.png");
+		sprintf(str1, "Fire2-");
+		}
+		else if (EmyMonster_char[i].Type == 13) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Fire3-1.png");
+		sprintf(str1, "Fire3-");
+		}
+		else if (EmyMonster_char[i].Type == 14) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Fire4-1.png");
+		sprintf(str1, "Fire4-");
+		}
+		else if (EmyMonster_char[i].Type == 15) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Fire5-1.png");
+		sprintf(str1, "Fire5-");
+		}
+		else if (EmyMonster_char[i].Type == 16) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Fire6-1.png");
+		sprintf(str1, "Fire6-");
+		}
+		else if (EmyMonster_char[i].Type == 17) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Fire7-1.png");
+		sprintf(str1, "Fire7-");
+		}
+		else if (EmyMonster_char[i].Type == 18) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Fire8-1.png");
+		sprintf(str1, "Fire8-");
+		}
+		else if (EmyMonster_char[i].Type == 19) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Fire9-1.png");
+		sprintf(str1, "Fire9-");
+		}
+		else if (EmyMonster_char[i].Type == 20) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Person1-1.png");
+		sprintf(str1, "Person1-");
+		}
+		else if (EmyMonster_char[i].Type == 21) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Water1-1.png");
+		sprintf(str1, "Water1-");
+		}
+		else if (EmyMonster_char[i].Type == 22) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Water2-1.png");
+		sprintf(str1, "Water2-");
+		}
+		else if (EmyMonster_char[i].Type == 23) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Water3-1.png");
+		sprintf(str1, "Water3-");
+		}
+		else if (EmyMonster_char[i].Type == 24) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Water4-1.png");
+		sprintf(str1, "Water4-");
+		}
+		else if (EmyMonster_char[i].Type == 25) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Water5-1.png");
+		sprintf(str1, "Water5-");
+		}
+		else if (EmyMonster_char[i].Type == 26) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Water6-1.png");
+		sprintf(str1, "Water6-");
+		}
+		else if (EmyMonster_char[i].Type == 27) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Water7-1.png");
+		sprintf(str1, "Water7-");
+		}
+		else if (EmyMonster_char[i].Type == 28) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Water8-1.png");
+		sprintf(str1, "Water8-");
+		}
+		else if (EmyMonster_char[i].Type == 29) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Water9-1.png");
+		sprintf(str1, "Water9-");
+		}
+		else if (EmyMonster_char[i].Type == 30) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Person1-1.png");
+		sprintf(str1, "Person1-");
+		}
+		else if (EmyMonster_char[i].Type == 31) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind1-1.png");
+		sprintf(str1, "Wind1-");
+		}
+		else if (EmyMonster_char[i].Type == 32) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind2-1.png");
+		sprintf(str1, "Wind2-");
+		}
+		else if (EmyMonster_char[i].Type == 33) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind3-1.png");
+		sprintf(str1, "Wind3-");
+		}
+		else if (EmyMonster_char[i].Type == 34) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind4-1.png");
+		sprintf(str1, "Wind4-");
+		}
+		else if (EmyMonster_char[i].Type == 35) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind5-1.png");
+		sprintf(str1, "Wind5-");
+		}
+		else if (EmyMonster_char[i].Type == 36) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind6-1.png");
+		sprintf(str1, "Wind6-");
+		}
+		else if (EmyMonster_char[i].Type == 37) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind7-1.png");
+		sprintf(str1, "Wind7-");
+		}
+		else if (EmyMonster_char[i].Type == 38) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind8-1.png");
+		sprintf(str1, "Wind8-");
+		}
+		else if (EmyMonster_char[i].Type == 39) {
+
+		EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind9-1.png");
+		sprintf(str1, "Wind9-");
+		}
+		
+		EmyMonster_char[i].sprite->setScale(1.5);
+		if (num2 % 2 == 0) {
+			EmyMonster_char[i].sprite->setPosition(32 + 64 * num1, 1551 - (75 + 48 * num2));
+			EmyMonster_char[i].xPosition = 32 + 64 * num1;
+			EmyMonster_char[i].yPosition = 1551 - (75 + 48 * num2);
+			EmyMonster_char[i].xMovePosition = 32 + 64 * num1;
+			EmyMonster_char[i].yMovePosition = 1551 - (75 + 48 * num2);
+		}
+		else {
+			EmyMonster_char[i].sprite->setPosition(64 * num1, 1551 - (75 + 48 * num2));
+			EmyMonster_char[i].xPosition = 64 * num1;
+			EmyMonster_char[i].yPosition = 1551 - (75 + 48 * num2);
+			EmyMonster_char[i].xMovePosition = 64 * num1;
+			EmyMonster_char[i].yMovePosition = 1551 - (75 + 48 * num2);
+		}
+		log("EmyMonster_char[i] = %f, %f", EmyMonster_char[i].xPosition, EmyMonster_char[i].yPosition);
+		this->addChild(EmyMonster_char[i].sprite, 3);
+
+		for (int i = 1; i < 5; i++) {
+			sprintf(str2, "%s%d.png", str1, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+			animFrames.pushBack(frame);
+		}
+
+		auto animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
+		auto animate = Animate::create(animation);
+		auto rep = RepeatForever::create(animate);
+		EmyMonster_char[i].sprite->runAction(rep);
+	}
+}
+
+bool EarthMap::ChecksPosition(int num1, int num2) {
+	//Vec2 pos; 
+	Vec2 tileCoord = Vec2(num1, num2);
+	int tileGid = this->metainfo->getTileGIDAt(tileCoord);
+	if (tileGid) {
+		Value properties = tmap->getPropertiesForGID(tileGid);
+
+		if (!properties.isNull()) {
+			std::string item1 = properties.asValueMap()["Items"].asString();
+			if (item1 == "wall") {
+				log("wall....");
+				return false;
+			}
+		}
+	}
+	return true;
 }
 
 void EarthMap::doMsgReceived(Ref* obj) {
@@ -521,7 +820,24 @@ void EarthMap::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) {
 		monster_char[i].sprite->setPosition(Vec2(monster_char[i].xMovePosition, monster_char[i].yMovePosition));
 	}
 	
-
+	for (int i = 0; i < EmyMonsterSize; i++) {
+		//log("move %f, %f", EmyMonster_char[i].xMovePosition, EmyMonster_char[i].yMovePosition);
+		EmyMonster_char[i].xMovePosition = EmyMonster_char[i].xMovePosition + (EndDragPosition.x - StartDragPosition.x);
+		EmyMonster_char[i].yMovePosition = EmyMonster_char[i].yMovePosition + (EndDragPosition.y - StartDragPosition.y);
+		if (EmyMonster_char[i].xMovePosition < EmyMonster_char[i].xPosition - 733) {
+			EmyMonster_char[i].xMovePosition = EmyMonster_char[i].xPosition - 733;
+		}
+		else if (EmyMonster_char[i].xMovePosition > EmyMonster_char[i].xPosition) {
+			EmyMonster_char[i].xMovePosition = EmyMonster_char[i].xPosition;
+		}
+		if (EmyMonster_char[i].yMovePosition < EmyMonster_char[i].yPosition - 799.5) {
+			EmyMonster_char[i].yMovePosition = EmyMonster_char[i].yPosition - 799.5;
+		}
+		else if (EmyMonster_char[i].yMovePosition > EmyMonster_char[i].yPosition) {
+			EmyMonster_char[i].yMovePosition = EmyMonster_char[i].yPosition;
+		}
+		EmyMonster_char[i].sprite->setPosition(Vec2(EmyMonster_char[i].xMovePosition, EmyMonster_char[i].yMovePosition));
+	}
 
 	float x = BG->getPosition().x + (EndDragPosition.x - StartDragPosition.x);
 	float y = BG->getPosition().y + (EndDragPosition.y - StartDragPosition.y);

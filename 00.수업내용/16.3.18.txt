@@ -17,10 +17,13 @@ C:\cocos2d-x\templates\cpp-template-default\proj.win32\Debug.win32 ->  lib, dll 
 
 cocos_templete path
 C:\cocos2d-x\templates
+
 cocos_console path
 C:\cocos2d-x\tools\cocos2d-console\bin
+
 cocos_x_root path
 C:\
+
 path ¼³Á¤
 C:\Cocos2d-x\templates;C:\Cocos2d-x\tools\cocos2d-console\bin;C:\Users\ky3-19\AppData\Roaming\npm;C:\Python27;C:\Android\jdk1.8.0_73\bin
 

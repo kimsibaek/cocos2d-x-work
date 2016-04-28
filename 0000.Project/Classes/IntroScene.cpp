@@ -31,7 +31,7 @@ bool IntroScene::init()
 	srand(time(NULL));
 
 
-	CCSprite* BG = CCSprite::create("Images/Scene/BG2.png");
+	CCSprite* BG = CCSprite::create("Images/Scene/BG.png");
 	BG->setPosition(Vec2(640, 360-80));
 	BG->setScale(1.6);
 	this->addChild(BG);
@@ -40,6 +40,7 @@ bool IntroScene::init()
 	//auto myAction2 = FadeTo::create(2.0f, 200);
 	//auto myAction3 = Spawn::create(myAction, nullptr);
 	BG->runAction(myAction);
+
 
 	this->scheduleOnce(schedule_selector(IntroScene::myTickInce), 3.0f);
 	

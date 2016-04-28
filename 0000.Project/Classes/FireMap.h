@@ -14,8 +14,6 @@ public:
 	cocos2d::Size winSize;
 	cocos2d::Sprite* BG;
 	cocos2d::TMXTiledMap* tmap;
-	cocos2d::TMXLayer* background;
-	cocos2d::TMXLayer* items;
 	cocos2d::TMXLayer* metainfo;
 
 	float MovePositionX;

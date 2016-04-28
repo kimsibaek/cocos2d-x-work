@@ -145,8 +145,6 @@ bool MainScene::init()
 	this->addChild(pMenu);
 
 
-	
-
 
 	lblStatus = LabelTTF::create("",
 		"Arial",
@@ -168,7 +166,7 @@ bool MainScene::init()
 	log("%s", dbfileName.c_str());
 
 	// 데이타베이스 생성
-	//this->createDatabase();
+	this->createDatabase();
 	selectData(this);
 	return true;
 }
@@ -189,12 +187,25 @@ void MainScene::createDatabase()
 	
 	// create database
 	std::string sqlStr;
-	sqlStr = "create table IF NOT EXISTS TestTabel( \
-                             ID integer primary key autoincrement, \
-                             name nvarchar(32), \
-                             class nvarchar(32))";
-
+	sqlStr = "create table IF NOT EXISTS Items( \
+                             _ID integer primary key autoincrement, \
+                             Num integer)";
 	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+	
+	sqlStr = "create table IF NOT EXISTS Monster( \
+								Monster_Id integer, \
+								Type integer, \
+								level integer, \
+								Item1 integer, \
+								Item2 integer, \
+								Item3 integer)";
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+	
+	sqlStr = "create table IF NOT EXISTS Player( \
+                             _Id integer primary key autoincrement, \
+                             Coin integer)";
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+	
 	if (result != SQLITE_OK)
 	{
 		log("Create Error : Code:%d  Msg:%s", result, errMsg);
@@ -204,6 +215,30 @@ void MainScene::createDatabase()
 		log("Database created successfully!");
 	}
 	sqlite3_close(pDB);
+
+
+	//데이터 있는지 확인 후 없으면 초기화 데이터 삽입
+	result = sqlite3_open(dbfileName.c_str(), &pDB);
+
+	if (result != SQLITE_OK)
+	{
+		log("Open Error : Code:%d   Msg:%s", result, errMsg);
+	}
+
+	// select data
+	sqlStr = "select Coin from Player";
+
+	sqlite3_stmt* statement;
+	if (sqlite3_prepare_v2(pDB, sqlStr.c_str(), -1, &statement, nullptr) == SQLITE_OK)
+	{
+		std::string str1 = "";
+		if (sqlite3_step(statement) != SQLITE_ROW)
+		{
+			insertData(this);
+		}
+	}
+	sqlite3_close(pDB);
+	//
 }
 void MainScene::insertData(Ref* pSender)
 {
@@ -220,9 +255,30 @@ void MainScene::insertData(Ref* pSender)
 
 	// insert data
 	std::string sqlStr;
-	sqlStr = "insert into TestTabel(name, class) values ('이재환', '프로그래머')";
-
+	//Items table
+	sqlStr = "insert into Items(_ID, Num) values (0, 0)";
 	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+	sqlStr = "insert into Items(_ID, Num) values (1, 0)";
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+	sqlStr = "insert into Items(_ID, Num) values (2, 0)";
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+	sqlStr = "insert into Items(_ID, Num) values (3, 0)";
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+	sqlStr = "insert into Items(_ID, Num) values (4, 0)";
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+	sqlStr = "insert into Items(_ID, Num) values (5, 0)";
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+	sqlStr = "insert into Items(_ID, Num) values (6, 0)";
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+	sqlStr = "insert into Items(_ID, Num) values (7, 0)";
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+	//Monster table
+	sqlStr = "insert into Monster(Monster_Id, Type, level, Item1, Item2, Item3) values (0, 0, 1, 0, 0, 0)";
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+	//Player table
+	sqlStr = "insert into Player(_id, Coin) values (1, 0)";
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+
 	if (result != SQLITE_OK)
 	{
 		log("Insert Error : Code:%d  Msg:%s", result, errMsg);
