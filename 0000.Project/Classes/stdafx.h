@@ -10,6 +10,18 @@ struct Monster_num {
 	int Item1;
 	int Item2;
 	int Item3;
+	int exp;
+
+	int atk;
+	int def;
+	int hp;
+	int move;
+	
+	int range;
+
+	bool _turn;
+
+	bool upgrade;
 
 	cocos2d::Sprite *sprite;
 

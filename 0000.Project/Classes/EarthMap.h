@@ -30,8 +30,12 @@ public:
 
 	void onCreateCharacter();
 	void onCreateEmyCharacter();
+	void FocusCharacter();
 
 	bool ChecksPosition(int num1, int num2);
+	bool ChecksPosition(cocos2d::Vec2 vec);
+
+	cocos2d::Vector<cocos2d::Sprite*> MovePosition;
 
 	cocos2d::Sprite* pause;
 

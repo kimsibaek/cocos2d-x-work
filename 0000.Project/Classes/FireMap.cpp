@@ -106,7 +106,7 @@ bool FireMap::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) {
 
 void FireMap::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) {
 	winSize = Director::getInstance()->getWinSize();
-
+	
 	auto touchPoint = touch->getLocation();
 	touchPoint = this->convertToNodeSpace(touchPoint);
 
@@ -211,4 +211,3 @@ Vec2 FireMap::tileCoordForPosition(cocos2d::Vec2 position) {
 	}
 	return Vec2(x, ny);
 }
-
