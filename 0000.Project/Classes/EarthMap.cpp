@@ -32,7 +32,7 @@ bool EarthMap::init()
 	srand(time(NULL));
 
 	cache = SpriteFrameCache::getInstance();
-	cache->addSpriteFramesWithFile("Plist/Person.plist");
+	cache->addSpriteFramesWithFile("Plist/Person1.plist");
 	cache->addSpriteFramesWithFile("Plist/Earth1.plist");
 	cache->addSpriteFramesWithFile("Plist/Earth2.plist");
 	cache->addSpriteFramesWithFile("Plist/Earth3.plist");
@@ -83,8 +83,8 @@ bool EarthMap::init()
 	//metainfo->setVisible(false);
 	this->addChild(tmap, 2, 11);
 
-	MovePositionX = 0;
-	MovePositionY = 0;
+	MovePositionX = tmap->getPosition().x;
+	MovePositionY = tmap->getPosition().y;
 	//pause
 	pause = Sprite::create("Images/Scene/pause.png");
 	pause->setPosition(Vec2(1230, 670));
@@ -107,6 +107,10 @@ bool EarthMap::init()
 	//onMapCharacter();
 	//주인공이 화면의 센터로
 	FocusCharacter();
+
+	//주인공 클릭상태
+	CharacterClick = false;
+
 	return true;
 }
 
@@ -145,7 +149,6 @@ void EarthMap::onMapCharacter() {
 		}
 	}
 }
-
 //주인공 생성
 void EarthMap::onCreateCharacter() {
 	sqlite3* pDB = NULL;
@@ -161,7 +164,7 @@ void EarthMap::onCreateCharacter() {
 
 	// select data
 	std::string sqlStr;
-	sqlStr = "select Monster_Id, Type, level, Item1, Item2, Item3 from Monster";
+	sqlStr = "select Monster_Id, Type, level, Item1, Item2, Item3, Exp from Monster";
 
 	sqlite3_stmt* statement;
 	if (sqlite3_prepare_v2(pDB, sqlStr.c_str(), -1, &statement, nullptr) == SQLITE_OK)
@@ -231,202 +234,7 @@ void EarthMap::onCreateCharacter() {
 			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Person1-1.png");
 			sprintf(str1, "Person1-");
 		}
-		/*else if (monster_char[i].Type == 1) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Earth1-1.png");
-			sprintf(str1, "Earth1-");
-		}
-		else if (monster_char[i].Type == 2) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Earth2-1.png");
-			sprintf(str1, "Earth2-");
-		}
-		else if (monster_char[i].Type == 3) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Earth3-1.png");
-			sprintf(str1, "Earth3-");
-		}
-		else if (monster_char[i].Type == 4) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Earth4-1.png");
-			sprintf(str1, "Earth4-");
-		}
-		else if (monster_char[i].Type == 5) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Earth5-1.png");
-			sprintf(str1, "Earth5-");
-		}
-		else if (monster_char[i].Type == 6) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Earth6-1.png");
-			sprintf(str1, "Earth6-");
-		}
-		else if (monster_char[i].Type == 7) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Earth7-1.png");
-			sprintf(str1, "Earth7-");
-		}
-		else if (monster_char[i].Type == 8) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Earth8-1.png");
-			sprintf(str1, "Earth8-");
-		}
-		else if (monster_char[i].Type == 9) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Earth9-1.png");
-			sprintf(str1, "Earth9-");
-		}
-		else if (monster_char[i].Type == 10) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Person1-1.png");
-			sprintf(str1, "Person1-");
-		}
-		else if (monster_char[i].Type == 11) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Fire1-1.png");
-			sprintf(str1, "Fire1-");
-		}
-		else if (monster_char[i].Type == 12) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Fire2-1.png");
-			sprintf(str1, "Fire2-");
-		}
-		else if (monster_char[i].Type == 13) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Fire3-1.png");
-			sprintf(str1, "Fire3-");
-		}
-		else if (monster_char[i].Type == 14) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Fire4-1.png");
-			sprintf(str1, "Fire4-");
-		}
-		else if (monster_char[i].Type == 15) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Fire5-1.png");
-			sprintf(str1, "Fire5-");
-		}
-		else if (monster_char[i].Type == 16) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Fire6-1.png");
-			sprintf(str1, "Fire6-");
-		}
-		else if (monster_char[i].Type == 17) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Fire7-1.png");
-			sprintf(str1, "Fire7-");
-		}
-		else if (monster_char[i].Type == 18) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Fire8-1.png");
-			sprintf(str1, "Fire8-");
-		}
-		else if (monster_char[i].Type == 19) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Fire9-1.png");
-			sprintf(str1, "Fire9-");
-		}
-		else if (monster_char[i].Type == 20) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Person1-1.png");
-			sprintf(str1, "Person1-");
-		}
-		else if (monster_char[i].Type == 21) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Water1-1.png");
-			sprintf(str1, "Water1-");
-		}
-		else if (monster_char[i].Type == 22) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Water2-1.png");
-			sprintf(str1, "Water2-");
-		}
-		else if (monster_char[i].Type == 23) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Water3-1.png");
-			sprintf(str1, "Water3-");
-		}
-		else if (monster_char[i].Type == 24) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Water4-1.png");
-			sprintf(str1, "Water4-");
-		}
-		else if (monster_char[i].Type == 25) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Water5-1.png");
-			sprintf(str1, "Water5-");
-		}
-		else if (monster_char[i].Type == 26) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Water6-1.png");
-			sprintf(str1, "Water6-");
-		}
-		else if (monster_char[i].Type == 27) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Water7-1.png");
-			sprintf(str1, "Water7-");
-		}
-		else if (monster_char[i].Type == 28) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Water8-1.png");
-			sprintf(str1, "Water8-");
-		}
-		else if (monster_char[i].Type == 29) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Water9-1.png");
-			sprintf(str1, "Water9-");
-		}
-		else if (monster_char[i].Type == 30) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Person1-1.png");
-			sprintf(str1, "Person1-");
-		}
-		else if (monster_char[i].Type == 31) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind1-1.png");
-			sprintf(str1, "Wind1-");
-		}
-		else if (monster_char[i].Type == 32) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind2-1.png");
-			sprintf(str1, "Wind2-");
-		}
-		else if (monster_char[i].Type == 33) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind3-1.png");
-			sprintf(str1, "Wind3-");
-		}
-		else if (monster_char[i].Type == 34) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind4-1.png");
-			sprintf(str1, "Wind4-");
-		}
-		else if (monster_char[i].Type == 35) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind5-1.png");
-			sprintf(str1, "Wind5-");
-		}
-		else if (monster_char[i].Type == 36) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind6-1.png");
-			sprintf(str1, "Wind6-");
-		}
-		else if (monster_char[i].Type == 37) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind7-1.png");
-			sprintf(str1, "Wind7-");
-		}
-		else if (monster_char[i].Type == 38) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind8-1.png");
-			sprintf(str1, "Wind8-");
-		}
-		else if (monster_char[i].Type == 39) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind9-1.png");
-			sprintf(str1, "Wind9-");
-		}
-*/
+
 		monster_char[i].sprite->setScale(1.5);
 		if (num2 % 2 == 0) {
 			monster_char[i].sprite->setPosition(32 + 64 * num1, 1551 - (75 + 48 * num2));
@@ -442,7 +250,7 @@ void EarthMap::onCreateCharacter() {
 			monster_char[i].xMovePosition = 64 * num1;
 			monster_char[i].yMovePosition = 1551 - (75 + 48 * num2);
 		}
-		log("monster_char[i] = %f, %f", monster_char[i].xPosition, monster_char[i].yPosition);
+		//log("monster_char[i] = %f, %f", monster_char[i].xPosition, monster_char[i].yPosition);
 		this->addChild(monster_char[i].sprite, 3);
 
 		for (int i = 1; i < 5; i++) {
@@ -511,7 +319,7 @@ void EarthMap::onCreateEmyCharacter() {
 		char str1[100];
 		char str2[100];
 		Vector<SpriteFrame*> animFrames;
-		log("monster_char[i].Type : %d", EmyMonster_char[i].Type);
+		//log("monster_char[i].Type : %d", EmyMonster_char[i].Type);
 		//땅질퍽이
 		if (EmyMonster_char[i].Type == 1) {
 			EmyMonster_char[i].atk = 15 + ((EmyMonster_char[i].level - 1) * 1.5);
@@ -864,7 +672,7 @@ void EarthMap::onCreateEmyCharacter() {
 			EmyMonster_char[i].xMovePosition = 64 * num1;
 			EmyMonster_char[i].yMovePosition = 1551 - (75 + 48 * num2);
 		}
-		log("EmyMonster_char[i] = %f, %f", EmyMonster_char[i].xPosition, EmyMonster_char[i].yPosition);
+		//log("EmyMonster_char[i] = %f, %f", EmyMonster_char[i].xPosition, EmyMonster_char[i].yPosition);
 		this->addChild(EmyMonster_char[i].sprite, 3);
 
 		for (int i = 1; i < 5; i++) {
@@ -897,9 +705,6 @@ void EarthMap::FocusCharacter() {
 		dy = 799.5;
 	}
 	
-	MovePositionX = dx;
-	MovePositionY = dy;
-
 	//아군 몬스터
 	for (int i = 0; i < monsterSize; i++) {
 		//log("move %f, %f", monster_char[i].xMovePosition, monster_char[i].yMovePosition);
@@ -956,6 +761,7 @@ void EarthMap::FocusCharacter() {
 		y = 767.5;
 	}
 	//log("BG = %f, %f", x, y);
+
 	BG->setPosition(Vec2(x, y));
 	float tx = tmap->getPosition().x - dx;
 	float ty = tmap->getPosition().y - dy;
@@ -971,6 +777,9 @@ void EarthMap::FocusCharacter() {
 	else if (ty > -16) {
 		ty = -16;
 	}
+	//움직인 타일맵의 위치를 가지고 클릭좌표를 계산
+	MovePositionX = tx;
+	MovePositionY = ty;
 	//log("tmap = %f, %f", tx, ty);
 	tmap->setPosition(Vec2(tx, ty));
 }
@@ -997,7 +806,7 @@ void EarthMap::doMsgReceived(Ref* obj) {
 	char *inputStr = (char*)obj;
 	char testText[20];
 	sprintf(testText, "%s", inputStr);
-	log("%s", testText);
+	//log("%s", testText);
 	if (!strcmp(testText, "0")) {
 		Director::getInstance()->pause();
 	}
@@ -1033,10 +842,13 @@ void EarthMap::onExit() {
 bool EarthMap::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) {
 	auto touchPoint = touch->getLocation();
 	StartDragPosition = touchPoint;
-
+	for (int i = 0; i < MovePosition.size(); i++) {
+		this->removeChild(MovePosition.at(i));
+	}
+	MovePosition.clear();
 	bool bTouch = pause->getBoundingBox().containsPoint(touchPoint);
 	if (bTouch) {
-		log("Sprite clicked...");
+		//log("Sprite clicked...");
 		//Director::getInstance()->pause();
 		Scene* popWin;
 		popWin = pauseScene::createScene();
@@ -1131,7 +943,9 @@ void EarthMap::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) {
 }
 
 void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
-
+	char str1[100];
+	char str2[100];
+	Vector<SpriteFrame*> animFrames;
 	auto touchPoint = touch->getLocation();
 	touchPoint = this->convertToNodeSpace(touchPoint);
 	Vec2 m_pos = tileCoordForPosition(touchPoint);
@@ -1139,134 +953,210 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 	if (ChecksPosition(m_pos.x, m_pos.y)) {
 
 	}
-	//주인공 선택시
+	
+	//주인공 선택시 이동경로 표시
 	Vec2 mon_pos = tileCoordForPosition(Vec2(monster_char[0].xMovePosition, monster_char[0].yMovePosition));
 	log("mon_pos = %f, %f", mon_pos.x, mon_pos.y);
-/*
+	Vec2 mon_pos1 = PositionCoordForTile(Vec2(mon_pos.x, mon_pos.y));
+
+	//주인공이 클릭상태일 경우
+	if (CharacterClick) {
+		//주인공을 클릭시
+		if (m_pos == mon_pos) {
+			log("mon_pos1 = %f, %f", mon_pos.x, mon_pos.y);
+		}
+		//주인공 범위내 클릭시
+		else if (abs(mon_pos.x - m_pos.x) + abs(mon_pos.y - m_pos.y) <= 3) {
+			log("m_pos2 = %f, %f", m_pos.x, m_pos.y);
+			if (mon_pos.x < m_pos.x) {
+
+				monster_char[0].sprite->setTexture(Director::getInstance()->getTextureCache()->addImage("Person1-5.png"));
+				sprintf(str1, "Person1-");
+				for (int i = 5; i < 9; i++) {
+					sprintf(str2, "%s%d.png", str1, i);
+					SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+					animFrames.pushBack(frame);
+				}
+				
+				auto animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
+				auto animate = Animate::create(animation);
+				auto rep = RepeatForever::create(animate);
+				monster_char[0].sprite->stopAllActions();
+				monster_char[0].sprite->runAction(rep);
+			}
+			else {
+				monster_char[0].sprite->setTexture(Director::getInstance()->getTextureCache()->addImage("Person1-1.png"));
+				sprintf(str1, "Person1-");
+				for (int i = 1; i < 5; i++) {
+					sprintf(str2, "%s%d.png", str1, i);
+					SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+					animFrames.pushBack(frame);
+				}
+
+				auto animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
+				auto animate = Animate::create(animation);
+				auto rep = RepeatForever::create(animate);
+				monster_char[0].sprite->stopAllActions();
+				monster_char[0].sprite->runAction(rep);
+			}
+			/*for (int i = 1; i < 5; i++) {
+				sprintf(str2, "%s%d.png", str1, i);
+				SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+				animFrames.pushBack(frame);
+			}
+
+			auto animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
+			auto animate = Animate::create(animation);
+			auto rep = RepeatForever::create(animate);
+			monster_char[i].sprite->runAction(rep);*/
+		}
+	}
 	if (m_pos == mon_pos) {
+		CharacterClick = true;
 
 		Vec2 test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition - 64, monster_char[0].yMovePosition));
 		if (ChecksPosition(test.x, test.y)) {
 			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 64, monster_char[0].yMovePosition));
+			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 - 64, monster_char[0].yMovePosition - 21));
 			MovePosition.pushBack(sp);
 		}
 		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition - 128, monster_char[0].yMovePosition));
 		if (ChecksPosition(test.x, test.y)) {
 			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 128, monster_char[0].yMovePosition));
+			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 - 128, monster_char[0].yMovePosition - 21));
 			MovePosition.pushBack(sp);
 		}
 		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition + 64, monster_char[0].yMovePosition));
 		if (ChecksPosition(test.x, test.y)) {
 			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition + 64, monster_char[0].yMovePosition));
+			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 + 64, monster_char[0].yMovePosition - 21));
 			MovePosition.pushBack(sp);
 		}
 		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition + 128, monster_char[0].yMovePosition));
 		if (ChecksPosition(test.x, test.y)) {
 			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition + 128, monster_char[0].yMovePosition));
+			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 + 128, monster_char[0].yMovePosition - 21));
 			MovePosition.pushBack(sp);
 		}
 		
 		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition - 32, monster_char[0].yMovePosition - 48));
 		if (ChecksPosition(test.x, test.y)) {
 			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 32, monster_char[0].yMovePosition - 48));
+			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 - 32, monster_char[0].yMovePosition - 21 - 48));
 			MovePosition.pushBack(sp);
 		}
 		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition - 64, monster_char[0].yMovePosition - 96));
 		if (ChecksPosition(test.x, test.y)) {
 			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 64, monster_char[0].yMovePosition - 96));
+			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 - 64, monster_char[0].yMovePosition - 21 - 96));
 			MovePosition.pushBack(sp);
 		}
 		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition + 32, monster_char[0].yMovePosition + 48));
 		if (ChecksPosition(test.x, test.y)) {
 			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition + 32, monster_char[0].yMovePosition + 48));
+			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 + 32, monster_char[0].yMovePosition - 21 + 48));
 			MovePosition.pushBack(sp);
 		}
 		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition + 64, monster_char[0].yMovePosition + 96));
 		if (ChecksPosition(test.x, test.y)) {
 			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition + 64, monster_char[0].yMovePosition + 96));
+			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 + 64, monster_char[0].yMovePosition - 21 + 96));
 			MovePosition.pushBack(sp);
 		}
 		
 		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition - 32, monster_char[0].yMovePosition + 48));
 		if (ChecksPosition(test.x, test.y)) {
 			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 32, monster_char[0].yMovePosition + 48));
+			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 - 32, monster_char[0].yMovePosition - 21 + 48));
 			MovePosition.pushBack(sp);
 		}
 		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition - 64, monster_char[0].yMovePosition + 96));
 		if (ChecksPosition(test.x, test.y)) {
 			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 64, monster_char[0].yMovePosition + 96));
+			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 - 64, monster_char[0].yMovePosition - 21 + 96));
 			MovePosition.pushBack(sp);
 		}
 		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition + 32, monster_char[0].yMovePosition - 48));
 		if (ChecksPosition(test.x, test.y)) {
 			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition + 32, monster_char[0].yMovePosition - 48));
+			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 + 32, monster_char[0].yMovePosition - 21 - 48));
 			MovePosition.pushBack(sp);
 		}
 		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition + 64, monster_char[0].yMovePosition - 96));
 		if (ChecksPosition(test.x, test.y)) {
 			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition + 64, monster_char[0].yMovePosition - 96));
+			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 + 64, monster_char[0].yMovePosition - 21 - 96));
 			MovePosition.pushBack(sp);
 		}
 		
 		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition, monster_char[0].yMovePosition + 96));
 		if (ChecksPosition(test.x, test.y)) {
 			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition, monster_char[0].yMovePosition + 96));
+			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1, monster_char[0].yMovePosition - 21 + 96));
 			MovePosition.pushBack(sp);
 		}
 		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition, monster_char[0].yMovePosition - 96));
 		if (ChecksPosition(test.x, test.y)) {
 			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition, monster_char[0].yMovePosition - 96));
+			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1, monster_char[0].yMovePosition - 21 - 96));
 			MovePosition.pushBack(sp);
 		}
 		
 		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition + 96, monster_char[0].yMovePosition + 48));
 		if (ChecksPosition(test.x, test.y)) {
 			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition + 96, monster_char[0].yMovePosition + 48));
+			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 + 96, monster_char[0].yMovePosition - 21 + 48));
 			MovePosition.pushBack(sp);
 		}
 		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition - 96, monster_char[0].yMovePosition + 48));
 		if (ChecksPosition(test.x, test.y)) {
 			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 96, monster_char[0].yMovePosition + 48));
+			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 - 96, monster_char[0].yMovePosition - 21 + 48));
 			MovePosition.pushBack(sp);
 		}
 		
 		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition + 96, monster_char[0].yMovePosition - 48));
 		if (ChecksPosition(test.x, test.y)) {
 			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition + 96, monster_char[0].yMovePosition - 48));
+			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 + 96, monster_char[0].yMovePosition - 21 - 48));
 			MovePosition.pushBack(sp);
 		}
 		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition - 96, monster_char[0].yMovePosition - 48));
 		if (ChecksPosition(test.x, test.y)) {
 			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 96, monster_char[0].yMovePosition - 48));
+			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 - 96, monster_char[0].yMovePosition - 21 - 48));
 			MovePosition.pushBack(sp);
 		}
 		
-		for (int i = 0; i < MovePosition.size(); i++) {
-			this->addChild(MovePosition.at(i));
+		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition, monster_char[0].yMovePosition));
+		if (ChecksPosition(test.x, test.y)) {
+			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
+			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1, monster_char[0].yMovePosition - 21));
+			MovePosition.pushBack(sp);
 		}
-	}*/
+
+		for (int i = 0; i < MovePosition.size(); i++) {
+			this->addChild(MovePosition.at(i), 2);
+		}
+	}
 }
 
 bool EarthMap::ChecksPosition(Vec2 vec) {
 	return true;
+}
+
+Vec2 EarthMap::PositionCoordForTile(cocos2d::Vec2 position) {
+	float x;
+	float y;
+	if (fmodf(position.x, 2) == 0) {
+		x = position.x * 64;
+	}
+	else {
+		x = position.x * 64 + 32;
+	}
+	y = 46 + ((30 - position.y) * 48);
+	
+	return Vec2(x, y);
 }
 
 Vec2 EarthMap::tileCoordForPosition(cocos2d::Vec2 position) {

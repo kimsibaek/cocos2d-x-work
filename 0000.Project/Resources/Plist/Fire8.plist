@@ -7,7 +7,7 @@
 		<key>width</key>
 		<integer>256</integer>
 		<key>height</key>
-		<integer>128</integer>
+		<integer>256</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
@@ -74,6 +74,82 @@
 			<integer>158</integer>
 			<key>y</key>
 			<integer>1</integer>
+			<key>width</key>
+			<integer>51</integer>
+			<key>height</key>
+			<integer>64</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>51</integer>
+			<key>originalHeight</key>
+			<integer>64</integer>
+		</dict>
+		<key>Fire8-5.png</key>
+		<dict>
+			<key>x</key>
+			<integer>1</integer>
+			<key>y</key>
+			<integer>66</integer>
+			<key>width</key>
+			<integer>54</integer>
+			<key>height</key>
+			<integer>61</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>54</integer>
+			<key>originalHeight</key>
+			<integer>61</integer>
+		</dict>
+		<key>Fire8-6.png</key>
+		<dict>
+			<key>x</key>
+			<integer>56</integer>
+			<key>y</key>
+			<integer>66</integer>
+			<key>width</key>
+			<integer>51</integer>
+			<key>height</key>
+			<integer>64</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>51</integer>
+			<key>originalHeight</key>
+			<integer>64</integer>
+		</dict>
+		<key>Fire8-7.png</key>
+		<dict>
+			<key>x</key>
+			<integer>108</integer>
+			<key>y</key>
+			<integer>66</integer>
+			<key>width</key>
+			<integer>49</integer>
+			<key>height</key>
+			<integer>61</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>49</integer>
+			<key>originalHeight</key>
+			<integer>61</integer>
+		</dict>
+		<key>Fire8-8.png</key>
+		<dict>
+			<key>x</key>
+			<integer>158</integer>
+			<key>y</key>
+			<integer>66</integer>
 			<key>width</key>
 			<integer>51</integer>
 			<key>height</key>

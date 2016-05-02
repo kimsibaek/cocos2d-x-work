@@ -7,14 +7,14 @@
 		<key>width</key>
 		<integer>256</integer>
 		<key>height</key>
-		<integer>64</integer>
+		<integer>128</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
 		<key>Wind8-1.png</key>
 		<dict>
 			<key>x</key>
-			<integer>104</integer>
+			<integer>1</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
@@ -33,7 +33,7 @@
 		<key>Wind8-2.png</key>
 		<dict>
 			<key>x</key>
-			<integer>70</integer>
+			<integer>36</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
@@ -52,7 +52,7 @@
 		<key>Wind8-3.png</key>
 		<dict>
 			<key>x</key>
-			<integer>35</integer>
+			<integer>70</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
@@ -71,9 +71,85 @@
 		<key>Wind8-4.png</key>
 		<dict>
 			<key>x</key>
-			<integer>1</integer>
+			<integer>105</integer>
 			<key>y</key>
 			<integer>1</integer>
+			<key>width</key>
+			<integer>33</integer>
+			<key>height</key>
+			<integer>38</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>33</integer>
+			<key>originalHeight</key>
+			<integer>38</integer>
+		</dict>
+		<key>Wind8-5.png</key>
+		<dict>
+			<key>x</key>
+			<integer>139</integer>
+			<key>y</key>
+			<integer>1</integer>
+			<key>width</key>
+			<integer>34</integer>
+			<key>height</key>
+			<integer>38</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>34</integer>
+			<key>originalHeight</key>
+			<integer>38</integer>
+		</dict>
+		<key>Wind8-6.png</key>
+		<dict>
+			<key>x</key>
+			<integer>174</integer>
+			<key>y</key>
+			<integer>1</integer>
+			<key>width</key>
+			<integer>33</integer>
+			<key>height</key>
+			<integer>38</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>33</integer>
+			<key>originalHeight</key>
+			<integer>38</integer>
+		</dict>
+		<key>Wind8-7.png</key>
+		<dict>
+			<key>x</key>
+			<integer>208</integer>
+			<key>y</key>
+			<integer>1</integer>
+			<key>width</key>
+			<integer>34</integer>
+			<key>height</key>
+			<integer>38</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>34</integer>
+			<key>originalHeight</key>
+			<integer>38</integer>
+		</dict>
+		<key>Wind8-8.png</key>
+		<dict>
+			<key>x</key>
+			<integer>1</integer>
+			<key>y</key>
+			<integer>40</integer>
 			<key>width</key>
 			<integer>33</integer>
 			<key>height</key>

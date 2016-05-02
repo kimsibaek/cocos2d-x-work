@@ -7,7 +7,7 @@
 		<key>width</key>
 		<integer>256</integer>
 		<key>height</key>
-		<integer>64</integer>
+		<integer>128</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
@@ -74,6 +74,82 @@
 			<integer>109</integer>
 			<key>y</key>
 			<integer>1</integer>
+			<key>width</key>
+			<integer>35</integer>
+			<key>height</key>
+			<integer>39</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>35</integer>
+			<key>originalHeight</key>
+			<integer>39</integer>
+		</dict>
+		<key>Wind5-5.png</key>
+		<dict>
+			<key>x</key>
+			<integer>145</integer>
+			<key>y</key>
+			<integer>1</integer>
+			<key>width</key>
+			<integer>35</integer>
+			<key>height</key>
+			<integer>39</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>35</integer>
+			<key>originalHeight</key>
+			<integer>39</integer>
+		</dict>
+		<key>Wind5-6.png</key>
+		<dict>
+			<key>x</key>
+			<integer>181</integer>
+			<key>y</key>
+			<integer>1</integer>
+			<key>width</key>
+			<integer>35</integer>
+			<key>height</key>
+			<integer>39</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>35</integer>
+			<key>originalHeight</key>
+			<integer>39</integer>
+		</dict>
+		<key>Wind5-7.png</key>
+		<dict>
+			<key>x</key>
+			<integer>217</integer>
+			<key>y</key>
+			<integer>1</integer>
+			<key>width</key>
+			<integer>35</integer>
+			<key>height</key>
+			<integer>39</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>35</integer>
+			<key>originalHeight</key>
+			<integer>39</integer>
+		</dict>
+		<key>Wind5-8.png</key>
+		<dict>
+			<key>x</key>
+			<integer>1</integer>
+			<key>y</key>
+			<integer>41</integer>
 			<key>width</key>
 			<integer>35</integer>
 			<key>height</key>

@@ -7,7 +7,7 @@
 		<key>width</key>
 		<integer>256</integer>
 		<key>height</key>
-		<integer>64</integer>
+		<integer>128</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
@@ -74,6 +74,82 @@
 			<integer>153</integer>
 			<key>y</key>
 			<integer>1</integer>
+			<key>width</key>
+			<integer>49</integer>
+			<key>height</key>
+			<integer>44</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>49</integer>
+			<key>originalHeight</key>
+			<integer>44</integer>
+		</dict>
+		<key>Water6-5.png</key>
+		<dict>
+			<key>x</key>
+			<integer>203</integer>
+			<key>y</key>
+			<integer>1</integer>
+			<key>width</key>
+			<integer>50</integer>
+			<key>height</key>
+			<integer>46</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>50</integer>
+			<key>originalHeight</key>
+			<integer>46</integer>
+		</dict>
+		<key>Water6-6.png</key>
+		<dict>
+			<key>x</key>
+			<integer>1</integer>
+			<key>y</key>
+			<integer>48</integer>
+			<key>width</key>
+			<integer>49</integer>
+			<key>height</key>
+			<integer>46</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>49</integer>
+			<key>originalHeight</key>
+			<integer>46</integer>
+		</dict>
+		<key>Water6-7.png</key>
+		<dict>
+			<key>x</key>
+			<integer>51</integer>
+			<key>y</key>
+			<integer>48</integer>
+			<key>width</key>
+			<integer>50</integer>
+			<key>height</key>
+			<integer>46</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>50</integer>
+			<key>originalHeight</key>
+			<integer>46</integer>
+		</dict>
+		<key>Water6-8.png</key>
+		<dict>
+			<key>x</key>
+			<integer>102</integer>
+			<key>y</key>
+			<integer>48</integer>
 			<key>width</key>
 			<integer>49</integer>
 			<key>height</key>

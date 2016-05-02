@@ -20,6 +20,8 @@ public:
 	float MovePositionX;
 	float MovePositionY;
 
+	bool CharacterClick;
+
 	std::string dbfileName;
 
 	cocos2d::SpriteFrameCache *cache;
@@ -49,6 +51,7 @@ public:
 	virtual void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
 	virtual void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
 	cocos2d::Vec2 tileCoordForPosition(cocos2d::Vec2 position);
+	cocos2d::Vec2 PositionCoordForTile(cocos2d::Vec2 position);
 };
 
 #endif // __EarthMap_SCENE_H__
