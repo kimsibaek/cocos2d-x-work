@@ -704,7 +704,15 @@ void EarthMap::FocusCharacter() {
 	if (dy > 799.5) {
 		dy = 799.5;
 	}
-	
+
+	MovePositionDX = dx;
+	MovePositionDY = dy;
+	if (dx < 0) {
+		MovePositionDX = 0;
+	}
+	if (dy < 0) {
+		MovePositionDY = 0;
+	}
 	//아군 몬스터
 	for (int i = 0; i < monsterSize; i++) {
 		//log("move %f, %f", monster_char[i].xMovePosition, monster_char[i].yMovePosition);
@@ -865,6 +873,9 @@ void EarthMap::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) {
 
 	EndDragPosition = touchPoint;
 
+	MovePositionDX -= (EndDragPosition.x - StartDragPosition.x);
+	MovePositionDY -= (EndDragPosition.y - StartDragPosition.y);
+
 	for (int i = 0; i < monsterSize; i++) {
 		//log("move %f, %f", monster_char[i].xMovePosition, monster_char[i].yMovePosition);
 		monster_char[i].xMovePosition = monster_char[i].xMovePosition + (EndDragPosition.x - StartDragPosition.x);
@@ -957,17 +968,19 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 	//주인공 선택시 이동경로 표시
 	Vec2 mon_pos = tileCoordForPosition(Vec2(monster_char[0].xMovePosition, monster_char[0].yMovePosition));
 	log("mon_pos = %f, %f", mon_pos.x, mon_pos.y);
-	Vec2 mon_pos1 = PositionCoordForTile(Vec2(mon_pos.x, mon_pos.y));
+	//Vec2 mon_pos1 = PositionCoordForTile(Vec2(mon_pos.x, mon_pos.y));
 
 	//주인공이 클릭상태일 경우
 	if (CharacterClick) {
 		//주인공을 클릭시
 		if (m_pos == mon_pos) {
-			log("mon_pos1 = %f, %f", mon_pos.x, mon_pos.y);
+			//log("mon_pos1 = %f, %f", mon_pos.x, mon_pos.y);
 		}
 		//주인공 범위내 클릭시
 		else if (abs(mon_pos.x - m_pos.x) + abs(mon_pos.y - m_pos.y) <= 3) {
-			log("m_pos2 = %f, %f", m_pos.x, m_pos.y);
+			FindLoad(mon_pos, m_pos);
+			//log("m_pos2 = %f, %f", m_pos.x, m_pos.y);
+			//오른쪽 스프라이트
 			if (mon_pos.x < m_pos.x) {
 
 				monster_char[0].sprite->setTexture(Director::getInstance()->getTextureCache()->addImage("Person1-5.png"));
@@ -984,6 +997,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 				monster_char[0].sprite->stopAllActions();
 				monster_char[0].sprite->runAction(rep);
 			}
+			//왼쪽 스프라이트
 			else {
 				monster_char[0].sprite->setTexture(Director::getInstance()->getTextureCache()->addImage("Person1-1.png"));
 				sprintf(str1, "Person1-");
@@ -999,21 +1013,40 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 				monster_char[0].sprite->stopAllActions();
 				monster_char[0].sprite->runAction(rep);
 			}
-			/*for (int i = 1; i < 5; i++) {
-				sprintf(str2, "%s%d.png", str1, i);
-				SpriteFrame* frame = cache->getSpriteFrameByName(str2);
-				animFrames.pushBack(frame);
-			}
+			//이동
 
-			auto animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
-			auto animate = Animate::create(animation);
-			auto rep = RepeatForever::create(animate);
-			monster_char[i].sprite->runAction(rep);*/
 		}
 	}
 	if (m_pos == mon_pos) {
-		CharacterClick = true;
+		if (posSize) {
+			free(pos);
+			posSize = 0;
+		}
+		
+		ChecksPosition(mon_pos, 0, true);
 
+		for (int m = 0; m < posSize; m++) {
+			log("pos[%d] = %d, %d", m, pos[m].x, pos[m].y);
+
+			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo1.png");
+			Vec2 posit = FindCoordPosition(Vec2(pos[m].x, pos[m].y));
+			sp->setPosition(posit.x - 1, posit.y + 18);
+			MovePosition.pushBack(sp);
+
+			if (pos[m].pos2Size) {
+				
+				for (int k = 0; k < pos[m].pos2Size; k++) {
+					//log("pos[%d].pos2[%d] = %d, %d", m, k, pos[m].pos2[k].x, pos[m].pos2[k].y);
+					Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo1.png");
+					Vec2 posit2 = FindCoordPosition(Vec2(pos[m].pos2[k].x, pos[m].pos2[k].y));
+					sp->setPosition(posit2.x - 1, posit2.y + 18);
+					MovePosition.pushBack(sp);
+				}
+			}
+		}
+
+		CharacterClick = true;
+		/*
 		Vec2 test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition - 64, monster_char[0].yMovePosition));
 		if (ChecksPosition(test.x, test.y)) {
 			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
@@ -1134,30 +1167,237 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1, monster_char[0].yMovePosition - 21));
 			MovePosition.pushBack(sp);
 		}
-
+*/
 		for (int i = 0; i < MovePosition.size(); i++) {
 			this->addChild(MovePosition.at(i), 2);
 		}
 	}
 }
 
-bool EarthMap::ChecksPosition(Vec2 vec) {
+Vec2 EarthMap::FindCoordPosition(Vec2 pos) {
+	float x;
+	float y;
+	y = 46 + ((30 - pos.y) * 48);
+	if (fmodf(pos.x, 2) == 0) {
+		if (fmodf(pos.y, 2) == 0) {
+			
+			x = pos.x * 64;
+		}
+		else {
+			x = pos.x * 64 + 32;
+		}
+	}
+	else {
+		if (fmodf(pos.y, 2) == 0) {
+			x = pos.x * 64; 
+		}
+		else {
+			x = pos.x * 64 + 32;
+		}
+	}
+	
+
+	return Vec2(x - MovePositionDX, y - MovePositionDY);
+	//pos.x;
+	//MovePositionX;
+	//MovePositionY;
+}
+
+void EarthMap::FindLoad(Vec2 charactor, Vec2 move) {
+	int difx = charactor.x - move.x;
+	int dify = charactor.y - move.y;
+
+	if (abs(difx)+abs(dify) > 3) {
+		return;
+	}
+
+}
+
+bool EarthMap::ChecksPosition(Vec2 charactor, int pose, bool check) {
+	//Vec2(charactor.x, charactor.y - 1);
+	if (ChecksPosition(charactor.x, charactor.y - 1)) {
+		if (check) {
+			if (posSize)	pos = (Position*)realloc(pos, sizeof(Position) * (posSize + 1));
+			else			pos = (Position*)malloc(sizeof(Position) * (posSize + 1));
+			pos[posSize].num = 1;
+			pos[posSize].x = charactor.x;
+			pos[posSize].y = charactor.y - 1;
+			pos[posSize].pos2Size = 0;
+			ChecksPosition(Vec2(pos[posSize].x, pos[posSize].y), posSize, false);
+			posSize++;
+		}
+		else {
+			if (pos[pose].pos2Size)	pos[pose].pos2 = (Position*)realloc(pos[pose].pos2, sizeof(Position) * (pos[pose].pos2Size + 1));
+			else					pos[pose].pos2 = (Position*)malloc(sizeof(Position) * (pos[pose].pos2Size + 1));
+			pos[pose].pos2[pos[pose].pos2Size].num = 2;
+			pos[pose].pos2[pos[pose].pos2Size].x = charactor.x;
+			pos[pose].pos2[pos[pose].pos2Size].y = charactor.y - 1;
+
+			pos[pose].pos2Size++;
+		}
+	}
+	//Vec2(charactor.x, charactor.y + 1);
+	if (ChecksPosition(charactor.x, charactor.y + 1)) {
+		if (check) {
+			if (posSize)	pos = (Position*)realloc(pos, sizeof(Position) * (posSize + 1));
+			else			pos = (Position*)malloc(sizeof(Position) * (posSize + 1));
+			pos[posSize].num = 1;
+			pos[posSize].x = charactor.x;
+			pos[posSize].y = charactor.y + 1;
+			pos[posSize].pos2Size = 0;
+			ChecksPosition(Vec2(pos[posSize].x, pos[posSize].y), posSize, false);
+			posSize++;
+		}
+		else {
+			if (pos[pose].pos2Size)	pos[pose].pos2 = (Position*)realloc(pos[pose].pos2, sizeof(Position) * (pos[pose].pos2Size + 1));
+			else					pos[pose].pos2 = (Position*)malloc(sizeof(Position) * (pos[pose].pos2Size + 1));
+			pos[pose].pos2[pos[pose].pos2Size].num = 2;
+			pos[pose].pos2[pos[pose].pos2Size].x = charactor.x;
+			pos[pose].pos2[pos[pose].pos2Size].y = charactor.y + 1;
+
+			pos[pose].pos2Size++;
+		}
+	}
+	//Vec2(charactor.x - 1, charactor.y);
+	if (ChecksPosition(charactor.x - 1, charactor.y)) {
+		if (check) {
+			if (posSize)	pos = (Position*)realloc(pos, sizeof(Position) * (posSize + 1));
+			else			pos = (Position*)malloc(sizeof(Position) * (posSize + 1));
+			pos[posSize].num = 1;
+			pos[posSize].x = charactor.x - 1;
+			pos[posSize].y = charactor.y;
+			pos[posSize].pos2Size = 0;
+			ChecksPosition(Vec2(pos[posSize].x, pos[posSize].y), posSize, false);
+			posSize++;
+		}
+		else {
+			if (pos[pose].pos2Size)	pos[pose].pos2 = (Position*)realloc(pos[pose].pos2, sizeof(Position) * (pos[pose].pos2Size + 1));
+			else					pos[pose].pos2 = (Position*)malloc(sizeof(Position) * (pos[pose].pos2Size + 1));
+			pos[pose].pos2[pos[pose].pos2Size].num = 2;
+			pos[pose].pos2[pos[pose].pos2Size].x = charactor.x - 1;
+			pos[pose].pos2[pos[pose].pos2Size].y = charactor.y;
+
+			pos[pose].pos2Size++;
+		}
+	}
+	//Vec2(charactor.x + 1, charactor.y);
+	if (ChecksPosition(charactor.x + 1, charactor.y)) {
+		if (check) {
+			if (posSize)	pos = (Position*)realloc(pos, sizeof(Position) * (posSize + 1));
+			else			pos = (Position*)malloc(sizeof(Position) * (posSize + 1));
+			pos[posSize].num = 1;
+			pos[posSize].x = charactor.x + 1;
+			pos[posSize].y = charactor.y;
+			pos[posSize].pos2Size = 0;
+			ChecksPosition(Vec2(pos[posSize].x, pos[posSize].y), posSize, false);
+			posSize++;
+		}
+		else {
+			if (pos[pose].pos2Size)	pos[pose].pos2 = (Position*)realloc(pos[pose].pos2, sizeof(Position) * (pos[pose].pos2Size + 1));
+			else					pos[pose].pos2 = (Position*)malloc(sizeof(Position) * (pos[pose].pos2Size + 1));
+			pos[pose].pos2[pos[pose].pos2Size].num = 2;
+			pos[pose].pos2[pos[pose].pos2Size].x = charactor.x + 1;
+			pos[pose].pos2[pos[pose].pos2Size].y = charactor.y;
+
+			pos[pose].pos2Size++;
+		}
+	}
+	if (fmodf(charactor.y, 2) == 0) {
+		//Vec2(charactor.x - 1, charactor.y - 1);
+		if (ChecksPosition(charactor.x - 1, charactor.y - 1)) {
+			if (check) {
+				if (posSize)	pos = (Position*)realloc(pos, sizeof(Position) * (posSize + 1));
+				else			pos = (Position*)malloc(sizeof(Position) * (posSize + 1));
+				pos[posSize].num = 1;
+				pos[posSize].x = charactor.x - 1;
+				pos[posSize].y = charactor.y - 1;
+				pos[posSize].pos2Size = 0;
+				ChecksPosition(Vec2(pos[posSize].x, pos[posSize].y), posSize, false);
+				posSize++;
+			}
+			else {
+				if (pos[pose].pos2Size)	pos[pose].pos2 = (Position*)realloc(pos[pose].pos2, sizeof(Position) * (pos[pose].pos2Size + 1));
+				else					pos[pose].pos2 = (Position*)malloc(sizeof(Position) * (pos[pose].pos2Size + 1));
+				pos[pose].pos2[pos[pose].pos2Size].num = 2;
+				pos[pose].pos2[pos[pose].pos2Size].x = charactor.x - 1;
+				pos[pose].pos2[pos[pose].pos2Size].y = charactor.y - 1;
+
+				pos[pose].pos2Size++;
+			}
+		}
+		//Vec2(charactor.x - 1, charactor.y + 1);
+		if (ChecksPosition(charactor.x - 1, charactor.y + 1)) {
+			if (check) {
+				if (posSize)	pos = (Position*)realloc(pos, sizeof(Position) * (posSize + 1));
+				else			pos = (Position*)malloc(sizeof(Position) * (posSize + 1));
+				pos[posSize].num = 1;
+				pos[posSize].x = charactor.x - 1;
+				pos[posSize].y = charactor.y + 1;
+				pos[posSize].pos2Size = 0;
+				ChecksPosition(Vec2(pos[posSize].x, pos[posSize].y), posSize, false);
+				posSize++;
+			}
+			else {
+				if (pos[pose].pos2Size)	pos[pose].pos2 = (Position*)realloc(pos[pose].pos2, sizeof(Position) * (pos[pose].pos2Size + 1));
+				else					pos[pose].pos2 = (Position*)malloc(sizeof(Position) * (pos[pose].pos2Size + 1));
+				pos[pose].pos2[pos[pose].pos2Size].num = 2;
+				pos[pose].pos2[pos[pose].pos2Size].x = charactor.x - 1;
+				pos[pose].pos2[pos[pose].pos2Size].y = charactor.y + 1;
+
+				pos[pose].pos2Size++;
+			}
+		}
+		
+	}
+	else {
+		//Vec2(charactor.x + 1, charactor.y + 1);
+		if (ChecksPosition(charactor.x + 1, charactor.y + 1)) {
+			if (check) {
+				if (posSize)	pos = (Position*)realloc(pos, sizeof(Position) * (posSize + 1));
+				else			pos = (Position*)malloc(sizeof(Position) * (posSize + 1));
+				pos[posSize].num = 1;
+				pos[posSize].x = charactor.x + 1;
+				pos[posSize].y = charactor.y + 1;
+				pos[posSize].pos2Size = 0;
+				ChecksPosition(Vec2(pos[posSize].x, pos[posSize].y), posSize, false);
+				posSize++;
+			}
+			else {
+				if (pos[pose].pos2Size)	pos[pose].pos2 = (Position*)realloc(pos[pose].pos2, sizeof(Position) * (pos[pose].pos2Size + 1));
+				else					pos[pose].pos2 = (Position*)malloc(sizeof(Position) * (pos[pose].pos2Size + 1));
+				pos[pose].pos2[pos[pose].pos2Size].num = 2;
+				pos[pose].pos2[pos[pose].pos2Size].x = charactor.x + 1;
+				pos[pose].pos2[pos[pose].pos2Size].y = charactor.y + 1;
+
+				pos[pose].pos2Size++;
+			}
+		}
+		//Vec2(charactor.x + 1, charactor.y - 1);
+		if (ChecksPosition(charactor.x + 1, charactor.y - 1)) {
+			if (check) {
+				if (posSize)	pos = (Position*)realloc(pos, sizeof(Position) * (posSize + 1));
+				else			pos = (Position*)malloc(sizeof(Position) * (posSize + 1));
+				pos[posSize].num = 1;
+				pos[posSize].x = charactor.x + 1;
+				pos[posSize].y = charactor.y - 1;
+				pos[posSize].pos2Size = 0;
+				ChecksPosition(Vec2(pos[posSize].x, pos[posSize].y), posSize, false);
+				posSize++;
+			}
+			else {
+				if (pos[pose].pos2Size)	pos[pose].pos2 = (Position*)realloc(pos[pose].pos2, sizeof(Position) * (pos[pose].pos2Size + 1));
+				else					pos[pose].pos2 = (Position*)malloc(sizeof(Position) * (pos[pose].pos2Size + 1));
+				pos[pose].pos2[pos[pose].pos2Size].num = 2;
+				pos[pose].pos2[pos[pose].pos2Size].x = charactor.x + 1;
+				pos[pose].pos2[pos[pose].pos2Size].y = charactor.y - 1;
+
+				pos[pose].pos2Size++;
+			}
+		}
+	}
 	return true;
 }
 
-Vec2 EarthMap::PositionCoordForTile(cocos2d::Vec2 position) {
-	float x;
-	float y;
-	if (fmodf(position.x, 2) == 0) {
-		x = position.x * 64;
-	}
-	else {
-		x = position.x * 64 + 32;
-	}
-	y = 46 + ((30 - position.y) * 48);
-	
-	return Vec2(x, y);
-}
 
 Vec2 EarthMap::tileCoordForPosition(cocos2d::Vec2 position) {
 	position.x = position.x - MovePositionX;

@@ -20,6 +20,9 @@ public:
 	float MovePositionX;
 	float MovePositionY;
 
+	float MovePositionDX;
+	float MovePositionDY;
+
 	bool CharacterClick;
 
 	std::string dbfileName;
@@ -35,9 +38,19 @@ public:
 	void FocusCharacter();
 
 	bool ChecksPosition(int num1, int num2);
-	bool ChecksPosition(cocos2d::Vec2 vec);
+	bool ChecksPosition(cocos2d::Vec2 charactor, int pose, bool check);
 
 	cocos2d::Vector<cocos2d::Sprite*> MovePosition;
+	//cocos2d::Vector<cocos2d::Sprite*> Position;
+	struct Position {
+		Position *pos2;
+		int pos2Size;
+		int num;
+		int x;
+		int y;
+	};
+	Position *pos;
+	int posSize = 0;
 
 	cocos2d::Sprite* pause;
 
@@ -51,7 +64,8 @@ public:
 	virtual void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
 	virtual void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
 	cocos2d::Vec2 tileCoordForPosition(cocos2d::Vec2 position);
-	cocos2d::Vec2 PositionCoordForTile(cocos2d::Vec2 position);
+	void FindLoad(cocos2d::Vec2 charactor, cocos2d::Vec2 move);
+	cocos2d::Vec2 FindCoordPosition(cocos2d::Vec2 pos);
 };
 
 #endif // __EarthMap_SCENE_H__
