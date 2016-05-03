@@ -40,6 +40,8 @@ bool MainScene::init()
 	cache->addSpriteFramesWithFile("Plist/green.plist");
 	cache->addSpriteFramesWithFile("Plist/red.plist");
 	cache->addSpriteFramesWithFile("Plist/yellow.plist");
+	cache->addSpriteFramesWithFile("Plist/black.plist");
+	cache->addSpriteFramesWithFile("Plist/purple.plist");
 	char str[100];
 
 	//blue
@@ -80,7 +82,7 @@ bool MainScene::init()
 	//red
 	Vector<SpriteFrame*> animFrames3;
 	Sprite* sprite_red = Sprite::createWithSpriteFrameName("red1.png");
-	sprite_red->setPosition(870, 565);
+	sprite_red->setPosition(870, 555);
 	sprite_red->setScale(1.5);
 	this->addChild(sprite_red);
 	for (int i = 1; i < 5; i++) {
@@ -97,7 +99,7 @@ bool MainScene::init()
 	//yellow
 	Vector<SpriteFrame*> animFrames4;
 	Sprite* sprite_yellow = Sprite::createWithSpriteFrameName("yellow1.png");
-	sprite_yellow->setPosition(430, 520);
+	sprite_yellow->setPosition(430, 500);
 	sprite_yellow->setScale(1.5);
 	this->addChild(sprite_yellow);
 	for (int i = 1; i < 5; i++) {
@@ -111,12 +113,47 @@ bool MainScene::init()
 	auto rep4 = RepeatForever::create(animate4);
 	sprite_yellow->runAction(rep4);
 
+	//black
+	Vector<SpriteFrame*> animFrames5;
+	Sprite* sprite_black = Sprite::createWithSpriteFrameName("black1.png");
+	sprite_black->setPosition(580, 60);
+	sprite_black->setScale(1.5);
+	this->addChild(sprite_black);
+	for (int i = 1; i < 5; i++) {
+		sprintf(str, "black%d.png", i);
+		SpriteFrame* frame = cache->getSpriteFrameByName(str);
+		animFrames5.pushBack(frame);
+	}
+
+	auto animation5 = Animation::createWithSpriteFrames(animFrames5, 0.2f);
+	auto animate5 = Animate::create(animation5);
+	auto rep5 = RepeatForever::create(animate5);
+	sprite_black->runAction(rep5);
+
+	//purple
+	Vector<SpriteFrame*> animFrames6;
+	Sprite* sprite_purple = Sprite::createWithSpriteFrameName("purple1.png");
+	sprite_purple->setPosition(70, 80);
+	sprite_purple->setScale(1.5);
+	this->addChild(sprite_purple);
+	for (int i = 1; i < 5; i++) {
+		sprintf(str, "purple%d.png", i);
+		SpriteFrame* frame = cache->getSpriteFrameByName(str);
+		animFrames6.pushBack(frame);
+	}
+
+	auto animation6 = Animation::createWithSpriteFrames(animFrames6, 0.2f);
+	auto animate6 = Animate::create(animation6);
+	auto rep6 = RepeatForever::create(animate6);
+	sprite_purple->runAction(rep6);
+
+
 	auto pMenuItem1 = MenuItemImage::create("Images/Scene/EarthLand.png", "Images/Scene/EarthLand_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
 	pMenuItem1->setPosition(Vec2(565, 260));
 	pMenuItem1->setScale(1.5);
 	pMenuItem1->setTag(1);
 	auto pMenuItem2 = MenuItemImage::create("Images/Scene/FireLand.png", "Images/Scene/FireLand_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
-	pMenuItem2->setPosition(Vec2(975, 565));
+	pMenuItem2->setPosition(Vec2(975, 555));
 	pMenuItem2->setScale(1.5);
 	pMenuItem2->setTag(2);
 	auto pMenuItem3 = MenuItemImage::create("Images/Scene/WaterLand.png", "Images/Scene/WaterLand_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
@@ -124,15 +161,15 @@ bool MainScene::init()
 	pMenuItem3->setScale(1.5);
 	pMenuItem3->setTag(3);
 	auto pMenuItem4 = MenuItemImage::create("Images/Scene/WindLand.png", "Images/Scene/WindLand_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
-	pMenuItem4->setPosition(Vec2(535, 520));
+	pMenuItem4->setPosition(Vec2(535, 500));
 	pMenuItem4->setScale(1.5);
 	pMenuItem4->setTag(4);
 	auto pMenuItem5 = MenuItemImage::create("Images/Scene/Store.png", "Images/Scene/Store_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
-	pMenuItem5->setPosition(Vec2(620, 60));
+	pMenuItem5->setPosition(Vec2(660, 60));
 	pMenuItem5->setScale(1.5);
 	pMenuItem5->setTag(5);
 	auto pMenuItem6 = MenuItemImage::create("Images/Scene/Classchange.png", "Images/Scene/Classchange_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
-	pMenuItem6->setPosition(Vec2(80, 80));
+	pMenuItem6->setPosition(Vec2(140, 80));
 	pMenuItem6->setScale(1.5);
 	pMenuItem6->setTag(6);
 	auto pMenuItem7 = MenuItemImage::create("Images/Scene/Back.png", "Images/Scene/Back_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
@@ -198,7 +235,8 @@ void MainScene::createDatabase()
 								level integer, \
 								Item1 integer, \
 								Item2 integer, \
-								Item3 integer)";
+								Item3 integer, \
+								Exp integer)";
 	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
 	
 	sqlStr = "create table IF NOT EXISTS Player( \
@@ -273,7 +311,7 @@ void MainScene::insertData(Ref* pSender)
 	sqlStr = "insert into Items(_ID, Num) values (7, 0)";
 	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
 	//Monster table
-	sqlStr = "insert into Monster(Monster_Id, Type, level, Item1, Item2, Item3) values (0, 0, 1, 0, 0, 0)";
+	sqlStr = "insert into Monster(Monster_Id, Type, level, Item1, Item2, Item3, Exp) values (0, 0, 1, 0, 0, 0, 0)";
 	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
 	//Player table
 	sqlStr = "insert into Player(_id, Coin) values (1, 0)";

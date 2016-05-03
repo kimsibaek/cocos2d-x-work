@@ -28,29 +28,26 @@ public:
 	std::string dbfileName;
 
 	cocos2d::SpriteFrameCache *cache;
-
-	//Map test character;
-	void onMapCharacter();
-	cocos2d::Vector<cocos2d::Sprite*> TestPosition;
-
-	void onCreateCharacter();
-	void onCreateEmyCharacter();
-	void FocusCharacter();
-
-	bool ChecksPosition(int num1, int num2);
-	bool ChecksPosition(cocos2d::Vec2 charactor, int pose, bool check);
-
+	//이동 경로 표시
 	cocos2d::Vector<cocos2d::Sprite*> MovePosition;
-	//cocos2d::Vector<cocos2d::Sprite*> Position;
+
 	struct Position {
 		Position *pos2;
 		int pos2Size;
 		int num;
 		int x;
 		int y;
+
+		int front_x;
+		int front_y;
 	};
 	Position *pos;
 	int posSize = 0;
+	
+	Position *shortpass;
+	int shortpassSize = 0;
+
+	int mons;
 
 	cocos2d::Sprite* pause;
 
@@ -64,8 +61,14 @@ public:
 	virtual void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
 	virtual void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
 	cocos2d::Vec2 tileCoordForPosition(cocos2d::Vec2 position);
-	void FindLoad(cocos2d::Vec2 charactor, cocos2d::Vec2 move);
 	cocos2d::Vec2 FindCoordPosition(cocos2d::Vec2 pos);
+	void onCreateCharacter();
+	void onCreateEmyCharacter();
+	void FocusCharacter();
+
+	bool ChecksPosition(int num1, int num2);
+	bool ChecksPosition(cocos2d::Vec2 charactor, int pose, bool check);
+	bool checkcoordinate(cocos2d::Vec2 click);
 };
 
 #endif // __EarthMap_SCENE_H__

@@ -24,13 +24,16 @@ struct Monster_num {
 	bool upgrade;
 
 	cocos2d::Sprite *sprite;
-
+	//화면이동좌표
 	float xMovePosition;
 	float yMovePosition;
-
+	//본좌표
 	float xPosition;
 	float yPosition;
-	
+	//타일좌표
+	int tx=0;
+	int ty=0;
+
 };
 
 //객체 생성

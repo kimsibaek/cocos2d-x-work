@@ -89,22 +89,18 @@ bool EarthMap::init()
 	pause = Sprite::create("Images/Scene/pause.png");
 	pause->setPosition(Vec2(1230, 670));
 	pause->setScale(0.4);
-	this->addChild(pause, 3);
+	this->addChild(pause, 4);
 
 	NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(EarthMap::doMsgReceived), "TouchStatus", nullptr);
 
 	//DB불러오기
 	dbfileName = cocos2d::FileUtils::getInstance()->getWritablePath();
-	log("%s", dbfileName.c_str());
-	//dbfileName = "C:\\cocos2d-x-work\\0000.Project\\SpiritualSoul\\Resources\\";
-	//dbfileName = "C:\\cocos2d-x-work\\SpiritualSoul\\Resources\\";
 	//log("%s", dbfileName.c_str());
 	dbfileName = dbfileName + "SpiritualSoul.sqlite";
-	log("%s", dbfileName.c_str());
+	//log("%s", dbfileName.c_str());
 	
 	onCreateCharacter();
 	onCreateEmyCharacter();
-	//onMapCharacter();
 	//주인공이 화면의 센터로
 	FocusCharacter();
 
@@ -114,41 +110,6 @@ bool EarthMap::init()
 	return true;
 }
 
-void EarthMap::onMapCharacter() {
-	for (int i = 1; i < 31; i++) {
-		for (int m = 1; m < 31; m++) {
-			auto cache = SpriteFrameCache::getInstance();
-			char str1[100];
-			char str2[100];
-			Vector<SpriteFrame*> animFrames;
-			Sprite* sprite;
-			cache->addSpriteFramesWithFile("Plist/Person.plist");
-			sprite = Sprite::createWithSpriteFrameName("Person1-1.png");
-			sprintf(str1, "Person1-");
-			sprite->setScale(1.5);
-			if (m%2 == 0) {
-				sprite->setPosition(32 + 64 * i, 1551 - (65 + 48 * m)); 
-				
-			}
-			else {
-				sprite->setPosition( 64 * i, 1551 - (65 + 48 * m));
-			}
-			//log("%d, %d, %f, %f", i, m, sprite->getPosition().x, sprite->getPosition().y);
-			this->addChild(sprite, 3);
-			TestPosition.pushBack(sprite);
-			for (int i = 1; i < 5; i++) {
-				sprintf(str2, "%s%d.png", str1, i);
-				SpriteFrame* frame = cache->getSpriteFrameByName(str2);
-				animFrames.pushBack(frame);
-			}
-
-			auto animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
-			auto animate = Animate::create(animation);
-			auto rep = RepeatForever::create(animate);
-			sprite->runAction(rep);
-		}
-	}
-}
 //주인공 생성
 void EarthMap::onCreateCharacter() {
 	sqlite3* pDB = NULL;
@@ -188,8 +149,6 @@ void EarthMap::onCreateCharacter() {
 			int	Item3 = sqlite3_column_int(statement, 5);
 			int	Exp = sqlite3_column_int(statement, 6);
 
-			//log("ID = %d, Type = %d, level = %d, Item1 = %d, Item2 = %d, Item3 = %d", ID, Type, level, Item1, Item2, Item3);
-			
 			monster_char[monsterSize].ID = ID;
 			monster_char[monsterSize].Type = Type;
 			monster_char[monsterSize].level = level;
@@ -199,7 +158,6 @@ void EarthMap::onCreateCharacter() {
 			monster_char[monsterSize].exp = Exp;
 
 			monster_char[monsterSize]._turn = true;
-			//log("ID = %d, Type = %d, level = %d, Item1 = %d, Item2 = %d, Item3 = %d", monster_char[monsterSize].ID, monster_char[monsterSize].Type, monster_char[monsterSize].level, monster_char[monsterSize].Item1, monster_char[monsterSize].Item2, monster_char[monsterSize].Item3);
 			monsterSize++;
 			break;
 		}
@@ -216,55 +174,55 @@ void EarthMap::onCreateCharacter() {
 		monster_char[0].move = 3;
 	}
 
-	for (int i = 0; i < monsterSize; i++) {
-		int num1 = rand() % 30 + 1;
-		int num2 = rand() % 30 + 1;
+	int num1 = rand() % 30 + 1;
+	int num2 = rand() % 30 + 1;
 
-		while (!ChecksPosition(num1, num2)) {
-			num1 = rand() % 30 + 1;
-			num2 = rand() % 30 + 1;
-		}
-
-		char str1[100];
-		char str2[100];
-		Vector<SpriteFrame*> animFrames;
-		//log("monster_char[i].Type : %d", monster_char[i].Type);
-		if (monster_char[i].Type == 0) {
-			
-			monster_char[i].sprite = Sprite::createWithSpriteFrameName("Person1-1.png");
-			sprintf(str1, "Person1-");
-		}
-
-		monster_char[i].sprite->setScale(1.5);
-		if (num2 % 2 == 0) {
-			monster_char[i].sprite->setPosition(32 + 64 * num1, 1551 - (75 + 48 * num2));
-			monster_char[i].xPosition = 32 + 64 * num1;
-			monster_char[i].yPosition = 1551 - (75 + 48 * num2);
-			monster_char[i].xMovePosition = 32 + 64 * num1;
-			monster_char[i].yMovePosition = 1551 - (75 + 48 * num2);
-		}
-		else {
-			monster_char[i].sprite->setPosition(64 * num1, 1551 - (75 + 48 * num2));
-			monster_char[i].xPosition = 64 * num1;
-			monster_char[i].yPosition = 1551 - (75 + 48 * num2);
-			monster_char[i].xMovePosition = 64 * num1;
-			monster_char[i].yMovePosition = 1551 - (75 + 48 * num2);
-		}
-		//log("monster_char[i] = %f, %f", monster_char[i].xPosition, monster_char[i].yPosition);
-		this->addChild(monster_char[i].sprite, 3);
-
-		for (int i = 1; i < 5; i++) {
-			sprintf(str2, "%s%d.png", str1, i);
-			SpriteFrame* frame = cache->getSpriteFrameByName(str2);
-			animFrames.pushBack(frame);
-		}
-
-		auto animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
-		auto animate = Animate::create(animation);
-		auto rep = RepeatForever::create(animate);
-		monster_char[i].sprite->runAction(rep);
+	while (!ChecksPosition(num1, num2)) {
+		num1 = rand() % 30 + 1;
+		num2 = rand() % 30 + 1;
 	}
-	
+	monster_char[0].tx = num1;
+	monster_char[0].ty = num2;
+	log("monster = %d, %d", num1, num2);
+	char str1[100];
+	char str2[100];
+	Vector<SpriteFrame*> animFrames;
+	//log("monster_char[i].Type : %d", monster_char[i].Type);
+	if (monster_char[0].Type == 0) {
+			
+		monster_char[0].sprite = Sprite::createWithSpriteFrameName("Person1-1.png");
+		sprintf(str1, "Person1-");
+	}
+
+	monster_char[0].sprite->setScale(1.5);
+	if (num2 % 2 == 0) {
+		monster_char[0].sprite->setPosition(64 * num1, 1551 - (37 + 48 * num2));
+		monster_char[0].xPosition = 64 * num1;
+		monster_char[0].yPosition = 1551 - (37 + 48 * num2);
+		monster_char[0].xMovePosition = 64 * num1;
+		monster_char[0].yMovePosition = 1551 - (37 + 48 * num2);
+	}
+	else {
+		monster_char[0].sprite->setPosition(32 + 64 * num1, 1551 - (37 + 48 * num2));
+		monster_char[0].xPosition = 32 + 64 * num1;
+		monster_char[0].yPosition = 1551 - (37 + 48 * num2);
+		monster_char[0].xMovePosition = 32 + 64 * num1;
+		monster_char[0].yMovePosition = 1551 - (37 + 48 * num2);
+	}
+	//log("monster_char[i] = %f, %f", monster_char[i].xPosition, monster_char[i].yPosition);
+	this->addChild(monster_char[0].sprite, 3);
+
+	for (int i = 1; i < 5; i++) {
+		sprintf(str2, "%s%d.png", str1, i);
+		SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+		animFrames.pushBack(frame);
+	}
+
+	auto animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
+	auto animate = Animate::create(animation);
+	auto rep = RepeatForever::create(animate);
+	monster_char[0].sprite->runAction(rep);
+
 }
 
 void EarthMap::onCreateEmyCharacter() {
@@ -291,8 +249,6 @@ void EarthMap::onCreateEmyCharacter() {
 		int	Item2 = 0;
 		int	Item3 = 0;
 
-		//log("ID = %d, Type = %d, level = %d, Item1 = %d, Item2 = %d, Item3 = %d", ID, Type, level, Item1, Item2, Item3);
-
 		EmyMonster_char[EmyMonsterSize].ID = ID;
 		EmyMonster_char[EmyMonsterSize].Type = Type;
 		EmyMonster_char[EmyMonsterSize].level = level;
@@ -303,7 +259,6 @@ void EarthMap::onCreateEmyCharacter() {
 		EmyMonster_char[EmyMonsterSize].exp = 0;
 
 		EmyMonster_char[EmyMonsterSize]._turn = false;
-		//log("ID = %d, Type = %d, level = %d, Item1 = %d, Item2 = %d, Item3 = %d", monster_char[monsterSize].ID, monster_char[monsterSize].Type, monster_char[monsterSize].level, monster_char[monsterSize].Item1, monster_char[monsterSize].Item2, monster_char[monsterSize].Item3);
 		EmyMonsterSize++;
 	}
 
@@ -315,11 +270,12 @@ void EarthMap::onCreateEmyCharacter() {
 			num1 = rand() % 30 + 1;
 			num2 = rand() % 30 + 1;
 		}
-
+		EmyMonster_char[i].tx = num1;
+		EmyMonster_char[i].ty = num2;
+		log("EmyMonster[%d] = %d, %d", i, num1, num2);
 		char str1[100];
 		char str2[100];
 		Vector<SpriteFrame*> animFrames;
-		//log("monster_char[i].Type : %d", EmyMonster_char[i].Type);
 		//땅질퍽이
 		if (EmyMonster_char[i].Type == 1) {
 			EmyMonster_char[i].atk = 15 + ((EmyMonster_char[i].level - 1) * 1.5);
@@ -577,7 +533,7 @@ void EarthMap::onCreateEmyCharacter() {
 			EmyMonster_char[i].atk = 15 + ((EmyMonster_char[i].level - 1) * 1.5);
 			EmyMonster_char[i].def = 3 + ((EmyMonster_char[i].level - 1) * 0.3);
 			EmyMonster_char[i].hp = 30 + ((EmyMonster_char[i].level - 1) * 3);
-			EmyMonster_char[i].move = 4;
+			EmyMonster_char[i].move = 3;
 			EmyMonster_char[i].range = 1;
 			EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind1-1.png");
 			sprintf(str1, "Wind1-");
@@ -586,7 +542,7 @@ void EarthMap::onCreateEmyCharacter() {
 			EmyMonster_char[i].atk = 20 + ((EmyMonster_char[i].level - 1) * 2);
 			EmyMonster_char[i].def = 4 + ((EmyMonster_char[i].level - 1) * 0.4);
 			EmyMonster_char[i].hp = 45 + ((EmyMonster_char[i].level - 1) * 4.5);
-			EmyMonster_char[i].move = 4;
+			EmyMonster_char[i].move = 3;
 			EmyMonster_char[i].range = 1;
 			EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind2-1.png");
 			sprintf(str1, "Wind2-");
@@ -595,7 +551,7 @@ void EarthMap::onCreateEmyCharacter() {
 			EmyMonster_char[i].atk = 30 + ((EmyMonster_char[i].level - 1) * 3);
 			EmyMonster_char[i].def = 5 + ((EmyMonster_char[i].level - 1) * 0.5);
 			EmyMonster_char[i].hp = 60 + ((EmyMonster_char[i].level - 1) * 6);
-			EmyMonster_char[i].move = 4;
+			EmyMonster_char[i].move = 3;
 			EmyMonster_char[i].range = 1;
 			EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind3-1.png");
 			sprintf(str1, "Wind3-");
@@ -605,7 +561,7 @@ void EarthMap::onCreateEmyCharacter() {
 			EmyMonster_char[i].atk = 10 + ((EmyMonster_char[i].level - 1) * 1.0);
 			EmyMonster_char[i].def = 3 + ((EmyMonster_char[i].level - 1) * 0.3);
 			EmyMonster_char[i].hp = 30 + ((EmyMonster_char[i].level - 1) * 3);
-			EmyMonster_char[i].move = 4;
+			EmyMonster_char[i].move = 3;
 			EmyMonster_char[i].range = 1;
 			EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind4-1.png");
 			sprintf(str1, "Wind4-");
@@ -614,7 +570,7 @@ void EarthMap::onCreateEmyCharacter() {
 			EmyMonster_char[i].atk = 20 + ((EmyMonster_char[i].level - 1) * 2);
 			EmyMonster_char[i].def = 4 + ((EmyMonster_char[i].level - 1) * 0.4);
 			EmyMonster_char[i].hp = 45 + ((EmyMonster_char[i].level - 1) * 4.5);
-			EmyMonster_char[i].move = 4;
+			EmyMonster_char[i].move = 3;
 			EmyMonster_char[i].range = 1;
 			EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind5-1.png");
 			sprintf(str1, "Wind5-");
@@ -623,7 +579,7 @@ void EarthMap::onCreateEmyCharacter() {
 			EmyMonster_char[i].atk = 35 + ((EmyMonster_char[i].level - 1) * 3.5);
 			EmyMonster_char[i].def = 5 + ((EmyMonster_char[i].level - 1) * 0.5);
 			EmyMonster_char[i].hp = 60 + ((EmyMonster_char[i].level - 1) * 6);
-			EmyMonster_char[i].move = 4;
+			EmyMonster_char[i].move = 3;
 			EmyMonster_char[i].range = 1;
 			EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind6-1.png");
 			sprintf(str1, "Wind6-");
@@ -633,7 +589,7 @@ void EarthMap::onCreateEmyCharacter() {
 			EmyMonster_char[i].atk = 10 + ((EmyMonster_char[i].level - 1) * 1.0);
 			EmyMonster_char[i].def = 3 + ((EmyMonster_char[i].level - 1) * 0.3);
 			EmyMonster_char[i].hp = 30 + ((EmyMonster_char[i].level - 1) * 3);
-			EmyMonster_char[i].move = 4;
+			EmyMonster_char[i].move = 3;
 			EmyMonster_char[i].range = 2;
 			EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind7-1.png");
 			sprintf(str1, "Wind7-");
@@ -642,7 +598,7 @@ void EarthMap::onCreateEmyCharacter() {
 			EmyMonster_char[i].atk = 15 + ((EmyMonster_char[i].level - 1) * 1.5);
 			EmyMonster_char[i].def = 4 + ((EmyMonster_char[i].level - 1) * 0.4);
 			EmyMonster_char[i].hp = 45 + ((EmyMonster_char[i].level - 1) * 4.5);
-			EmyMonster_char[i].move = 4;
+			EmyMonster_char[i].move = 3;
 			EmyMonster_char[i].range = 2;
 			EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind8-1.png");
 			sprintf(str1, "Wind8-");
@@ -651,7 +607,7 @@ void EarthMap::onCreateEmyCharacter() {
 			EmyMonster_char[i].atk = 25 + ((EmyMonster_char[i].level - 1) * 2.5);
 			EmyMonster_char[i].def = 5 + ((EmyMonster_char[i].level - 1) * 0.5);
 			EmyMonster_char[i].hp = 60 + ((EmyMonster_char[i].level - 1) * 6);
-			EmyMonster_char[i].move = 4;
+			EmyMonster_char[i].move = 3;
 			EmyMonster_char[i].range = 2;
 			EmyMonster_char[i].sprite = Sprite::createWithSpriteFrameName("Wind9-1.png");
 			sprintf(str1, "Wind9-");
@@ -659,20 +615,19 @@ void EarthMap::onCreateEmyCharacter() {
 		
 		EmyMonster_char[i].sprite->setScale(1.5);
 		if (num2 % 2 == 0) {
-			EmyMonster_char[i].sprite->setPosition(32 + 64 * num1, 1551 - (75 + 48 * num2));
-			EmyMonster_char[i].xPosition = 32 + 64 * num1;
-			EmyMonster_char[i].yPosition = 1551 - (75 + 48 * num2);
-			EmyMonster_char[i].xMovePosition = 32 + 64 * num1;
-			EmyMonster_char[i].yMovePosition = 1551 - (75 + 48 * num2);
+			EmyMonster_char[i].sprite->setPosition(64 * num1, 1551 - (37 + 48 * num2));
+			EmyMonster_char[i].xPosition = 64 * num1;
+			EmyMonster_char[i].yPosition = 1551 - (37 + 48 * num2);
+			EmyMonster_char[i].xMovePosition = 64 * num1;
+			EmyMonster_char[i].yMovePosition = 1551 - (37 + 48 * num2);
 		}
 		else {
-			EmyMonster_char[i].sprite->setPosition(64 * num1, 1551 - (75 + 48 * num2));
-			EmyMonster_char[i].xPosition = 64 * num1;
-			EmyMonster_char[i].yPosition = 1551 - (75 + 48 * num2);
-			EmyMonster_char[i].xMovePosition = 64 * num1;
-			EmyMonster_char[i].yMovePosition = 1551 - (75 + 48 * num2);
+			EmyMonster_char[i].sprite->setPosition(32 + 64 * num1, 1551 - (37 + 48 * num2));
+			EmyMonster_char[i].xPosition = 32 + 64 * num1;
+			EmyMonster_char[i].yPosition = 1551 - (37 + 48 * num2);
+			EmyMonster_char[i].xMovePosition = 32 + 64 * num1;
+			EmyMonster_char[i].yMovePosition = 1551 - (37 + 48 * num2);
 		}
-		//log("EmyMonster_char[i] = %f, %f", EmyMonster_char[i].xPosition, EmyMonster_char[i].yPosition);
 		this->addChild(EmyMonster_char[i].sprite, 3);
 
 		for (int i = 1; i < 5; i++) {
@@ -715,7 +670,6 @@ void EarthMap::FocusCharacter() {
 	}
 	//아군 몬스터
 	for (int i = 0; i < monsterSize; i++) {
-		//log("move %f, %f", monster_char[i].xMovePosition, monster_char[i].yMovePosition);
 		monster_char[i].xMovePosition = monster_char[i].xPosition - dx;
 		monster_char[i].yMovePosition = monster_char[i].yPosition - dy;
 		if (monster_char[i].xMovePosition < monster_char[i].xPosition - 733) {
@@ -735,7 +689,6 @@ void EarthMap::FocusCharacter() {
 
 	//적군 몬스터
 	for (int i = 0; i < EmyMonsterSize; i++) {
-		//log("move %f, %f", monster_char[i].xMovePosition, monster_char[i].yMovePosition);
 		EmyMonster_char[i].xMovePosition = EmyMonster_char[i].xPosition - dx;
 		EmyMonster_char[i].yMovePosition = EmyMonster_char[i].yPosition - dy;
 		if (EmyMonster_char[i].xMovePosition < EmyMonster_char[i].xPosition - 733) {
@@ -768,7 +721,6 @@ void EarthMap::FocusCharacter() {
 	else if (y > 767.5) {
 		y = 767.5;
 	}
-	//log("BG = %f, %f", x, y);
 
 	BG->setPosition(Vec2(x, y));
 	float tx = tmap->getPosition().x - dx;
@@ -788,33 +740,13 @@ void EarthMap::FocusCharacter() {
 	//움직인 타일맵의 위치를 가지고 클릭좌표를 계산
 	MovePositionX = tx;
 	MovePositionY = ty;
-	//log("tmap = %f, %f", tx, ty);
 	tmap->setPosition(Vec2(tx, ty));
-}
-
-bool EarthMap::ChecksPosition(int num1, int num2) {
-	//Vec2 pos; 
-	Vec2 tileCoord = Vec2(num1, num2);
-	int tileGid = this->metainfo->getTileGIDAt(tileCoord);
-	if (tileGid) {
-		Value properties = tmap->getPropertiesForGID(tileGid);
-
-		if (!properties.isNull()) {
-			std::string item1 = properties.asValueMap()["Items"].asString();
-			if (item1 == "wall") {
-				log("wall....");
-				return false;
-			}
-		}
-	}
-	return true;
 }
 
 void EarthMap::doMsgReceived(Ref* obj) {
 	char *inputStr = (char*)obj;
 	char testText[20];
 	sprintf(testText, "%s", inputStr);
-	//log("%s", testText);
 	if (!strcmp(testText, "0")) {
 		Director::getInstance()->pause();
 	}
@@ -843,7 +775,6 @@ void EarthMap::onEnter() {
 }
 
 void EarthMap::onExit() {
-	//_eventDispatcher->removeEventListenersForType(EventListener::Type::TOUCH_ONE_BY_ONE);
 	Layer::onExit();
 }
 
@@ -856,8 +787,6 @@ bool EarthMap::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) {
 	MovePosition.clear();
 	bool bTouch = pause->getBoundingBox().containsPoint(touchPoint);
 	if (bTouch) {
-		//log("Sprite clicked...");
-		//Director::getInstance()->pause();
 		Scene* popWin;
 		popWin = pauseScene::createScene();
 		this->addChild(popWin, 2000, 2000);
@@ -874,10 +803,20 @@ void EarthMap::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) {
 	EndDragPosition = touchPoint;
 
 	MovePositionDX -= (EndDragPosition.x - StartDragPosition.x);
+	if (MovePositionDX < 0 ) {
+		MovePositionDX = 0;
+	}
+	else if (MovePositionDX > 733) {
+		MovePositionDX = 733;
+	}
 	MovePositionDY -= (EndDragPosition.y - StartDragPosition.y);
-
+	if (MovePositionDY < 0) {
+		MovePositionDY = 0;
+	}
+	else if (MovePositionDY > 799.5) {
+		MovePositionDY = 799.5;
+	}
 	for (int i = 0; i < monsterSize; i++) {
-		//log("move %f, %f", monster_char[i].xMovePosition, monster_char[i].yMovePosition);
 		monster_char[i].xMovePosition = monster_char[i].xMovePosition + (EndDragPosition.x - StartDragPosition.x);
 		monster_char[i].yMovePosition = monster_char[i].yMovePosition + (EndDragPosition.y - StartDragPosition.y);
 		if (monster_char[i].xMovePosition < monster_char[i].xPosition-733) {
@@ -896,7 +835,6 @@ void EarthMap::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) {
 	}
 	
 	for (int i = 0; i < EmyMonsterSize; i++) {
-		//log("move %f, %f", EmyMonster_char[i].xMovePosition, EmyMonster_char[i].yMovePosition);
 		EmyMonster_char[i].xMovePosition = EmyMonster_char[i].xMovePosition + (EndDragPosition.x - StartDragPosition.x);
 		EmyMonster_char[i].yMovePosition = EmyMonster_char[i].yMovePosition + (EndDragPosition.y - StartDragPosition.y);
 		if (EmyMonster_char[i].xMovePosition < EmyMonster_char[i].xPosition - 733) {
@@ -928,7 +866,6 @@ void EarthMap::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) {
 	else if (y > 767.5) {
 		y = 767.5;
 	}
-	//log("BG = %f, %f", x, y);
 	BG->setPosition(Vec2(x, y));
 	float tx = tmap->getPosition().x + (EndDragPosition.x - StartDragPosition.x);
 	float ty = tmap->getPosition().y + (EndDragPosition.y - StartDragPosition.y);
@@ -944,7 +881,6 @@ void EarthMap::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) {
 	else if (ty > -16) {
 		ty = -16;
 	}
-	//log("tmap = %f, %f", tx, ty);
 	tmap->setPosition(Vec2(tx, ty));
 
 	MovePositionX = tx;
@@ -956,34 +892,35 @@ void EarthMap::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) {
 void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 	char str1[100];
 	char str2[100];
+
 	Vector<SpriteFrame*> animFrames;
 	auto touchPoint = touch->getLocation();
 	touchPoint = this->convertToNodeSpace(touchPoint);
+	//클릭타일좌표
 	Vec2 m_pos = tileCoordForPosition(touchPoint);
-	log("m_pos = %f, %f", m_pos.x, m_pos.y);
 	if (ChecksPosition(m_pos.x, m_pos.y)) {
-
+		//몬스터 위치 중복체크
+		//장애물 클릭체크
 	}
+	else {
+		//몬스터 위치 클릭됨
+		//장애물 클릭됨
+	}
+
 	
-	//주인공 선택시 이동경로 표시
-	Vec2 mon_pos = tileCoordForPosition(Vec2(monster_char[0].xMovePosition, monster_char[0].yMovePosition));
-	log("mon_pos = %f, %f", mon_pos.x, mon_pos.y);
-	//Vec2 mon_pos1 = PositionCoordForTile(Vec2(mon_pos.x, mon_pos.y));
-
-	//주인공이 클릭상태일 경우
+	//아군몬스터가 클릭상태일 경우
 	if (CharacterClick) {
-		//주인공을 클릭시
+		//아군몬스터 선택시
+		Vec2 mon_pos = tileCoordForPosition(Vec2(monster_char[mons].xMovePosition, monster_char[mons].yMovePosition));
+		//아군몬스터를 클릭시
 		if (m_pos == mon_pos) {
-			//log("mon_pos1 = %f, %f", mon_pos.x, mon_pos.y);
+			log("소환, 도구");
 		}
-		//주인공 범위내 클릭시
-		else if (abs(mon_pos.x - m_pos.x) + abs(mon_pos.y - m_pos.y) <= 3) {
-			FindLoad(mon_pos, m_pos);
-			//log("m_pos2 = %f, %f", m_pos.x, m_pos.y);
+		//아군몬스터 범위내 클릭시
+		else if (checkcoordinate(m_pos)) {
 			//오른쪽 스프라이트
-			if (mon_pos.x < m_pos.x) {
-
-				monster_char[0].sprite->setTexture(Director::getInstance()->getTextureCache()->addImage("Person1-5.png"));
+			if (fmodf(mon_pos.y, 2) == 0 && mon_pos.x == m_pos.x || mon_pos.x < m_pos.x) {
+				monster_char[mons].sprite->setTexture(Director::getInstance()->getTextureCache()->addImage("Person1-5.png"));
 				sprintf(str1, "Person1-");
 				for (int i = 5; i < 9; i++) {
 					sprintf(str2, "%s%d.png", str1, i);
@@ -994,12 +931,12 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 				auto animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
 				auto animate = Animate::create(animation);
 				auto rep = RepeatForever::create(animate);
-				monster_char[0].sprite->stopAllActions();
-				monster_char[0].sprite->runAction(rep);
+				monster_char[mons].sprite->stopAllActions();
+				monster_char[mons].sprite->runAction(rep);
 			}
 			//왼쪽 스프라이트
 			else {
-				monster_char[0].sprite->setTexture(Director::getInstance()->getTextureCache()->addImage("Person1-1.png"));
+				monster_char[mons].sprite->setTexture(Director::getInstance()->getTextureCache()->addImage("Person1-1.png"));
 				sprintf(str1, "Person1-");
 				for (int i = 1; i < 5; i++) {
 					sprintf(str2, "%s%d.png", str1, i);
@@ -1010,168 +947,162 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 				auto animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
 				auto animate = Animate::create(animation);
 				auto rep = RepeatForever::create(animate);
-				monster_char[0].sprite->stopAllActions();
-				monster_char[0].sprite->runAction(rep);
+				monster_char[mons].sprite->stopAllActions();
+				monster_char[mons].sprite->runAction(rep);
 			}
+			
 			//이동
+			//초기화
+			if (shortpassSize) {
+				free(shortpass);
+				shortpassSize = 0;
+			}
+			for (int m = 0; m < posSize; m++) {
+				if (pos[m].x == m_pos.x && pos[m].y == m_pos.y) {
+					if (shortpassSize)	shortpass = (Position*)realloc(shortpass,	sizeof(Position) * (shortpassSize + 1));
+					else				shortpass = (Position*)malloc(				sizeof(Position) * (shortpassSize + 1));
+					shortpass[shortpassSize].num = 1;
+					shortpass[shortpassSize].x = pos[m].x;
+					shortpass[shortpassSize].y = pos[m].y;
+					shortpassSize++;
+				}
+				if (pos[m].pos2Size) {
+					for (int k = 0; k < pos[m].pos2Size; k++) {
+						if (pos[m].pos2[k].x == m_pos.x && pos[m].pos2[k].y == m_pos.y) {
+							if (shortpassSize)	shortpass = (Position*)realloc(shortpass, sizeof(Position) * (shortpassSize + 1));
+							else				shortpass = (Position*)malloc(sizeof(Position) * (shortpassSize + 1));
+							shortpass[shortpassSize].num = 2;
+							shortpass[shortpassSize].front_x = pos[m].x;
+							shortpass[shortpassSize].front_y = pos[m].y;
+							shortpass[shortpassSize].x = pos[m].pos2[k].x;
+							shortpass[shortpassSize].y = pos[m].pos2[k].y;
+							shortpassSize++;
+						}
+					}
+				}
+			}
+			bool pass = false;
+			for (int k = 0; k < shortpassSize; k++) {
+				if (shortpass[k].num == 1) {
+					log("shortpass[%d] = %d, xy = %d, %d", k, shortpass[k].num, shortpass[k].x, shortpass[k].y);
+					Vec2 vec = FindCoordPosition(Vec2(shortpass[k].x, shortpass[k].y));
+					auto animate = MoveTo::create(0.5, Vec2(vec.x, vec.y + 30));
+					monster_char[mons].sprite->runAction(animate);
+					pass = true;
+					//이동 좌표 저장
+					monster_char[mons].tx = shortpass[k].x;
+					monster_char[mons].ty = shortpass[k].y;
 
+					monster_char[mons].xPosition += vec.x - monster_char[mons].xMovePosition;
+					monster_char[mons].yPosition += vec.y + 30 - monster_char[mons].yMovePosition;
+
+					monster_char[mons].xMovePosition = vec.x;
+					monster_char[mons].yMovePosition = vec.y + 30;
+
+					break;
+				}
+			}
+			if (!pass) {
+				for (int k = 0; k < shortpassSize; k++) {
+					if (shortpass[k].num == 2) {
+						log("shortpass[%d] = %d, front = %d, %d, xy = %d, %d", k, shortpass[k].num, shortpass[k].front_x, shortpass[k].front_y, shortpass[k].x, shortpass[k].y);
+						Vec2 vec = FindCoordPosition(Vec2(shortpass[k].front_x, shortpass[k].front_y));
+						auto animate = MoveTo::create(0.5, Vec2(vec.x, vec.y + 30));
+
+						monster_char[mons].tx = shortpass[k].front_x;
+						monster_char[mons].ty = shortpass[k].front_y;
+
+						monster_char[mons].xPosition += vec.x - monster_char[mons].xMovePosition;
+						monster_char[mons].yPosition += vec.y + 30 - monster_char[mons].yMovePosition;
+
+						monster_char[mons].xMovePosition = vec.x;
+						monster_char[mons].yMovePosition = vec.y + 30;
+
+						Vec2 vec1 = FindCoordPosition(Vec2(shortpass[k].x, shortpass[k].y));
+						auto animate1 = MoveTo::create(0.5, Vec2(vec1.x, vec1.y + 30));
+
+						monster_char[mons].tx = shortpass[k].x;
+						monster_char[mons].ty = shortpass[k].y;
+
+						monster_char[mons].xPosition += vec1.x - monster_char[mons].xMovePosition;
+						monster_char[mons].yPosition += vec1.y + 30 - monster_char[mons].yMovePosition;
+
+						monster_char[mons].xMovePosition = vec1.x;
+						monster_char[mons].yMovePosition = vec1.y + 30;
+
+						auto myAction = Sequence::create(animate, animate1, nullptr);
+						monster_char[mons].sprite->runAction(myAction);
+						pass = true;
+						break;
+					}
+				}
+			}
+			
+		}
+		CharacterClick = false;
+	}
+	else {
+		//아군몬스터 선택시
+		mons = -1;
+		for (int m = 0; m < monsterSize; m++) {
+			if (monster_char[m].tx == m_pos.x && monster_char[m].ty == m_pos.y) {
+				mons = m;
+				break;
+			}
+		}
+		if (mons == -1) {
+			return;
+		}
+		Vec2 mon_pos = tileCoordForPosition(Vec2(monster_char[mons].xMovePosition, monster_char[mons].yMovePosition));
+		//이동경로 표시
+		if (m_pos == mon_pos) {
+			if (posSize) {
+				free(pos);
+				posSize = 0;
+			}
+
+			ChecksPosition(mon_pos, 0, true);
+
+			for (int m = 0; m < posSize; m++) {
+				Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo1.png");
+				Vec2 posit = FindCoordPosition(Vec2(pos[m].x, pos[m].y));
+				sp->setPosition(posit.x - 2, posit.y + 17);
+				MovePosition.pushBack(sp);
+
+				if (pos[m].pos2Size) {
+
+					for (int k = 0; k < pos[m].pos2Size; k++) {
+						Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo1.png");
+						Vec2 posit2 = FindCoordPosition(Vec2(pos[m].pos2[k].x, pos[m].pos2[k].y));
+						sp->setPosition(posit2.x - 2, posit2.y + 17);
+						MovePosition.pushBack(sp);
+					}
+				}
+			}
+			//클릭상태표시
+			CharacterClick = true;
+			//이동경로 sprite 띄우기
+			for (int i = 0; i < MovePosition.size(); i++) {
+				this->addChild(MovePosition.at(i), 2);
+			}
 		}
 	}
-	if (m_pos == mon_pos) {
-		if (posSize) {
-			free(pos);
-			posSize = 0;
+}
+
+bool EarthMap::checkcoordinate(Vec2 click) {
+	for (int m = 0; m < posSize; m++) {
+		if (pos[m].x == click.x && pos[m].y == click.y) {
+			return true;
 		}
-		
-		ChecksPosition(mon_pos, 0, true);
-
-		for (int m = 0; m < posSize; m++) {
-			log("pos[%d] = %d, %d", m, pos[m].x, pos[m].y);
-
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo1.png");
-			Vec2 posit = FindCoordPosition(Vec2(pos[m].x, pos[m].y));
-			sp->setPosition(posit.x - 1, posit.y + 18);
-			MovePosition.pushBack(sp);
-
-			if (pos[m].pos2Size) {
-				
-				for (int k = 0; k < pos[m].pos2Size; k++) {
-					//log("pos[%d].pos2[%d] = %d, %d", m, k, pos[m].pos2[k].x, pos[m].pos2[k].y);
-					Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo1.png");
-					Vec2 posit2 = FindCoordPosition(Vec2(pos[m].pos2[k].x, pos[m].pos2[k].y));
-					sp->setPosition(posit2.x - 1, posit2.y + 18);
-					MovePosition.pushBack(sp);
+		if (pos[m].pos2Size) {
+			for (int k = 0; k < pos[m].pos2Size; k++) {
+				if (pos[m].pos2[k].x == click.x && pos[m].pos2[k].y == click.y) {
+					return true;
 				}
 			}
 		}
-
-		CharacterClick = true;
-		/*
-		Vec2 test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition - 64, monster_char[0].yMovePosition));
-		if (ChecksPosition(test.x, test.y)) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 - 64, monster_char[0].yMovePosition - 21));
-			MovePosition.pushBack(sp);
-		}
-		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition - 128, monster_char[0].yMovePosition));
-		if (ChecksPosition(test.x, test.y)) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 - 128, monster_char[0].yMovePosition - 21));
-			MovePosition.pushBack(sp);
-		}
-		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition + 64, monster_char[0].yMovePosition));
-		if (ChecksPosition(test.x, test.y)) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 + 64, monster_char[0].yMovePosition - 21));
-			MovePosition.pushBack(sp);
-		}
-		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition + 128, monster_char[0].yMovePosition));
-		if (ChecksPosition(test.x, test.y)) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 + 128, monster_char[0].yMovePosition - 21));
-			MovePosition.pushBack(sp);
-		}
-		
-		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition - 32, monster_char[0].yMovePosition - 48));
-		if (ChecksPosition(test.x, test.y)) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 - 32, monster_char[0].yMovePosition - 21 - 48));
-			MovePosition.pushBack(sp);
-		}
-		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition - 64, monster_char[0].yMovePosition - 96));
-		if (ChecksPosition(test.x, test.y)) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 - 64, monster_char[0].yMovePosition - 21 - 96));
-			MovePosition.pushBack(sp);
-		}
-		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition + 32, monster_char[0].yMovePosition + 48));
-		if (ChecksPosition(test.x, test.y)) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 + 32, monster_char[0].yMovePosition - 21 + 48));
-			MovePosition.pushBack(sp);
-		}
-		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition + 64, monster_char[0].yMovePosition + 96));
-		if (ChecksPosition(test.x, test.y)) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 + 64, monster_char[0].yMovePosition - 21 + 96));
-			MovePosition.pushBack(sp);
-		}
-		
-		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition - 32, monster_char[0].yMovePosition + 48));
-		if (ChecksPosition(test.x, test.y)) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 - 32, monster_char[0].yMovePosition - 21 + 48));
-			MovePosition.pushBack(sp);
-		}
-		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition - 64, monster_char[0].yMovePosition + 96));
-		if (ChecksPosition(test.x, test.y)) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 - 64, monster_char[0].yMovePosition - 21 + 96));
-			MovePosition.pushBack(sp);
-		}
-		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition + 32, monster_char[0].yMovePosition - 48));
-		if (ChecksPosition(test.x, test.y)) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 + 32, monster_char[0].yMovePosition - 21 - 48));
-			MovePosition.pushBack(sp);
-		}
-		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition + 64, monster_char[0].yMovePosition - 96));
-		if (ChecksPosition(test.x, test.y)) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 + 64, monster_char[0].yMovePosition - 21 - 96));
-			MovePosition.pushBack(sp);
-		}
-		
-		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition, monster_char[0].yMovePosition + 96));
-		if (ChecksPosition(test.x, test.y)) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1, monster_char[0].yMovePosition - 21 + 96));
-			MovePosition.pushBack(sp);
-		}
-		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition, monster_char[0].yMovePosition - 96));
-		if (ChecksPosition(test.x, test.y)) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1, monster_char[0].yMovePosition - 21 - 96));
-			MovePosition.pushBack(sp);
-		}
-		
-		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition + 96, monster_char[0].yMovePosition + 48));
-		if (ChecksPosition(test.x, test.y)) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 + 96, monster_char[0].yMovePosition - 21 + 48));
-			MovePosition.pushBack(sp);
-		}
-		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition - 96, monster_char[0].yMovePosition + 48));
-		if (ChecksPosition(test.x, test.y)) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 - 96, monster_char[0].yMovePosition - 21 + 48));
-			MovePosition.pushBack(sp);
-		}
-		
-		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition + 96, monster_char[0].yMovePosition - 48));
-		if (ChecksPosition(test.x, test.y)) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 + 96, monster_char[0].yMovePosition - 21 - 48));
-			MovePosition.pushBack(sp);
-		}
-		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition - 96, monster_char[0].yMovePosition - 48));
-		if (ChecksPosition(test.x, test.y)) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1 - 96, monster_char[0].yMovePosition - 21 - 48));
-			MovePosition.pushBack(sp);
-		}
-		
-		test = tileCoordForPosition(Vec2(monster_char[0].xMovePosition, monster_char[0].yMovePosition));
-		if (ChecksPosition(test.x, test.y)) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			sp->setPosition(Vec2(monster_char[0].xMovePosition - 1, monster_char[0].yMovePosition - 21));
-			MovePosition.pushBack(sp);
-		}
-*/
-		for (int i = 0; i < MovePosition.size(); i++) {
-			this->addChild(MovePosition.at(i), 2);
-		}
 	}
+	return false;
 }
 
 Vec2 EarthMap::FindCoordPosition(Vec2 pos) {
@@ -1203,14 +1134,35 @@ Vec2 EarthMap::FindCoordPosition(Vec2 pos) {
 	//MovePositionY;
 }
 
-void EarthMap::FindLoad(Vec2 charactor, Vec2 move) {
-	int difx = charactor.x - move.x;
-	int dify = charactor.y - move.y;
-
-	if (abs(difx)+abs(dify) > 3) {
-		return;
+bool EarthMap::ChecksPosition(int num1, int num2) {
+	//Vec2 pos; 
+	if (num1 > 30 || num1 < 1 || num2 > 30 || num2 < 1) {
+		return false;
 	}
+	for (int i = 0; i < monsterSize; i++) {
+		if (monster_char[i].tx == num1 && monster_char[i].ty == num2) {
+			return false;
+		}
+	}
+	for (int i = 0; i < EmyMonsterSize; i++) {
+		if (EmyMonster_char[i].tx == num1 && EmyMonster_char[i].ty == num2) {
+			return false;
+		}
+	}
+	Vec2 tileCoord = Vec2(num1, num2);
+	int tileGid = this->metainfo->getTileGIDAt(tileCoord);
+	if (tileGid) {
+		Value properties = tmap->getPropertiesForGID(tileGid);
 
+		if (!properties.isNull()) {
+			std::string item1 = properties.asValueMap()["Items"].asString();
+			if (item1 == "wall") {
+				log("wall....");
+				return false;
+			}
+		}
+	}
+	return true;
 }
 
 bool EarthMap::ChecksPosition(Vec2 charactor, int pose, bool check) {
@@ -1397,7 +1349,6 @@ bool EarthMap::ChecksPosition(Vec2 charactor, int pose, bool check) {
 	}
 	return true;
 }
-
 
 Vec2 EarthMap::tileCoordForPosition(cocos2d::Vec2 position) {
 	position.x = position.x - MovePositionX;
