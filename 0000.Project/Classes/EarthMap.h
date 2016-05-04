@@ -28,8 +28,7 @@ public:
 	std::string dbfileName;
 
 	cocos2d::SpriteFrameCache *cache;
-	//이동 경로 표시
-	cocos2d::Vector<cocos2d::Sprite*> MovePosition;
+	
 
 	struct Position {
 		Position *pos2;
@@ -44,8 +43,16 @@ public:
 	Position *pos;
 	int posSize = 0;
 	
+	Position *Emypos;
+	int EmyposSize = 0;
+
 	Position *shortpass;
 	int shortpassSize = 0;
+
+	//이동 경로 표시
+	cocos2d::Vector<cocos2d::Sprite*> MovePosition;
+	//적 표시
+	cocos2d::Vector<cocos2d::Sprite*> EmyMovePosition;
 
 	int mons;
 

@@ -34,6 +34,8 @@ struct Monster_num {
 	int tx=0;
 	int ty=0;
 
+	float HPbarPosition;
+
 };
 
 //객체 생성
