@@ -44,3 +44,6 @@ extern int monsterSize;
 
 extern Monster_num *EmyMonster_char;
 extern int EmyMonsterSize;
+
+extern Monster_num *Monster_List;
+extern int MonsterListSize;

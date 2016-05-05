@@ -16,7 +16,7 @@ public:
 	void createDatabase();
 	void insertData(Ref* pSender);
 	void selectData(Ref* pSender);
-	cocos2d::LabelTTF* lblStatus;;
+	cocos2d::LabelTTF* lblStatus;
 };
 
 #endif // __MainScene_SCENE_H__

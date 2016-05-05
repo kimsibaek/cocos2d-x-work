@@ -20,7 +20,7 @@ bool pauseScene::init()
 
 	auto winSize = Director::getInstance()->getWinSize();
 
-	auto popLayer = CCLayerColor::create(Color4B(0, 255, 0, 255), 300, 200);
+	auto popLayer = CCLayerColor::create(Color4B(0, 255, 0, 255), 600, 400);
 	popLayer->setAnchorPoint(Vec2(0, 0));
 	popLayer->setPosition(Vec2((winSize.width - popLayer->getContentSize().width) / 2, (winSize.height - popLayer->getContentSize().height) / 2));
 

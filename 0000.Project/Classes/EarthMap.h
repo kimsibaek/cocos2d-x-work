@@ -10,6 +10,9 @@ public:
 	virtual bool init();
 	// implement the "static create()" method manually
 	CREATE_FUNC(EarthMap);
+
+	cocos2d::EventListenerTouchOneByOne* listener;
+
 	cocos2d::Size winSize;
 	cocos2d::Sprite* BG;
 	cocos2d::TMXTiledMap* tmap;
@@ -36,10 +39,15 @@ public:
 		int num;
 		int x;
 		int y;
-
+		int tempsize;
 		int front_x;
 		int front_y;
+		int front_front_x;
+		int front_front_y;
+		int front_front_front_x;
+		int front_front_front_y;
 	};
+
 	Position *pos;
 	int posSize = 0;
 	
@@ -57,8 +65,23 @@ public:
 	int mons;
 
 	cocos2d::Sprite* pause;
+	cocos2d::Sprite* createMonster;
+	cocos2d::Sprite* Items;
+
+	bool status;
+	bool touchMove;
 
 	void doMsgReceived(Ref* obj);
+	void doMsgReceivedMonster(Ref* obj);
+
+	int createMonsterNum;
+
+	int movement;
+	cocos2d::Vec2 VPos;
+
+	Position *createMonsterPos;
+	int createPosSize;
+	bool b_CreateMonster;
 
 	virtual void onEnter();
 	virtual void onExit();
@@ -74,7 +97,7 @@ public:
 	void FocusCharacter();
 
 	bool ChecksPosition(int num1, int num2);
-	bool ChecksPosition(cocos2d::Vec2 charactor, int pose, bool check);
+	Position* ChecksPosition(cocos2d::Vec2 charactor, Position *pos_temp, int tempSize, int Count);
 	bool checkcoordinate(cocos2d::Vec2 click);
 };
 
