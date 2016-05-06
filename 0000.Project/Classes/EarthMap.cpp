@@ -5,6 +5,7 @@
 #include "sqlite3.h"
 #include "stdafx.h"
 #include <time.h>
+#include "Toolbag.h"
 USING_NS_CC;
 
 Scene* EarthMap::createScene()
@@ -73,6 +74,12 @@ bool EarthMap::init()
 	cache->addSpriteFramesWithFile("Plist/HexInfo.plist");
 	cache->addSpriteFramesWithFile("Plist/etc.plist");
 
+	cache->addSpriteFramesWithFile("Plist/EarthUpgrade.plist");
+	cache->addSpriteFramesWithFile("Plist/FireUpgrade.plist");
+	cache->addSpriteFramesWithFile("Plist/WindUpgrade.plist");
+	cache->addSpriteFramesWithFile("Plist/WaterUpgrade.plist");
+	//cache->addSpriteFramesWithFile("Plist/UpgradeOK.plist");
+
 	BG = Sprite::create("Images/Scene/EarthMap.png");
 	BG->setPosition(Vec2(1006.5, 767.5));
 	this->addChild(BG, 1);
@@ -97,6 +104,8 @@ bool EarthMap::init()
 
 	NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(EarthMap::doMsgReceivedMonster), "TouchMonster", nullptr);
 
+	NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(EarthMap::doMsgReceivedTool), "TouchTool", nullptr);
+
 	//DB불러오기
 	dbfileName = cocos2d::FileUtils::getInstance()->getWritablePath();
 	//log("%s", dbfileName.c_str());
@@ -116,6 +125,10 @@ bool EarthMap::init()
 	touchMove = true;
 	//몬스터 소환상태
 	b_CreateMonster = false;
+	createPosSize = 0;
+
+	VPos = Vec2(0, 0);
+
 	return true;
 }
 
@@ -193,7 +206,7 @@ void EarthMap::onCreateCharacter() {
 	}
 	monster_char[0].tx = num1;
 	monster_char[0].ty = num2;
-	log("monster = %d, %d", num1, num2);
+	//log("monster = %d, %d", num1, num2);
 	char str1[100];
 	char str2[100];
 	Vector<SpriteFrame*> animFrames;
@@ -220,7 +233,7 @@ void EarthMap::onCreateCharacter() {
 		monster_char[0].yMovePosition = 1551 - (37 + 48 * num2);
 	}
 	//log("monster_char[i] = %f, %f", monster_char[i].xPosition, monster_char[i].yPosition);
-	this->addChild(monster_char[0].sprite, 3);
+	this->addChild(monster_char[0].sprite, 5);
 
 	Sprite* st = Sprite::createWithSpriteFrameName("HP_bar.png");
 	st->setPosition(0, -5);
@@ -236,7 +249,7 @@ void EarthMap::onCreateCharacter() {
 	
 	char level[3];
 	sprintf(level, "%d", monster_char[0].level);
-	auto pLabel3 = LabelAtlas::create(level, "Images/monsterLevel.png", 7, 9, '0');
+	auto pLabel3 = LabelAtlas::create(level, "Images/MonsterLevel.png", 7, 9, '0');
 	pLabel3->setAnchorPoint(Vec2(0, 0));
 	pLabel3->setPosition(Vec2(hp->getContentSize().width*(monster_char[0].HPbarPosition / 25 * 2), -5));
 	monster_char[0].sprite->addChild(pLabel3);
@@ -312,7 +325,7 @@ void EarthMap::onCreateEmyCharacter() {
 		}
 		EmyMonster_char[i].tx = num1;
 		EmyMonster_char[i].ty = num2;
-		log("EmyMonster[%d] = %d, %d", i, num1, num2);
+		//log("EmyMonster[%d] = %d, %d", i, num1, num2);
 		char str1[100];
 		char str2[100];
 		Vector<SpriteFrame*> animFrames;
@@ -875,29 +888,60 @@ void EarthMap::doMsgReceivedMonster(Ref* obj) {
 		b_CreateMonster = true;
 		touchMove = true;
 
-		for (int i = 0; i < MovePosition.size(); i++) {
-			this->removeChild(MovePosition.at(i));
-		}
-		MovePosition.clear();
-		for (int i = 0; i < EmyMovePosition.size(); i++) {
-			this->removeChild(EmyMovePosition.at(i));
-		}
-		EmyMovePosition.clear();
-		createMonsterPos = ChecksPosition(VPos, createMonsterPos, 0, 1);
-		createPosSize = _msize((void*)createMonsterPos) / sizeof(*createMonsterPos);
+		createUpgrade();
+	}
 
-		//한칸
-		for (int m = 0; m < createPosSize; m++) {
-			Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-			Vec2 posit = FindCoordPosition(Vec2(createMonsterPos[m].x, createMonsterPos[m].y));
-			log("pos[%d] = %d", m, createMonsterPos[m].num);
-			sp->setPosition(posit.x - 2, posit.y + 17);
-			MovePosition.pushBack(sp);
-		}
-		//이동경로 sprite 띄우기
-		for (int i = 0; i < MovePosition.size(); i++) {
-			this->addChild(MovePosition.at(i), 2);
-		}
+}
+
+void EarthMap::doMsgReceivedTool(Ref* obj) {
+	char *inputStr = (char*)obj;
+	char testText[20];
+	sprintf(testText, "%s", inputStr);
+	if (!strcmp(testText, "0")) {
+		Director::getInstance()->resume();
+		touchMove = true;
+	}
+	else {
+		ToolNum = atoi(testText);
+		log("도구 : %d", ToolNum);
+		Director::getInstance()->resume();
+		touchMove = true;
+
+	}
+
+}
+
+void EarthMap::createUpgrade() {
+
+	for (int i = 0; i < MovePosition.size(); i++) {
+		this->removeChild(MovePosition.at(i));
+	}
+	if (MovePosition.size()) {
+		MovePosition.clear();
+	}
+
+	for (int i = 0; i < EmyMovePosition.size(); i++) {
+		this->removeChild(EmyMovePosition.at(i));
+	}
+	if (EmyMovePosition.size()) {
+		EmyMovePosition.clear();
+	}
+
+	VPos = Vec2(VPosX, VPosY);
+	createMonsterPos = ChecksPosition(VPos, createMonsterPos, 0, 1);
+	createPosSize = _msize((void*)createMonsterPos) / sizeof(*createMonsterPos);
+
+	//한칸
+	for (int m = 0; m < createPosSize; m++) {
+		Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
+		Vec2 posit = FindCoordPosition(Vec2(createMonsterPos[m].x, createMonsterPos[m].y));
+		//log("pos[%d] = %d", m, createMonsterPos[m].num);
+		sp->setPosition(posit.x - 2, posit.y + 17);
+		MovePosition.pushBack(sp);
+	}
+	//이동경로 sprite 띄우기
+	for (int i = 0; i < MovePosition.size(); i++) {
+		addChild(MovePosition.at(i), 2);
 	}
 
 }
@@ -1039,7 +1083,593 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 		for (int i = 0; i < createPosSize; i++) {
 			if (m_pos == Vec2(createMonsterPos[i].x, createMonsterPos[i].y)) {
 				//아군몬스터 소환 createMonsterNum
+				sqlite3* pDB = NULL;
+				char* errMsg = nullptr;
+				int result;
 
+				result = sqlite3_open(dbfileName.c_str(), &pDB);
+
+				if (result != SQLITE_OK)
+				{
+					log("Open Error : Code:%d   Msg:%s", result, errMsg);
+				}
+
+				// select data
+				std::string sqlStr;
+				sqlStr = "select Monster_Id, Type, level, Item1, Item2, Item3, Exp from Monster";
+
+				sqlite3_stmt* statement;
+				if (sqlite3_prepare_v2(pDB, sqlStr.c_str(), -1, &statement, nullptr) == SQLITE_OK)
+				{
+					std::string str1 = "";
+					while (sqlite3_step(statement) == SQLITE_ROW)
+					{
+						//객체생성
+						if (monsterSize)	monster_char = (Monster_num*)realloc(monster_char, sizeof(Monster_num) * (monsterSize + 1));
+						else				monster_char = (Monster_num*)malloc(sizeof(Monster_num) * (monsterSize + 1));
+						int	ID = sqlite3_column_int(statement, 0);
+						int	Type = sqlite3_column_int(statement, 1);
+						int	level = sqlite3_column_int(statement, 2);
+						int	Item1 = sqlite3_column_int(statement, 3);
+						int	Item2 = sqlite3_column_int(statement, 4);
+						int	Item3 = sqlite3_column_int(statement, 5);
+						int	Exp = sqlite3_column_int(statement, 6);
+
+						if (createMonsterNum == ID) {
+							monster_char[monsterSize].ID = ID;
+							monster_char[monsterSize].Type = Type;
+							monster_char[monsterSize].level = level;
+							monster_char[monsterSize].Item1 = Item1;
+							monster_char[monsterSize].Item2 = Item2;
+							monster_char[monsterSize].Item3 = Item3;
+							monster_char[monsterSize].exp = Exp;
+
+							monster_char[monsterSize]._turn = false;
+							monsterSize++;
+							break;
+						}
+					}
+				}
+
+				sqlite3_finalize(statement);
+
+				sqlite3_close(pDB);
+
+				char str1[100];
+				char str2[100];
+
+				int num1 = m_pos.x;
+				int num2 = m_pos.y;
+
+				float xPosition;
+				float yPosition;
+				float xMovePosition;
+				float yMovePosition;
+				Vector<SpriteFrame*> animFrame;
+				if (monster_char[monsterSize - 1].Type > 0 && monster_char[monsterSize - 1].Type < 10) {
+					log("대지속성");
+					st = Sprite::createWithSpriteFrameName("EarthUpgrade1.png");
+					sprintf(str1, "EarthUpgrade");
+					for (int i = 1; i < 13; i++) {
+						sprintf(str2, "%s%d.png", str1, i);
+						SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+						animFrame.pushBack(frame);
+					}
+				}
+				if (monster_char[monsterSize - 1].Type > 10 && monster_char[monsterSize - 1].Type < 20) {
+					log("불속성");
+					st = Sprite::createWithSpriteFrameName("FireUpgrade1.png");
+					sprintf(str1, "FireUpgrade");
+					for (int i = 1; i < 13; i++) {
+						sprintf(str2, "%s%d.png", str1, i);
+						SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+						animFrame.pushBack(frame);
+					}
+				}
+				if (monster_char[monsterSize - 1].Type > 20 && monster_char[monsterSize - 1].Type < 30) {
+					log("물속성");
+					st = Sprite::createWithSpriteFrameName("WaterUpgrade1.png");
+					sprintf(str1, "WaterUpgrade");
+					for (int i = 1; i < 13; i++) {
+						sprintf(str2, "%s%d.png", str1, i);
+						SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+						animFrame.pushBack(frame);
+					}
+				}
+				if (monster_char[monsterSize - 1].Type > 30 && monster_char[monsterSize - 1].Type < 40) {
+					log("바람속성");
+					st = Sprite::createWithSpriteFrameName("WindUpgrade1.png");
+					sprintf(str1, "WindUpgrade");
+					for (int i = 1; i < 13; i++) {
+						sprintf(str2, "%s%d.png", str1, i);
+						SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+						animFrame.pushBack(frame);
+					}
+				}
+				st->setScale(1.5);
+				if (num2 % 2 == 0) {
+					st->setPosition(64 * num1, 1551 - (37 + 48 * num2));
+					xPosition = 64 * num1;
+					yPosition = 1551 - (37 + 48 * num2);
+					xMovePosition = 64 * num1;
+					yMovePosition = 1551 - (37 + 48 * num2);
+				}
+				else {
+					st->setPosition(32 + 64 * num1, 1551 - (37 + 48 * num2));
+					xPosition = 32 + 64 * num1;
+					yPosition = 1551 - (37 + 48 * num2);
+					xMovePosition = 32 + 64 * num1;
+					yMovePosition = 1551 - (37 + 48 * num2);
+				}
+
+				xMovePosition = xPosition - MovePositionDX;
+				yMovePosition = yPosition - MovePositionDY;
+				if (xMovePosition < xPosition - 733) {
+					xMovePosition = xPosition - 733;
+				}
+				else if (xMovePosition > xPosition) {
+					xMovePosition = xPosition;
+				}
+				if (yMovePosition < yPosition - 799.5) {
+					yMovePosition = yPosition - 799.5;
+				}
+				else if (yMovePosition > yPosition) {
+					yMovePosition = yPosition;
+				}
+				st->setPosition(Vec2(xMovePosition, yMovePosition));
+
+				auto animation = Animation::createWithSpriteFrames(animFrame, 0.1f);
+				auto animate = Animate::create(animation);
+				auto cbSound = CallFunc::create(CC_CALLBACK_0(EarthMap::RemoveSprite, this));
+				auto seq = Sequence::create(animate, cbSound, NULL);
+				st->runAction(seq);
+				addChild(st, 5);
+
+
+				if (monster_char[monsterSize - 1].Type == 1) {
+					monster_char[monsterSize - 1].atk = 15 + ((monster_char[monsterSize - 1].level - 1) * 1.5);
+					monster_char[monsterSize - 1].def = 3 + ((monster_char[monsterSize - 1].level - 1) * 0.3);
+					monster_char[monsterSize - 1].hp = 30 + ((monster_char[monsterSize - 1].level - 1) * 3);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 14.5;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Earth1-1.png");
+					sprintf(str1, "Earth1-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 2) {
+					monster_char[monsterSize - 1].atk = 20 + ((monster_char[monsterSize - 1].level - 1) * 2);
+					monster_char[monsterSize - 1].def = 4 + ((monster_char[monsterSize - 1].level - 1) * 0.4);
+					monster_char[monsterSize - 1].hp = 45 + ((monster_char[monsterSize - 1].level - 1) * 4.5);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 17;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Earth2-1.png");
+					sprintf(str1, "Earth2-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 3) {
+					monster_char[monsterSize - 1].atk = 30 + ((monster_char[monsterSize - 1].level - 1) * 3);
+					monster_char[monsterSize - 1].def = 5 + ((monster_char[monsterSize - 1].level - 1) * 0.5);
+					monster_char[monsterSize - 1].hp = 60 + ((monster_char[monsterSize - 1].level - 1) * 6);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 25;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Earth3-1.png");
+					sprintf(str1, "Earth3-");
+				}
+				//모닥픽
+				else if (monster_char[monsterSize - 1].Type == 4) {
+					monster_char[monsterSize - 1].atk = 10 + ((monster_char[monsterSize - 1].level - 1) * 1.0);
+					monster_char[monsterSize - 1].def = 4 + ((monster_char[monsterSize - 1].level - 1) * 0.4);
+					monster_char[monsterSize - 1].hp = 30 + ((monster_char[monsterSize - 1].level - 1) * 3);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 9;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Earth4-1.png");
+					sprintf(str1, "Earth4-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 5) {
+					monster_char[monsterSize - 1].atk = 20 + ((monster_char[monsterSize - 1].level - 1) * 2);
+					monster_char[monsterSize - 1].def = 5 + ((monster_char[monsterSize - 1].level - 1) * 0.5);
+					monster_char[monsterSize - 1].hp = 45 + ((monster_char[monsterSize - 1].level - 1) * 4.5);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 12.5;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Earth5-1.png");
+					sprintf(str1, "Earth5-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 6) {
+					monster_char[monsterSize - 1].atk = 30 + ((monster_char[monsterSize - 1].level - 1) * 3.0);
+					monster_char[monsterSize - 1].def = 6 + ((monster_char[monsterSize - 1].level - 1) * 0.6);
+					monster_char[monsterSize - 1].hp = 60 + ((monster_char[monsterSize - 1].level - 1) * 6);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 20;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Earth6-1.png");
+					sprintf(str1, "Earth6-");
+				}
+				//모래두지
+				else if (monster_char[monsterSize - 1].Type == 7) {
+					monster_char[monsterSize - 1].atk = 10 + ((monster_char[monsterSize - 1].level - 1) * 1.0);
+					monster_char[monsterSize - 1].def = 2 + ((monster_char[monsterSize - 1].level - 1) * 0.2);
+					monster_char[monsterSize - 1].hp = 20 + ((monster_char[monsterSize - 1].level - 1) * 2);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 2;
+					monster_char[monsterSize - 1].HPbarPosition = 19;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Earth7-1.png");
+					sprintf(str1, "Earth7-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 8) {
+					monster_char[monsterSize - 1].atk = 15 + ((monster_char[monsterSize - 1].level - 1) * 1.5);
+					monster_char[monsterSize - 1].def = 3 + ((monster_char[monsterSize - 1].level - 1) * 0.3);
+					monster_char[monsterSize - 1].hp = 35 + ((monster_char[monsterSize - 1].level - 1) * 3.5);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 2;
+					monster_char[monsterSize - 1].HPbarPosition = 20;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Earth8-1.png");
+					sprintf(str1, "Earth8-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 9) {
+					monster_char[monsterSize - 1].atk = 25 + ((monster_char[monsterSize - 1].level - 1) * 2.5);
+					monster_char[monsterSize - 1].def = 4 + ((monster_char[monsterSize - 1].level - 1) * 0.4);
+					monster_char[monsterSize - 1].hp = 50 + ((monster_char[monsterSize - 1].level - 1) * 5);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 2;
+					monster_char[monsterSize - 1].HPbarPosition = 17;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Earth9-1.png");
+					sprintf(str1, "Earth9-");
+				}
+				//파이뤼
+				else if (monster_char[monsterSize - 1].Type == 11) {
+					monster_char[monsterSize - 1].atk = 15 + ((monster_char[monsterSize - 1].level - 1) * 1.5);
+					monster_char[monsterSize - 1].def = 3 + ((monster_char[monsterSize - 1].level - 1) * 0.3);
+					monster_char[monsterSize - 1].hp = 30 + ((monster_char[monsterSize - 1].level - 1) * 3);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 13.5;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Fire1-1.png");
+					sprintf(str1, "Fire1-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 12) {
+					monster_char[monsterSize - 1].atk = 20 + ((monster_char[monsterSize - 1].level - 1) * 2);
+					monster_char[monsterSize - 1].def = 4 + ((monster_char[monsterSize - 1].level - 1) * 0.4);
+					monster_char[monsterSize - 1].hp = 45 + ((monster_char[monsterSize - 1].level - 1) * 4.5);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 21;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Fire2-1.png");
+					sprintf(str1, "Fire2-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 13) {
+					monster_char[monsterSize - 1].atk = 30 + ((monster_char[monsterSize - 1].level - 1) * 3);
+					monster_char[monsterSize - 1].def = 5 + ((monster_char[monsterSize - 1].level - 1) * 0.5);
+					monster_char[monsterSize - 1].hp = 60 + ((monster_char[monsterSize - 1].level - 1) * 6);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 23.5;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Fire3-1.png");
+					sprintf(str1, "Fire3-");
+				}
+				//팬템
+				else if (monster_char[monsterSize - 1].Type == 14) {
+					monster_char[monsterSize - 1].atk = 10 + ((monster_char[monsterSize - 1].level - 1) * 1.0);
+					monster_char[monsterSize - 1].def = 3 + ((monster_char[monsterSize - 1].level - 1) * 0.3);
+					monster_char[monsterSize - 1].hp = 30 + ((monster_char[monsterSize - 1].level - 1) * 3);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 19;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Fire4-1.png");
+					sprintf(str1, "Fire4-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 15) {
+					monster_char[monsterSize - 1].atk = 20 + ((monster_char[monsterSize - 1].level - 1) * 2);
+					monster_char[monsterSize - 1].def = 4 + ((monster_char[monsterSize - 1].level - 1) * 0.4);
+					monster_char[monsterSize - 1].hp = 45 + ((monster_char[monsterSize - 1].level - 1) * 4.5);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 23.5;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Fire5-1.png");
+					sprintf(str1, "Fire5-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 16) {
+					monster_char[monsterSize - 1].atk = 35 + ((monster_char[monsterSize - 1].level - 1) * 3.5);
+					monster_char[monsterSize - 1].def = 5 + ((monster_char[monsterSize - 1].level - 1) * 0.5);
+					monster_char[monsterSize - 1].hp = 60 + ((monster_char[monsterSize - 1].level - 1) * 6);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 23.5;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Fire6-1.png");
+					sprintf(str1, "Fire6-");
+				}
+				//블랙매직숀
+				else if (monster_char[monsterSize - 1].Type == 17) {
+					monster_char[monsterSize - 1].atk = 10 + ((monster_char[monsterSize - 1].level - 1) * 1);
+					monster_char[monsterSize - 1].def = 3 + ((monster_char[monsterSize - 1].level - 1) * 0.3);
+					monster_char[monsterSize - 1].hp = 30 + ((monster_char[monsterSize - 1].level - 1) * 3);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 2;
+					monster_char[monsterSize - 1].HPbarPosition = 22;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Fire7-1.png");
+					sprintf(str1, "Fire7-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 18) {
+					monster_char[monsterSize - 1].atk = 15 + ((monster_char[monsterSize - 1].level - 1) * 1.5);
+					monster_char[monsterSize - 1].def = 4 + ((monster_char[monsterSize - 1].level - 1) * 0.4);
+					monster_char[monsterSize - 1].hp = 45 + ((monster_char[monsterSize - 1].level - 1) * 4.5);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 2;
+					monster_char[monsterSize - 1].HPbarPosition = 25.5;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Fire8-1.png");
+					sprintf(str1, "Fire8-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 19) {
+					monster_char[monsterSize - 1].atk = 25 + ((monster_char[monsterSize - 1].level - 1) * 2.5);
+					monster_char[monsterSize - 1].def = 5 + ((monster_char[monsterSize - 1].level - 1) * 0.5);
+					monster_char[monsterSize - 1].hp = 60 + ((monster_char[monsterSize - 1].level - 1) * 6);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 2;
+					monster_char[monsterSize - 1].HPbarPosition = 21;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Fire9-1.png");
+					sprintf(str1, "Fire9-");
+				}
+				//물질퍽이
+				else if (monster_char[monsterSize - 1].Type == 21) {
+					monster_char[monsterSize - 1].atk = 15 + ((monster_char[monsterSize - 1].level - 1) * 1.5);
+					monster_char[monsterSize - 1].def = 3 + ((monster_char[monsterSize - 1].level - 1) * 0.3);
+					monster_char[monsterSize - 1].hp = 30 + ((monster_char[monsterSize - 1].level - 1) * 3);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 14.5;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Water1-1.png");
+					sprintf(str1, "Water1-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 22) {
+					monster_char[monsterSize - 1].atk = 20 + ((monster_char[monsterSize - 1].level - 1) * 2);
+					monster_char[monsterSize - 1].def = 4 + ((monster_char[monsterSize - 1].level - 1) * 0.4);
+					monster_char[monsterSize - 1].hp = 45 + ((monster_char[monsterSize - 1].level - 1) * 4.5);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 13.5;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Water2-1.png");
+					sprintf(str1, "Water2-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 23) {
+					monster_char[monsterSize - 1].atk = 30 + ((monster_char[monsterSize - 1].level - 1) * 3);
+					monster_char[monsterSize - 1].def = 5 + ((monster_char[monsterSize - 1].level - 1) * 0.5);
+					monster_char[monsterSize - 1].hp = 60 + ((monster_char[monsterSize - 1].level - 1) * 6);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 25;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Water3-1.png");
+					sprintf(str1, "Water3-");
+				}
+				//꼬북이
+				else if (monster_char[monsterSize - 1].Type == 24) {
+					monster_char[monsterSize - 1].atk = 10 + ((monster_char[monsterSize - 1].level - 1) * 1.0);
+					monster_char[monsterSize - 1].def = 3 + ((monster_char[monsterSize - 1].level - 1) * 0.3);
+					monster_char[monsterSize - 1].hp = 35 + ((monster_char[monsterSize - 1].level - 1) * 3.5);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 20;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Water4-1.png");
+					sprintf(str1, "Water4-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 25) {
+					monster_char[monsterSize - 1].atk = 20 + ((monster_char[monsterSize - 1].level - 1) * 2);
+					monster_char[monsterSize - 1].def = 4 + ((monster_char[monsterSize - 1].level - 1) * 0.4);
+					monster_char[monsterSize - 1].hp = 50 + ((monster_char[monsterSize - 1].level - 1) * 5);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 22.5;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Water5-1.png");
+					sprintf(str1, "Water5-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 26) {
+					monster_char[monsterSize - 1].atk = 35 + ((monster_char[monsterSize - 1].level - 1) * 3.5);
+					monster_char[monsterSize - 1].def = 5 + ((monster_char[monsterSize - 1].level - 1) * 0.5);
+					monster_char[monsterSize - 1].hp = 65 + ((monster_char[monsterSize - 1].level - 1) * 6.5);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 25;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Water6-1.png");
+					sprintf(str1, "Water6-");
+				}
+				//리아커
+				else if (monster_char[monsterSize - 1].Type == 27) {
+					monster_char[monsterSize - 1].atk = 10 + ((monster_char[monsterSize - 1].level - 1) * 1.0);
+					monster_char[monsterSize - 1].def = 4 + ((monster_char[monsterSize - 1].level - 1) * 0.4);
+					monster_char[monsterSize - 1].hp = 30 + ((monster_char[monsterSize - 1].level - 1) * 3);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 20;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Water7-1.png");
+					sprintf(str1, "Water7-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 28) {
+					monster_char[monsterSize - 1].atk = 20 + ((monster_char[monsterSize - 1].level - 1) * 2);
+					monster_char[monsterSize - 1].def = 5 + ((monster_char[monsterSize - 1].level - 1) * 0.5);
+					monster_char[monsterSize - 1].hp = 45 + ((monster_char[monsterSize - 1].level - 1) * 4.5);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 22.5;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Water8-1.png");
+					sprintf(str1, "Water8-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 29) {
+					monster_char[monsterSize - 1].atk = 30 + ((monster_char[monsterSize - 1].level - 1) * 3);
+					monster_char[monsterSize - 1].def = 6 + ((monster_char[monsterSize - 1].level - 1) * 0.6);
+					monster_char[monsterSize - 1].hp = 60 + ((monster_char[monsterSize - 1].level - 1) * 6);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 28;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Water9-1.png");
+					sprintf(str1, "Water9-");
+				}
+				//코이
+				else if (monster_char[monsterSize - 1].Type == 31) {
+					monster_char[monsterSize - 1].atk = 15 + ((monster_char[monsterSize - 1].level - 1) * 1.5);
+					monster_char[monsterSize - 1].def = 3 + ((monster_char[monsterSize - 1].level - 1) * 0.3);
+					monster_char[monsterSize - 1].hp = 30 + ((monster_char[monsterSize - 1].level - 1) * 3);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 19;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Wind1-1.png");
+					sprintf(str1, "Wind1-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 32) {
+					monster_char[monsterSize - 1].atk = 20 + ((monster_char[monsterSize - 1].level - 1) * 2);
+					monster_char[monsterSize - 1].def = 4 + ((monster_char[monsterSize - 1].level - 1) * 0.4);
+					monster_char[monsterSize - 1].hp = 45 + ((monster_char[monsterSize - 1].level - 1) * 4.5);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 18.5;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Wind2-1.png");
+					sprintf(str1, "Wind2-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 33) {
+					monster_char[monsterSize - 1].atk = 30 + ((monster_char[monsterSize - 1].level - 1) * 3);
+					monster_char[monsterSize - 1].def = 5 + ((monster_char[monsterSize - 1].level - 1) * 0.5);
+					monster_char[monsterSize - 1].hp = 60 + ((monster_char[monsterSize - 1].level - 1) * 6);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 19.5;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Wind3-1.png");
+					sprintf(str1, "Wind3-");
+				}
+				//피젼
+				else if (monster_char[monsterSize - 1].Type == 34) {
+					monster_char[monsterSize - 1].atk = 10 + ((monster_char[monsterSize - 1].level - 1) * 1.0);
+					monster_char[monsterSize - 1].def = 3 + ((monster_char[monsterSize - 1].level - 1) * 0.3);
+					monster_char[monsterSize - 1].hp = 30 + ((monster_char[monsterSize - 1].level - 1) * 3);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 11.5;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Wind4-1.png");
+					sprintf(str1, "Wind4-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 35) {
+					monster_char[monsterSize - 1].atk = 20 + ((monster_char[monsterSize - 1].level - 1) * 2);
+					monster_char[monsterSize - 1].def = 4 + ((monster_char[monsterSize - 1].level - 1) * 0.4);
+					monster_char[monsterSize - 1].hp = 45 + ((monster_char[monsterSize - 1].level - 1) * 4.5);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 17.5;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Wind5-1.png");
+					sprintf(str1, "Wind5-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 36) {
+					monster_char[monsterSize - 1].atk = 35 + ((monster_char[monsterSize - 1].level - 1) * 3.5);
+					monster_char[monsterSize - 1].def = 5 + ((monster_char[monsterSize - 1].level - 1) * 0.5);
+					monster_char[monsterSize - 1].hp = 60 + ((monster_char[monsterSize - 1].level - 1) * 6);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 1;
+					monster_char[monsterSize - 1].HPbarPosition = 20;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Wind6-1.png");
+					sprintf(str1, "Wind6-");
+				}
+				//코이
+				else if (monster_char[monsterSize - 1].Type == 37) {
+					monster_char[monsterSize - 1].atk = 10 + ((monster_char[monsterSize - 1].level - 1) * 1.0);
+					monster_char[monsterSize - 1].def = 3 + ((monster_char[monsterSize - 1].level - 1) * 0.3);
+					monster_char[monsterSize - 1].hp = 30 + ((monster_char[monsterSize - 1].level - 1) * 3);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 2;
+					monster_char[monsterSize - 1].HPbarPosition = 20;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Wind7-1.png");
+					sprintf(str1, "Wind7-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 38) {
+					monster_char[monsterSize - 1].atk = 15 + ((monster_char[monsterSize - 1].level - 1) * 1.5);
+					monster_char[monsterSize - 1].def = 4 + ((monster_char[monsterSize - 1].level - 1) * 0.4);
+					monster_char[monsterSize - 1].hp = 45 + ((monster_char[monsterSize - 1].level - 1) * 4.5);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 2;
+					monster_char[monsterSize - 1].HPbarPosition = 17;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Wind8-1.png");
+					sprintf(str1, "Wind8-");
+				}
+				else if (monster_char[monsterSize - 1].Type == 39) {
+					monster_char[monsterSize - 1].atk = 25 + ((monster_char[monsterSize - 1].level - 1) * 2.5);
+					monster_char[monsterSize - 1].def = 5 + ((monster_char[monsterSize - 1].level - 1) * 0.5);
+					monster_char[monsterSize - 1].hp = 60 + ((monster_char[monsterSize - 1].level - 1) * 6);
+					monster_char[monsterSize - 1].move = 3;
+					monster_char[monsterSize - 1].range = 2;
+					monster_char[monsterSize - 1].HPbarPosition = 23.5;
+					monster_char[monsterSize - 1].sprite = Sprite::createWithSpriteFrameName("Wind9-1.png");
+					sprintf(str1, "Wind9-");
+				}
+				
+				monster_char[monsterSize - 1].sprite->setScale(1.5);
+				if (num2 % 2 == 0) {
+					monster_char[monsterSize - 1].sprite->setPosition(64 * num1, 1551 - (37 + 48 * num2));
+					monster_char[monsterSize - 1].xPosition = 64 * num1;
+					monster_char[monsterSize - 1].yPosition = 1551 - (37 + 48 * num2);
+					monster_char[monsterSize - 1].xMovePosition = 64 * num1;
+					monster_char[monsterSize - 1].yMovePosition = 1551 - (37 + 48 * num2);
+				}
+				else {
+					monster_char[monsterSize - 1].sprite->setPosition(32 + 64 * num1, 1551 - (37 + 48 * num2));
+					monster_char[monsterSize - 1].xPosition = 32 + 64 * num1;
+					monster_char[monsterSize - 1].yPosition = 1551 - (37 + 48 * num2);
+					monster_char[monsterSize - 1].xMovePosition = 32 + 64 * num1;
+					monster_char[monsterSize - 1].yMovePosition = 1551 - (37 + 48 * num2);
+				}
+				monster_char[monsterSize - 1].tx = num1;
+				monster_char[monsterSize - 1].ty = num2;
+				monster_char[monsterSize - 1].xMovePosition = monster_char[monsterSize - 1].xPosition - MovePositionDX;
+				monster_char[monsterSize - 1].yMovePosition = monster_char[monsterSize - 1].yPosition - MovePositionDY;
+				if (monster_char[monsterSize - 1].xMovePosition < monster_char[monsterSize - 1].xPosition - 733) {
+					monster_char[monsterSize - 1].xMovePosition = monster_char[monsterSize - 1].xPosition - 733;
+				}
+				else if (monster_char[monsterSize - 1].xMovePosition > monster_char[monsterSize - 1].xPosition) {
+					monster_char[monsterSize - 1].xMovePosition = monster_char[monsterSize - 1].xPosition;
+				}
+				if (monster_char[monsterSize - 1].yMovePosition < monster_char[monsterSize - 1].yPosition - 799.5) {
+					monster_char[monsterSize - 1].yMovePosition = monster_char[monsterSize - 1].yPosition - 799.5;
+				}
+				else if (monster_char[monsterSize - 1].yMovePosition > monster_char[monsterSize - 1].yPosition) {
+					monster_char[monsterSize - 1].yMovePosition = monster_char[monsterSize - 1].yPosition;
+				}
+				monster_char[monsterSize - 1].sprite->setPosition(Vec2(monster_char[monsterSize - 1].xMovePosition, monster_char[monsterSize - 1].yMovePosition));
+
+				this->addChild(monster_char[monsterSize - 1].sprite, 3);
+				Sprite* st = Sprite::createWithSpriteFrameName("HP_bar.png");
+				st->setPosition(0, -5);
+				st->setScaleX(monster_char[monsterSize - 1].HPbarPosition / 25 * 2);
+				st->setAnchorPoint(Vec2(0, 0.5));
+				monster_char[monsterSize - 1].sprite->addChild(st, 4);
+
+				Sprite* hp = Sprite::createWithSpriteFrameName("Monster_HP.png");
+				hp->setPosition(1, 0);
+				hp->setContentSize(Size(st->getContentSize().width, st->getContentSize().height));
+				hp->setAnchorPoint(Vec2(0, 0));
+				st->addChild(hp, 4);
+
+				char level[3];
+				sprintf(level, "%d", monster_char[monsterSize - 1].level);
+				auto pLabel3 = LabelAtlas::create(level, "Images/MonsterLevel.png", 7, 9, '0');
+				pLabel3->setAnchorPoint(Vec2(0, 0));
+				pLabel3->setPosition(Vec2(hp->getContentSize().width*(monster_char[monsterSize - 1].HPbarPosition / 25 * 2), -10));
+				monster_char[monsterSize - 1].sprite->addChild(pLabel3);
+
+				Sprite* End = Sprite::createWithSpriteFrameName("End.png");
+				End->setAnchorPoint(Vec2(0, 0));
+				End->setPosition(Vec2(0, 0));
+				monster_char[monsterSize - 1].sprite->addChild(End);
+
+				Vector<SpriteFrame*> animFrames;
+
+				for (int i = 1; i < 5; i++) {
+					sprintf(str2, "%s%d.png", str1, i);
+					SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+					animFrames.pushBack(frame);
+				}
+
+				animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
+				animate = Animate::create(animation);
+				auto rep = RepeatForever::create(animate);
+				monster_char[monsterSize - 1].sprite->runAction(rep);
+
+				//FocusCharacter();
 			}
 		}
 		b_CreateMonster = false;
@@ -1047,6 +1677,12 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 			this->removeChild(MovePosition.at(i));
 		}
 		MovePosition.clear();
+
+		if (createPosSize) {
+			free(createMonsterPos);
+			createPosSize = 0;
+		}
+
 		return;
 	}
 
@@ -1089,7 +1725,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 		if (bTouch3) {
 			touchMove = false;
 			Scene* popWin;
-			popWin = pauseScene::createScene();
+			popWin = Toolbag::createScene();
 			this->addChild(popWin, 2000, 2000);
 		}
 		status = false;
@@ -1115,6 +1751,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 	//아군몬스터가 클릭상태일 경우
 	if (CharacterClick) {
 		//아군몬스터 선택시
+		log("monster_char = %d, %f, %f", mons, monster_char[mons].xMovePosition, monster_char[mons].yMovePosition);
 		Vec2 mon_pos = tileCoordForPosition(Vec2(monster_char[mons].xMovePosition, monster_char[mons].yMovePosition));
 		//아군몬스터를 클릭시
 		if (m_pos == mon_pos) {
@@ -1125,12 +1762,12 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 				createMonster = Sprite::create("Images/Scene/createMonster.png");
 				createMonster->setPosition(Vec2(monster_char[mons].xMovePosition, monster_char[mons].yMovePosition - 28));
 				createMonster->setScale(2.0f);
-				addChild(createMonster, 4);
+				addChild(createMonster, 6);
 				//create 도구
 				Items = Sprite::create("Images/Scene/Items.png");
 				Items->setPosition(Vec2(monster_char[mons].xMovePosition, monster_char[mons].yMovePosition + 28));
 				Items->setScale(2.0f);
-				addChild(Items, 4);
+				addChild(Items, 6);
 			}
 			else {
 				log("도구");
@@ -1138,9 +1775,10 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 				//create 도구
 				Items = Sprite::create("Images/Scene/Items1.png");
 				Items->setPosition(Vec2(0, 0));
-				monster_char[mons].sprite->addChild(Items, 4);
+				monster_char[mons].sprite->addChild(Items, 6);
 			}
-			VPos = mon_pos;
+			VPosX = mon_pos.x;
+			VPosY = mon_pos.y;
 		}
 		//아군몬스터 범위내 클릭시
 		else if (checkcoordinate(m_pos)) {
@@ -1248,7 +1886,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 			if (!pass) {
 				for (int k = 0; k < shortpassSize; k++) {
 					if (shortpass[k].num + movement == 4) {
-						log("shortpass[%d] = %d, xy = %d, %d", k, shortpass[k].num, shortpass[k].x, shortpass[k].y);
+						//log("shortpass[%d] = %d, xy = %d, %d", k, shortpass[k].num, shortpass[k].x, shortpass[k].y);
 						Vec2 vec = FindCoordPosition(Vec2(shortpass[k].x, shortpass[k].y));
 						auto animate = MoveTo::create(0.25, Vec2(vec.x, vec.y + 30));
 						monster_char[mons].sprite->runAction(animate);
@@ -1270,7 +1908,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 			if (!pass) {
 				for (int k = 0; k < shortpassSize; k++) {
 					if (shortpass[k].num + movement == 3) {
-						log("shortpass[%d] = %d, front = %d, %d, xy = %d, %d", k, shortpass[k].num, shortpass[k].front_x, shortpass[k].front_y, shortpass[k].x, shortpass[k].y);
+						//log("shortpass[%d] = %d, front = %d, %d, xy = %d, %d", k, shortpass[k].num, shortpass[k].front_x, shortpass[k].front_y, shortpass[k].x, shortpass[k].y);
 						Vec2 vec = FindCoordPosition(Vec2(shortpass[k].front_x, shortpass[k].front_y));
 						auto animate = MoveTo::create(0.25, Vec2(vec.x, vec.y + 30));
 
@@ -1305,7 +1943,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 			if (!pass) {
 				for (int k = 0; k < shortpassSize; k++) {
 					if (shortpass[k].num + movement == 2) {
-						log("shortpass[%d] = %d, frontfront = %d, %d, front = %d, %d, xy = %d, %d", k, shortpass[k].num, shortpass[k].front_front_x, shortpass[k].front_front_y, shortpass[k].front_x, shortpass[k].front_y, shortpass[k].front_x, shortpass[k].front_y);
+						//log("shortpass[%d] = %d, frontfront = %d, %d, front = %d, %d, xy = %d, %d", k, shortpass[k].num, shortpass[k].front_front_x, shortpass[k].front_front_y, shortpass[k].front_x, shortpass[k].front_y, shortpass[k].front_x, shortpass[k].front_y);
 						Vec2 vec = FindCoordPosition(Vec2(shortpass[k].front_front_x, shortpass[k].front_front_y));
 						auto animate = MoveTo::create(0.25, Vec2(vec.x, vec.y + 30));
 
@@ -1352,7 +1990,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 			if (!pass) {
 				for (int k = 0; k < shortpassSize; k++) {
 					if (shortpass[k].num + movement == 1) {
-						log("shortpass[%d] = %d, frontfrontfront = %d, %d, frontfront = %d, %d, front = %d, %d, xy = %d, %d", k, shortpass[k].num, shortpass[k].front_front_front_x, shortpass[k].front_front_front_y, shortpass[k].front_front_x, shortpass[k].front_front_y, shortpass[k].front_x, shortpass[k].front_y, shortpass[k].front_x, shortpass[k].front_y);
+						//log("shortpass[%d] = %d, frontfrontfront = %d, %d, frontfront = %d, %d, front = %d, %d, xy = %d, %d", k, shortpass[k].num, shortpass[k].front_front_front_x, shortpass[k].front_front_front_y, shortpass[k].front_front_x, shortpass[k].front_front_y, shortpass[k].front_x, shortpass[k].front_y, shortpass[k].front_x, shortpass[k].front_y);
 						Vec2 vec_1 = FindCoordPosition(Vec2(shortpass[k].front_front_front_x, shortpass[k].front_front_front_y));
 						auto animate_1 = MoveTo::create(0.25, Vec2(vec_1.x, vec_1.y + 30));
 
@@ -1459,7 +2097,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 			for (int m = 0; m < posSize; m++) {
 				Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
 				Vec2 posit = FindCoordPosition(Vec2(pos[m].x, pos[m].y));
-				log("pos[%d] = %d", m, pos[m].num);
+				//log("pos[%d] = %d", m, pos[m].num);
 				sp->setPosition(posit.x - 2, posit.y + 17);
 				MovePosition.pushBack(sp);
 				//두칸
@@ -1467,7 +2105,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 					for (int k = 0; k < pos[m].pos2Size; k++) {
 						Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
 						Vec2 posit2 = FindCoordPosition(Vec2(pos[m].pos2[k].x, pos[m].pos2[k].y));
-						log("pos[%d].pos2[%d] = %d", m, k, pos[m].pos2[k].num);
+						//log("pos[%d].pos2[%d] = %d", m, k, pos[m].pos2[k].num);
 						sp->setPosition(posit2.x - 2, posit2.y + 17);
 						MovePosition.pushBack(sp);
 						//세칸
@@ -1475,7 +2113,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 							for (int z = 0; z < pos[m].pos2[k].pos2Size; z++) {
 								Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
 								Vec2 posit2 = FindCoordPosition(Vec2(pos[m].pos2[k].pos2[z].x, pos[m].pos2[k].pos2[z].y));
-								log("pos[%d].pos2[%d].pos2[%d] = %d", m, k, z, pos[m].pos2[k].pos2[z].num);
+								//log("pos[%d].pos2[%d].pos2[%d] = %d", m, k, z, pos[m].pos2[k].pos2[z].num);
 								sp->setPosition(posit2.x - 2, posit2.y + 17);
 								MovePosition.pushBack(sp);
 								//네칸
@@ -1483,7 +2121,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 									for (int i = 0; i < pos[m].pos2[k].pos2[z].pos2Size; i++) {
 										Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
 										Vec2 posit2 = FindCoordPosition(Vec2(pos[m].pos2[k].pos2[z].pos2[i].x, pos[m].pos2[k].pos2[z].pos2[i].y));
-										log("pos[%d].pos2[%d].pos2[%d].pos2[i] = %d", m, k, z, i, pos[m].pos2[k].pos2[z].pos2[i].num);
+										//log("pos[%d].pos2[%d].pos2[%d].pos2[i] = %d", m, k, z, i, pos[m].pos2[k].pos2[z].pos2[i].num);
 										sp->setPosition(posit2.x - 2, posit2.y + 17);
 										MovePosition.pushBack(sp);
 									}
@@ -1567,6 +2205,10 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 			}
 		}
 	}
+}
+
+void EarthMap::RemoveSprite() {
+	this->removeChild(st);
 }
 
 bool EarthMap::checkcoordinate(Vec2 click) {
@@ -1668,7 +2310,9 @@ bool EarthMap::ChecksPosition(int num1, int num2) {
 		}
 	}
 	Vec2 tileCoord = Vec2(num1, num2);
-	int tileGid = this->metainfo->getTileGIDAt(tileCoord);
+	//tmap = TMXTiledMap::create("Images/Scene/EarthMapTest.tmx");
+	//metainfo = tmap->getLayer("MetaInfo");
+	int tileGid = metainfo->getTileGIDAt(tileCoord);
 	if (tileGid) {
 		Value properties = tmap->getPropertiesForGID(tileGid);
 

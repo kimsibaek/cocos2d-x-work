@@ -15,10 +15,6 @@ public:
 
 	cocos2d::Size winSize;
 	cocos2d::Sprite* BG;
-	cocos2d::TMXTiledMap* tmap;
-	cocos2d::TMXLayer* background;
-	cocos2d::TMXLayer* items;
-	cocos2d::TMXLayer* metainfo;
 
 	float MovePositionX;
 	float MovePositionY;
@@ -58,7 +54,7 @@ public:
 	int shortpassSize = 0;
 
 	//이동 경로 표시
-	cocos2d::Vector<cocos2d::Sprite*> MovePosition;
+	//cocos2d::Vector<cocos2d::Sprite*> MovePosition;
 	//적 표시
 	cocos2d::Vector<cocos2d::Sprite*> EmyMovePosition;
 
@@ -73,14 +69,20 @@ public:
 
 	void doMsgReceived(Ref* obj);
 	void doMsgReceivedMonster(Ref* obj);
+	void doMsgReceivedTool(Ref* obj);
 
 	int createMonsterNum;
+	int ToolNum;
 
 	int movement;
 	cocos2d::Vec2 VPos;
-
+	void createUpgrade();
 	Position *createMonsterPos;
 	int createPosSize;
+
+	cocos2d::Sprite* st;
+	void RemoveSprite();
+
 	bool b_CreateMonster;
 
 	virtual void onEnter();

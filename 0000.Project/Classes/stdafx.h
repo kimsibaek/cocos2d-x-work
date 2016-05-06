@@ -47,3 +47,21 @@ extern int EmyMonsterSize;
 
 extern Monster_num *Monster_List;
 extern int MonsterListSize;
+
+struct Items_num {
+	int _ID;
+	int Num;
+
+	cocos2d::Sprite *sprite;
+};
+
+extern Items_num *Items_List;
+extern int ItemsListSize;
+
+extern float VPosX;
+extern float VPosY;
+
+extern cocos2d::TMXTiledMap* tmap;
+extern cocos2d::TMXLayer* metainfo;
+
+extern cocos2d::Vector<cocos2d::Sprite*> MovePosition;
