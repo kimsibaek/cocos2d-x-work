@@ -24,11 +24,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>27</integer>
 			<key>originalHeight</key>
-			<integer>55</integer>
+			<integer>58</integer>
 		</dict>
 		<key>Earth5-2.png</key>
 		<dict>
@@ -45,7 +45,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>25</integer>
+			<integer>27</integer>
 			<key>originalHeight</key>
 			<integer>58</integer>
 		</dict>
@@ -64,9 +64,9 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>25</integer>
+			<integer>27</integer>
 			<key>originalHeight</key>
-			<integer>56</integer>
+			<integer>58</integer>
 		</dict>
 		<key>Earth5-4.png</key>
 		<dict>
@@ -83,7 +83,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>25</integer>
+			<integer>27</integer>
 			<key>originalHeight</key>
 			<integer>58</integer>
 		</dict>
@@ -100,11 +100,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>27</integer>
 			<key>originalHeight</key>
-			<integer>55</integer>
+			<integer>58</integer>
 		</dict>
 		<key>Earth5-6.png</key>
 		<dict>
@@ -121,7 +121,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>25</integer>
+			<integer>27</integer>
 			<key>originalHeight</key>
 			<integer>58</integer>
 		</dict>
@@ -140,9 +140,9 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>25</integer>
+			<integer>27</integer>
 			<key>originalHeight</key>
-			<integer>56</integer>
+			<integer>58</integer>
 		</dict>
 		<key>Earth5-8.png</key>
 		<dict>
@@ -159,7 +159,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>25</integer>
+			<integer>27</integer>
 			<key>originalHeight</key>
 			<integer>58</integer>
 		</dict>

@@ -15,6 +15,7 @@ struct Monster_num {
 	int atk;
 	int def;
 	int hp;
+	int Fullhp;
 	int move;
 	
 	int range;

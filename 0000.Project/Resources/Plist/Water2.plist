@@ -24,11 +24,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>33</integer>
 			<key>originalHeight</key>
-			<integer>22</integer>
+			<integer>37</integer>
 		</dict>
 		<key>Water2-2.png</key>
 		<dict>
@@ -43,11 +43,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>27</integer>
+			<integer>33</integer>
 			<key>originalHeight</key>
-			<integer>28</integer>
+			<integer>37</integer>
 		</dict>
 		<key>Water2-3.png</key>
 		<dict>
@@ -64,7 +64,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>21</integer>
+			<integer>33</integer>
 			<key>originalHeight</key>
 			<integer>37</integer>
 		</dict>
@@ -81,11 +81,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>27</integer>
+			<integer>33</integer>
 			<key>originalHeight</key>
-			<integer>28</integer>
+			<integer>37</integer>
 		</dict>
 		<key>Water2-5.png</key>
 		<dict>
@@ -100,11 +100,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>33</integer>
 			<key>originalHeight</key>
-			<integer>22</integer>
+			<integer>37</integer>
 		</dict>
 		<key>Water2-6.png</key>
 		<dict>
@@ -119,11 +119,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>27</integer>
+			<integer>33</integer>
 			<key>originalHeight</key>
-			<integer>28</integer>
+			<integer>37</integer>
 		</dict>
 		<key>Water2-7.png</key>
 		<dict>
@@ -140,7 +140,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>21</integer>
+			<integer>33</integer>
 			<key>originalHeight</key>
 			<integer>37</integer>
 		</dict>
@@ -157,11 +157,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>27</integer>
+			<integer>33</integer>
 			<key>originalHeight</key>
-			<integer>28</integer>
+			<integer>37</integer>
 		</dict>
 	</dict>
 </dict>

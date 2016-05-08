@@ -22,13 +22,13 @@
 			<key>height</key>
 			<integer>53</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>50</integer>
+			<integer>57</integer>
 			<key>originalHeight</key>
-			<integer>53</integer>
+			<integer>64</integer>
 		</dict>
 		<key>Earth3-2.png</key>
 		<dict>
@@ -41,11 +41,11 @@
 			<key>height</key>
 			<integer>64</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>50</integer>
+			<integer>57</integer>
 			<key>originalHeight</key>
 			<integer>64</integer>
 		</dict>
@@ -60,13 +60,13 @@
 			<key>height</key>
 			<integer>53</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>50</integer>
+			<integer>57</integer>
 			<key>originalHeight</key>
-			<integer>53</integer>
+			<integer>64</integer>
 		</dict>
 		<key>Earth3-4.png</key>
 		<dict>
@@ -85,7 +85,7 @@
 			<key>originalWidth</key>
 			<integer>57</integer>
 			<key>originalHeight</key>
-			<integer>44</integer>
+			<integer>64</integer>
 		</dict>
 		<key>Earth3-5.png</key>
 		<dict>
@@ -98,13 +98,13 @@
 			<key>height</key>
 			<integer>53</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>50</integer>
+			<integer>57</integer>
 			<key>originalHeight</key>
-			<integer>53</integer>
+			<integer>64</integer>
 		</dict>
 		<key>Earth3-6.png</key>
 		<dict>
@@ -117,11 +117,11 @@
 			<key>height</key>
 			<integer>64</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>50</integer>
+			<integer>57</integer>
 			<key>originalHeight</key>
 			<integer>64</integer>
 		</dict>
@@ -136,13 +136,13 @@
 			<key>height</key>
 			<integer>53</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>50</integer>
+			<integer>57</integer>
 			<key>originalHeight</key>
-			<integer>53</integer>
+			<integer>64</integer>
 		</dict>
 		<key>Earth3-8.png</key>
 		<dict>
@@ -161,7 +161,7 @@
 			<key>originalWidth</key>
 			<integer>57</integer>
 			<key>originalHeight</key>
-			<integer>44</integer>
+			<integer>64</integer>
 		</dict>
 	</dict>
 </dict>

@@ -5,9 +5,9 @@
 	<key>texture</key>
 	<dict>
 		<key>width</key>
-		<integer>256</integer>
+		<integer>512</integer>
 		<key>height</key>
-		<integer>256</integer>
+		<integer>128</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
@@ -24,11 +24,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>42</integer>
 			<key>originalHeight</key>
-			<integer>67</integer>
+			<integer>68</integer>
 		</dict>
 		<key>Fire9-2.png</key>
 		<dict>
@@ -41,13 +41,13 @@
 			<key>height</key>
 			<integer>67</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>39</integer>
+			<integer>42</integer>
 			<key>originalHeight</key>
-			<integer>67</integer>
+			<integer>68</integer>
 		</dict>
 		<key>Fire9-3.png</key>
 		<dict>
@@ -62,11 +62,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>42</integer>
 			<key>originalHeight</key>
-			<integer>67</integer>
+			<integer>68</integer>
 		</dict>
 		<key>Fire9-4.png</key>
 		<dict>
@@ -100,11 +100,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>42</integer>
 			<key>originalHeight</key>
-			<integer>67</integer>
+			<integer>68</integer>
 		</dict>
 		<key>Fire9-6.png</key>
 		<dict>
@@ -117,20 +117,20 @@
 			<key>height</key>
 			<integer>67</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>39</integer>
+			<integer>42</integer>
 			<key>originalHeight</key>
-			<integer>67</integer>
+			<integer>68</integer>
 		</dict>
 		<key>Fire9-7.png</key>
 		<dict>
 			<key>x</key>
-			<integer>1</integer>
+			<integer>253</integer>
 			<key>y</key>
-			<integer>70</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>42</integer>
 			<key>height</key>
@@ -138,18 +138,18 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>42</integer>
 			<key>originalHeight</key>
-			<integer>67</integer>
+			<integer>68</integer>
 		</dict>
 		<key>Fire9-8.png</key>
 		<dict>
 			<key>x</key>
-			<integer>44</integer>
+			<integer>296</integer>
 			<key>y</key>
-			<integer>70</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>42</integer>
 			<key>height</key>

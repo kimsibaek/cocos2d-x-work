@@ -7,7 +7,7 @@
 		<key>width</key>
 		<integer>256</integer>
 		<key>height</key>
-		<integer>128</integer>
+		<integer>64</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
@@ -26,7 +26,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>27</integer>
+			<integer>29</integer>
 			<key>originalHeight</key>
 			<integer>40</integer>
 		</dict>
@@ -64,7 +64,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>27</integer>
+			<integer>29</integer>
 			<key>originalHeight</key>
 			<integer>40</integer>
 		</dict>
@@ -79,13 +79,13 @@
 			<key>height</key>
 			<integer>38</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>24</integer>
+			<integer>29</integer>
 			<key>originalHeight</key>
-			<integer>38</integer>
+			<integer>40</integer>
 		</dict>
 		<key>Fire1-5.png</key>
 		<dict>
@@ -102,7 +102,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>27</integer>
+			<integer>29</integer>
 			<key>originalHeight</key>
 			<integer>40</integer>
 		</dict>
@@ -140,7 +140,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>27</integer>
+			<integer>29</integer>
 			<key>originalHeight</key>
 			<integer>40</integer>
 		</dict>
@@ -155,13 +155,13 @@
 			<key>height</key>
 			<integer>38</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>24</integer>
+			<integer>29</integer>
 			<key>originalHeight</key>
-			<integer>38</integer>
+			<integer>40</integer>
 		</dict>
 	</dict>
 </dict>

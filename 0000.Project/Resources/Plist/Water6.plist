@@ -5,9 +5,9 @@
 	<key>texture</key>
 	<dict>
 		<key>width</key>
-		<integer>256</integer>
+		<integer>512</integer>
 		<key>height</key>
-		<integer>128</integer>
+		<integer>64</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
@@ -41,11 +41,11 @@
 			<key>height</key>
 			<integer>46</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>49</integer>
+			<integer>50</integer>
 			<key>originalHeight</key>
 			<integer>46</integer>
 		</dict>
@@ -79,13 +79,13 @@
 			<key>height</key>
 			<integer>44</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>49</integer>
+			<integer>50</integer>
 			<key>originalHeight</key>
-			<integer>44</integer>
+			<integer>46</integer>
 		</dict>
 		<key>Water6-5.png</key>
 		<dict>
@@ -109,28 +109,28 @@
 		<key>Water6-6.png</key>
 		<dict>
 			<key>x</key>
-			<integer>1</integer>
+			<integer>254</integer>
 			<key>y</key>
-			<integer>48</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>49</integer>
 			<key>height</key>
 			<integer>46</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>49</integer>
+			<integer>50</integer>
 			<key>originalHeight</key>
 			<integer>46</integer>
 		</dict>
 		<key>Water6-7.png</key>
 		<dict>
 			<key>x</key>
-			<integer>51</integer>
+			<integer>304</integer>
 			<key>y</key>
-			<integer>48</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>50</integer>
 			<key>height</key>
@@ -147,21 +147,21 @@
 		<key>Water6-8.png</key>
 		<dict>
 			<key>x</key>
-			<integer>102</integer>
+			<integer>355</integer>
 			<key>y</key>
-			<integer>48</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>49</integer>
 			<key>height</key>
 			<integer>44</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>49</integer>
+			<integer>50</integer>
 			<key>originalHeight</key>
-			<integer>44</integer>
+			<integer>46</integer>
 		</dict>
 	</dict>
 </dict>

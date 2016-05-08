@@ -22,13 +22,13 @@
 			<key>height</key>
 			<integer>35</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>18</integer>
+			<integer>23</integer>
 			<key>originalHeight</key>
-			<integer>35</integer>
+			<integer>37</integer>
 		</dict>
 		<key>Earth4-2.png</key>
 		<dict>
@@ -45,7 +45,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>19</integer>
+			<integer>23</integer>
 			<key>originalHeight</key>
 			<integer>37</integer>
 		</dict>
@@ -62,11 +62,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>23</integer>
 			<key>originalHeight</key>
-			<integer>36</integer>
+			<integer>37</integer>
 		</dict>
 		<key>Earth4-4.png</key>
 		<dict>
@@ -83,7 +83,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>19</integer>
+			<integer>23</integer>
 			<key>originalHeight</key>
 			<integer>37</integer>
 		</dict>
@@ -98,13 +98,13 @@
 			<key>height</key>
 			<integer>35</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>18</integer>
+			<integer>23</integer>
 			<key>originalHeight</key>
-			<integer>35</integer>
+			<integer>37</integer>
 		</dict>
 		<key>Earth4-6.png</key>
 		<dict>
@@ -121,7 +121,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>19</integer>
+			<integer>23</integer>
 			<key>originalHeight</key>
 			<integer>37</integer>
 		</dict>
@@ -138,11 +138,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>23</integer>
 			<key>originalHeight</key>
-			<integer>36</integer>
+			<integer>37</integer>
 		</dict>
 		<key>Earth4-8.png</key>
 		<dict>
@@ -159,7 +159,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>19</integer>
+			<integer>23</integer>
 			<key>originalHeight</key>
 			<integer>37</integer>
 		</dict>

@@ -5,9 +5,9 @@
 	<key>texture</key>
 	<dict>
 		<key>width</key>
-		<integer>256</integer>
+		<integer>512</integer>
 		<key>height</key>
-		<integer>128</integer>
+		<integer>64</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
@@ -26,7 +26,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>34</integer>
+			<integer>42</integer>
 			<key>originalHeight</key>
 			<integer>55</integer>
 		</dict>
@@ -45,7 +45,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>34</integer>
+			<integer>42</integer>
 			<key>originalHeight</key>
 			<integer>55</integer>
 		</dict>
@@ -62,11 +62,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>42</integer>
 			<key>originalHeight</key>
-			<integer>46</integer>
+			<integer>55</integer>
 		</dict>
 		<key>Earth9-4.png</key>
 		<dict>
@@ -81,11 +81,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>42</integer>
 			<key>originalHeight</key>
-			<integer>46</integer>
+			<integer>55</integer>
 		</dict>
 		<key>Earth9-5.png</key>
 		<dict>
@@ -102,7 +102,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>34</integer>
+			<integer>42</integer>
 			<key>originalHeight</key>
 			<integer>55</integer>
 		</dict>
@@ -121,16 +121,16 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>34</integer>
+			<integer>42</integer>
 			<key>originalHeight</key>
 			<integer>55</integer>
 		</dict>
 		<key>Earth9-7.png</key>
 		<dict>
 			<key>x</key>
-			<integer>1</integer>
+			<integer>227</integer>
 			<key>y</key>
-			<integer>57</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>42</integer>
 			<key>height</key>
@@ -138,18 +138,18 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>42</integer>
 			<key>originalHeight</key>
-			<integer>46</integer>
+			<integer>55</integer>
 		</dict>
 		<key>Earth9-8.png</key>
 		<dict>
 			<key>x</key>
-			<integer>44</integer>
+			<integer>270</integer>
 			<key>y</key>
-			<integer>57</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>42</integer>
 			<key>height</key>
@@ -157,11 +157,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>42</integer>
 			<key>originalHeight</key>
-			<integer>46</integer>
+			<integer>55</integer>
 		</dict>
 	</dict>
 </dict>

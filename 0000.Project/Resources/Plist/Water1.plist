@@ -22,11 +22,11 @@
 			<key>height</key>
 			<integer>31</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>24</integer>
+			<integer>29</integer>
 			<key>originalHeight</key>
 			<integer>31</integer>
 		</dict>
@@ -47,7 +47,7 @@
 			<key>originalWidth</key>
 			<integer>29</integer>
 			<key>originalHeight</key>
-			<integer>21</integer>
+			<integer>31</integer>
 		</dict>
 		<key>Water1-3.png</key>
 		<dict>
@@ -62,11 +62,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>29</integer>
 			<key>originalHeight</key>
-			<integer>22</integer>
+			<integer>31</integer>
 		</dict>
 		<key>Water1-4.png</key>
 		<dict>
@@ -85,7 +85,7 @@
 			<key>originalWidth</key>
 			<integer>29</integer>
 			<key>originalHeight</key>
-			<integer>21</integer>
+			<integer>31</integer>
 		</dict>
 		<key>Water1-5.png</key>
 		<dict>
@@ -98,11 +98,11 @@
 			<key>height</key>
 			<integer>31</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>24</integer>
+			<integer>29</integer>
 			<key>originalHeight</key>
 			<integer>31</integer>
 		</dict>
@@ -123,7 +123,7 @@
 			<key>originalWidth</key>
 			<integer>29</integer>
 			<key>originalHeight</key>
-			<integer>21</integer>
+			<integer>31</integer>
 		</dict>
 		<key>Water1-7.png</key>
 		<dict>
@@ -138,11 +138,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>29</integer>
 			<key>originalHeight</key>
-			<integer>22</integer>
+			<integer>31</integer>
 		</dict>
 		<key>Water1-8.png</key>
 		<dict>
@@ -161,7 +161,7 @@
 			<key>originalWidth</key>
 			<integer>29</integer>
 			<key>originalHeight</key>
-			<integer>21</integer>
+			<integer>31</integer>
 		</dict>
 	</dict>
 </dict>

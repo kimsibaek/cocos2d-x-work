@@ -5,9 +5,9 @@
 	<key>texture</key>
 	<dict>
 		<key>width</key>
-		<integer>256</integer>
+		<integer>512</integer>
 		<key>height</key>
-		<integer>128</integer>
+		<integer>64</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
@@ -24,11 +24,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>40</integer>
+			<integer>46</integer>
 			<key>originalHeight</key>
-			<integer>50</integer>
+			<integer>51</integer>
 		</dict>
 		<key>Wind6-2.png</key>
 		<dict>
@@ -64,7 +64,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>40</integer>
+			<integer>46</integer>
 			<key>originalHeight</key>
 			<integer>51</integer>
 		</dict>
@@ -100,18 +100,18 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>40</integer>
+			<integer>46</integer>
 			<key>originalHeight</key>
-			<integer>50</integer>
+			<integer>51</integer>
 		</dict>
 		<key>Wind6-6.png</key>
 		<dict>
 			<key>x</key>
-			<integer>1</integer>
+			<integer>218</integer>
 			<key>y</key>
-			<integer>53</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>46</integer>
 			<key>height</key>
@@ -128,9 +128,9 @@
 		<key>Wind6-7.png</key>
 		<dict>
 			<key>x</key>
-			<integer>48</integer>
+			<integer>265</integer>
 			<key>y</key>
-			<integer>53</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>40</integer>
 			<key>height</key>
@@ -140,16 +140,16 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>40</integer>
+			<integer>46</integer>
 			<key>originalHeight</key>
 			<integer>51</integer>
 		</dict>
 		<key>Wind6-8.png</key>
 		<dict>
 			<key>x</key>
-			<integer>89</integer>
+			<integer>306</integer>
 			<key>y</key>
-			<integer>53</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>46</integer>
 			<key>height</key>

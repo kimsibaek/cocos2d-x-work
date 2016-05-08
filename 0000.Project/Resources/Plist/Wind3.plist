@@ -5,9 +5,9 @@
 	<key>texture</key>
 	<dict>
 		<key>width</key>
-		<integer>256</integer>
+		<integer>512</integer>
 		<key>height</key>
-		<integer>128</integer>
+		<integer>64</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
@@ -43,11 +43,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>59</integer>
 			<key>originalHeight</key>
-			<integer>36</integer>
+			<integer>39</integer>
 		</dict>
 		<key>Wind3-3.png</key>
 		<dict>
@@ -83,16 +83,16 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>49</integer>
+			<integer>59</integer>
 			<key>originalHeight</key>
-			<integer>37</integer>
+			<integer>39</integer>
 		</dict>
 		<key>Wind3-5.png</key>
 		<dict>
 			<key>x</key>
-			<integer>1</integer>
+			<integer>231</integer>
 			<key>y</key>
-			<integer>41</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>59</integer>
 			<key>height</key>
@@ -109,9 +109,9 @@
 		<key>Wind3-6.png</key>
 		<dict>
 			<key>x</key>
-			<integer>61</integer>
+			<integer>291</integer>
 			<key>y</key>
-			<integer>41</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>59</integer>
 			<key>height</key>
@@ -119,18 +119,18 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>59</integer>
 			<key>originalHeight</key>
-			<integer>36</integer>
+			<integer>39</integer>
 		</dict>
 		<key>Wind3-7.png</key>
 		<dict>
 			<key>x</key>
-			<integer>121</integer>
+			<integer>351</integer>
 			<key>y</key>
-			<integer>41</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>59</integer>
 			<key>height</key>
@@ -147,9 +147,9 @@
 		<key>Wind3-8.png</key>
 		<dict>
 			<key>x</key>
-			<integer>181</integer>
+			<integer>411</integer>
 			<key>y</key>
-			<integer>41</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>49</integer>
 			<key>height</key>
@@ -159,9 +159,9 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>49</integer>
+			<integer>59</integer>
 			<key>originalHeight</key>
-			<integer>37</integer>
+			<integer>39</integer>
 		</dict>
 	</dict>
 </dict>

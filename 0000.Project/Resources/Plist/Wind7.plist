@@ -5,7 +5,7 @@
 	<key>texture</key>
 	<dict>
 		<key>width</key>
-		<integer>256</integer>
+		<integer>512</integer>
 		<key>height</key>
 		<integer>64</integer>
 	</dict>
@@ -22,11 +22,11 @@
 			<key>height</key>
 			<integer>30</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>39</integer>
+			<integer>42</integer>
 			<key>originalHeight</key>
 			<integer>30</integer>
 		</dict>
@@ -60,11 +60,11 @@
 			<key>height</key>
 			<integer>30</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>37</integer>
+			<integer>42</integer>
 			<key>originalHeight</key>
 			<integer>30</integer>
 		</dict>
@@ -98,11 +98,11 @@
 			<key>height</key>
 			<integer>30</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>39</integer>
+			<integer>42</integer>
 			<key>originalHeight</key>
 			<integer>30</integer>
 		</dict>
@@ -128,28 +128,28 @@
 		<key>Wind7-7.png</key>
 		<dict>
 			<key>x</key>
-			<integer>1</integer>
+			<integer>248</integer>
 			<key>y</key>
-			<integer>32</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>37</integer>
 			<key>height</key>
 			<integer>30</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>37</integer>
+			<integer>42</integer>
 			<key>originalHeight</key>
 			<integer>30</integer>
 		</dict>
 		<key>Wind7-8.png</key>
 		<dict>
 			<key>x</key>
-			<integer>39</integer>
+			<integer>286</integer>
 			<key>y</key>
-			<integer>32</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>42</integer>
 			<key>height</key>

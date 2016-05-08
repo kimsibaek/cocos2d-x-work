@@ -5,9 +5,9 @@
 	<key>texture</key>
 	<dict>
 		<key>width</key>
-		<integer>256</integer>
+		<integer>512</integer>
 		<key>height</key>
-		<integer>128</integer>
+		<integer>64</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
@@ -24,11 +24,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>50</integer>
 			<key>originalHeight</key>
-			<integer>42</integer>
+			<integer>45</integer>
 		</dict>
 		<key>Water8-2.png</key>
 		<dict>
@@ -41,11 +41,11 @@
 			<key>height</key>
 			<integer>45</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>45</integer>
+			<integer>50</integer>
 			<key>originalHeight</key>
 			<integer>45</integer>
 		</dict>
@@ -62,11 +62,11 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>40</integer>
+			<integer>50</integer>
 			<key>originalHeight</key>
-			<integer>42</integer>
+			<integer>45</integer>
 		</dict>
 		<key>Water8-4.png</key>
 		<dict>
@@ -79,11 +79,11 @@
 			<key>height</key>
 			<integer>45</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>45</integer>
+			<integer>50</integer>
 			<key>originalHeight</key>
 			<integer>45</integer>
 		</dict>
@@ -100,37 +100,37 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
 			<integer>50</integer>
 			<key>originalHeight</key>
-			<integer>42</integer>
+			<integer>45</integer>
 		</dict>
 		<key>Water8-6.png</key>
 		<dict>
 			<key>x</key>
-			<integer>1</integer>
+			<integer>236</integer>
 			<key>y</key>
-			<integer>47</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>45</integer>
 			<key>height</key>
 			<integer>45</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>45</integer>
+			<integer>50</integer>
 			<key>originalHeight</key>
 			<integer>45</integer>
 		</dict>
 		<key>Water8-7.png</key>
 		<dict>
 			<key>x</key>
-			<integer>47</integer>
+			<integer>282</integer>
 			<key>y</key>
-			<integer>47</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>40</integer>
 			<key>height</key>
@@ -138,28 +138,28 @@
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>0</real>
+			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>40</integer>
+			<integer>50</integer>
 			<key>originalHeight</key>
-			<integer>42</integer>
+			<integer>45</integer>
 		</dict>
 		<key>Water8-8.png</key>
 		<dict>
 			<key>x</key>
-			<integer>88</integer>
+			<integer>323</integer>
 			<key>y</key>
-			<integer>47</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>45</integer>
 			<key>height</key>
 			<integer>45</integer>
 			<key>offsetX</key>
-			<real>0</real>
+			<real>0.5</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>45</integer>
+			<integer>50</integer>
 			<key>originalHeight</key>
 			<integer>45</integer>
 		</dict>

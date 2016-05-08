@@ -42,6 +42,8 @@ public:
 		int front_front_y;
 		int front_front_front_x;
 		int front_front_front_y;
+
+		bool PositionView;
 	};
 
 	Position *pos;
@@ -63,9 +65,15 @@ public:
 	cocos2d::Sprite* pause;
 	cocos2d::Sprite* createMonster;
 	cocos2d::Sprite* Items;
+	cocos2d::Sprite* attack;
+	cocos2d::Sprite* dispel;
+
 
 	bool status;
+	bool statuschar;
 	bool touchMove;
+
+	bool statusAttack;
 
 	void doMsgReceived(Ref* obj);
 	void doMsgReceivedMonster(Ref* obj);
@@ -84,6 +92,13 @@ public:
 	void RemoveSprite();
 
 	bool b_CreateMonster;
+	bool b_UseTool;
+	int ToolUseMonster;
+	cocos2d::Vec2 ToolUsePosition;
+
+	int ClickEmyMonster;
+
+	int GrobalTempsize;
 
 	virtual void onEnter();
 	virtual void onExit();
@@ -99,8 +114,11 @@ public:
 	void FocusCharacter();
 
 	bool ChecksPosition(int num1, int num2);
-	Position* ChecksPosition(cocos2d::Vec2 charactor, Position *pos_temp, int tempSize, int Count);
-	bool checkcoordinate(cocos2d::Vec2 click);
+	Position* ChecksPosition(cocos2d::Vec2 charactor, Position *pos_temp, int tempSize, int Count, int move);
+	bool checkcoordinate(cocos2d::Vec2 click); 
+	bool checkEmyMonsterCoordinate(cocos2d::Vec2 click);
+	bool BufTileCheck(cocos2d::Vec2 vec);
+	int SynastryCheck(int s1, int s2);
 };
 
 #endif // __EarthMap_SCENE_H__

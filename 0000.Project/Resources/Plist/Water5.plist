@@ -5,9 +5,9 @@
 	<key>texture</key>
 	<dict>
 		<key>width</key>
-		<integer>256</integer>
+		<integer>512</integer>
 		<key>height</key>
-		<integer>128</integer>
+		<integer>64</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
@@ -26,7 +26,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>44</integer>
+			<integer>46</integer>
 			<key>originalHeight</key>
 			<integer>39</integer>
 		</dict>
@@ -64,7 +64,7 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>44</integer>
+			<integer>46</integer>
 			<key>originalHeight</key>
 			<integer>39</integer>
 		</dict>
@@ -102,16 +102,16 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>44</integer>
+			<integer>46</integer>
 			<key>originalHeight</key>
 			<integer>39</integer>
 		</dict>
 		<key>Water5-6.png</key>
 		<dict>
 			<key>x</key>
-			<integer>1</integer>
+			<integer>230</integer>
 			<key>y</key>
-			<integer>41</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>46</integer>
 			<key>height</key>
@@ -128,9 +128,9 @@
 		<key>Water5-7.png</key>
 		<dict>
 			<key>x</key>
-			<integer>48</integer>
+			<integer>277</integer>
 			<key>y</key>
-			<integer>41</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>44</integer>
 			<key>height</key>
@@ -140,16 +140,16 @@
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>44</integer>
+			<integer>46</integer>
 			<key>originalHeight</key>
 			<integer>39</integer>
 		</dict>
 		<key>Water5-8.png</key>
 		<dict>
 			<key>x</key>
-			<integer>93</integer>
+			<integer>322</integer>
 			<key>y</key>
-			<integer>41</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>46</integer>
 			<key>height</key>
