@@ -119,9 +119,12 @@ bool EarthMap::init()
 
 	//주인공 클릭상태
 	CharacterClick = false;
+	//몬스터 이동후 상태
+	SecondCharacterClick = false;
 
 	//아군몬스터가 도구, 소환 작업 상태
 	status = false;
+	statusAttack = false;
 	touchMove = true;
 	//몬스터 소환상태
 	b_CreateMonster = false;
@@ -920,6 +923,15 @@ void EarthMap::doMsgReceivedMonster(Ref* obj) {
 	if (!strcmp(testText, "0")) {
 		Director::getInstance()->resume();
 		touchMove = true;
+		//적 몬스터 타일 표시
+		for (int i = 0; i < EmyMovePosition.size(); i++) {
+			this->addChild(EmyMovePosition.at(i), 2);
+		}
+		//
+		for (int i = 0; i < MovePosition.size(); i++) {
+			addChild(MovePosition.at(i), 2);
+		}
+		CharacterClick = true;
 	}
 	else {
 		createMonsterNum = atoi(testText);
@@ -944,6 +956,16 @@ void EarthMap::doMsgReceivedTool(Ref* obj) {
 	if (!strcmp(testText, "0")) {
 		Director::getInstance()->resume();
 		touchMove = true;
+
+		//적 몬스터 타일 표시
+		for (int i = 0; i < EmyMovePosition.size(); i++) {
+			this->addChild(EmyMovePosition.at(i), 2);
+		}
+		//
+		for (int i = 0; i < MovePosition.size(); i++) {
+			addChild(MovePosition.at(i), 2);
+		}
+		CharacterClick = true;
 	}
 	else {
 		ToolNum = atoi(testText);
@@ -1038,23 +1060,17 @@ bool EarthMap::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) {
 	auto touchPoint = touch->getLocation();
 	StartDragPosition = touchPoint;
 	
-	for (int i = 0; i < MovePosition.size(); i++) {
-		this->removeChild(MovePosition.at(i));
-	}
-	MovePosition.clear();
-	for (int i = 0; i < EmyMovePosition.size(); i++) {
-		this->removeChild(EmyMovePosition.at(i));
-	}
-	EmyMovePosition.clear();
-
 	return true;
 }
 
 void EarthMap::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) {
-	if (!touchMove) {
+	//소환, 도구 다이얼로그 창 띄워져 있을 경우
+	if (status) {
 		return;
 	}
-
+	if (statusAttack) {
+		return;
+	}
 	winSize = Director::getInstance()->getWinSize();
 
 	auto touchPoint = touch->getLocation();
@@ -1127,6 +1143,7 @@ void EarthMap::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) {
 		y = 767.5;
 	}
 	BG->setPosition(Vec2(x, y));
+
 	float tx = tmap->getPosition().x + (EndDragPosition.x - StartDragPosition.x);
 	float ty = tmap->getPosition().y + (EndDragPosition.y - StartDragPosition.y);
 	if (tx < -1039.5 + winSize.width - 1006.5) {
@@ -1147,11 +1164,35 @@ void EarthMap::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) {
 	MovePositionY = ty;
 
 	StartDragPosition = EndDragPosition;
+
+	for (int i = 0; i < MovePosition.size(); i++) {
+		float testx = MovePosition.at(i)->getPosition().x - (EndDragPosition.x - StartDragPosition.x);
+		float testy = MovePosition.at(i)->getPosition().y - (EndDragPosition.y - StartDragPosition.y);
+		MovePosition.at(i)->setPosition(Vec2(testx, testy));
+	}
+	for (int i = 0; i < EmyMovePosition.size(); i++) {
+		float testx = EmyMovePosition.at(i)->getPosition().x - (EndDragPosition.x - StartDragPosition.x);
+		float testy = EmyMovePosition.at(i)->getPosition().y - (EndDragPosition.y - StartDragPosition.y);
+		EmyMovePosition.at(i)->setPosition(Vec2(testx, testy));
+	}
 }
 
 void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 	auto touchPoint = touch->getLocation();
 	touchPoint = this->convertToNodeSpace(touchPoint);
+
+	char str1[100];
+	char str2[100];
+	Vector<SpriteFrame*> animFrames;
+
+	//일시정지
+	bool bTouch1 = pause->getBoundingBox().containsPoint(touchPoint);
+	if (bTouch1) {
+		Scene* popWin;
+		popWin = pauseScene::createScene();
+		this->addChild(popWin, 2000, 2000);
+	}
+	
 	//클릭타일좌표
 	Vec2 m_pos = tileCoordForPosition(touchPoint);
 
@@ -1783,40 +1824,27 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 				monster_char[monsterSize - 1].sprite->runAction(rep);
 
 				//FocusCharacter();
+				b_CreateMonster = false;
+				for (int i = 0; i < MovePosition.size(); i++) {
+					this->removeChild(MovePosition.at(i));
+				}
+				MovePosition.clear();
+
+				if (createPosSize != 0) {
+					free(createMonsterPos);
+					createPosSize = 0;
+				}
 			}
 		}
-		b_CreateMonster = false;
-		for (int i = 0; i < MovePosition.size(); i++) {
-			this->removeChild(MovePosition.at(i));
-		}
-		MovePosition.clear();
-
-		if (createPosSize != 0) {
-			free(createMonsterPos);
-			createPosSize = 0;
-		}
-
 		return;
 	}
 
-	//소환, 도구 창 띄워져 있을 경우
+	//소환, 도구 다이얼로그 창 띄워져 있을 경우
 	if (!touchMove) {
 		return;
 	}
 	
-	
-
-	char str1[100];
-	char str2[100];
-	Vector<SpriteFrame*> animFrames;
-	
-	bool bTouch1 = pause->getBoundingBox().containsPoint(touchPoint);
-	if (bTouch1) {
-		Scene* popWin;
-		popWin = pauseScene::createScene();
-		this->addChild(popWin, 2000, 2000);
-	}
-
+	//myTouch(소환, 도구)
 	if (status) {
 		if (statuschar) {
 			//소환
@@ -1826,6 +1854,9 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 				Scene* popWin;
 				popWin = CreateMonster::createScene();
 				this->addChild(popWin, 2000, 2000);
+
+				CharacterClick = false;
+				status = false;
 			}
 		}
 		//도구
@@ -1835,10 +1866,14 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 			Scene* popWin;
 			popWin = Toolbag::createScene();
 			this->addChild(popWin, 2000, 2000);
+
+			CharacterClick = false;
+			status = false;
 		}
-		status = false;
-		removeChild(createMonster);
-		removeChild(Items);
+		if (!status) {
+			removeChild(createMonster);
+			removeChild(Items);
+		}
 
 		for (int i = 0; i < monsterSize; i++) {
 			Vec2 mon_pos = tileCoordForPosition(Vec2(monster_char[i].xMovePosition, monster_char[i].yMovePosition));
@@ -1851,6 +1886,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 		return;
 	}
 	
+	//공격가능 적 클릭(공격, 디스펠)
 	if (statusAttack) {
 		//공격
 		bool bTouch2 = attack->getBoundingBox().containsPoint(touchPoint);
@@ -1897,6 +1933,17 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 					ExpCheck();
 				}
 			}
+			statusAttack = false;
+			//적 몬스터 타일 지우기
+			for (int i = 0; i < EmyMovePosition.size(); i++) {
+				this->removeChild(EmyMovePosition.at(i));
+			}
+			EmyMovePosition.clear();
+			//
+			for (int i = 0; i < MovePosition.size(); i++) {
+				this->removeChild(MovePosition.at(i));
+			}
+			MovePosition.clear();
 		}
 		//디스펠
 		bool bTouch3 = dispel->getBoundingBox().containsPoint(touchPoint);
@@ -2005,31 +2052,29 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 				EmyMonsterSize--;
 			}
 			ExpCheck();
+			statusAttack = false;
+			for (int i = 0; i < EmyMovePosition.size(); i++) {
+				this->removeChild(EmyMovePosition.at(i));
+			}
+			EmyMovePosition.clear();
+			for (int i = 0; i < MovePosition.size(); i++) {
+				this->removeChild(MovePosition.at(i));
+			}
+			MovePosition.clear();
 		}
-		statusAttack = false;
-		removeChild(attack);
-		removeChild(dispel);
+		if (!statusAttack) {
+			removeChild(attack);
+			removeChild(dispel);
+
+		}
+		return;
 	}
 	
-
-	//if (ChecksPosition(m_pos.x, m_pos.y)) {
-	//	//몬스터 위치 중복체크
-	//	//장애물 클릭체크
-	//}
-	//else {
-	//	//몬스터 위치 클릭됨
-	//	//장애물 클릭됨
-	//}
-
-	
-	//아군몬스터가 클릭상태일 경우
+	//자기자신이 클릭상태일 경우
 	if (CharacterClick) {
-		//아군몬스터 선택시
-		//log("monster_char = %d, %f, %f", mons, monster_char[mons].xMovePosition, monster_char[mons].yMovePosition);
 		Vec2 mon_pos = tileCoordForPosition(Vec2(monster_char[mons].xMovePosition, monster_char[mons].yMovePosition));
-		//아군몬스터를 클릭시
-		//log("좌표1 %f, %f, %f, %f", mon_pos.x, mon_pos.y, m_pos.x, m_pos.y);
 		ToolUsePosition = m_pos;
+		//자기자신을 클릭시 (도구, 소환)
 		if (m_pos == mon_pos) {
 			if (monster_char[mons].Type == 0) {
 				status = true;
@@ -2058,13 +2103,101 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 			}
 			VPosX = mon_pos.x;
 			VPosY = mon_pos.y;
+
+			for (int i = 0; i < EmyMovePosition.size(); i++) {
+				this->removeChild(EmyMovePosition.at(i));
+			}
+			for (int i = 0; i < MovePosition.size(); i++) {
+				this->removeChild(MovePosition.at(i));
+			}
+			return;
 		}
-		//아군몬스터 범위내 클릭시
+		
+		//공격 범위내 적군몬스터 클릭시 (공격, 디스펠)
+		else if (checkEmyMonsterCoordinate(m_pos)) {
+			//데미지 계산
+			//주인공이 적군 몬스터를 공격, 디스펠 할 경우
+			if (mons == 0) {
+				//log("공격, 디스펠");
+				statusAttack = true;
+				//create 공격
+				attack = Sprite::create("Images/Scene/Attack2.png");
+				attack->setPosition(Vec2(EmyMonster_char[ClickEmyMonster].xMovePosition, EmyMonster_char[ClickEmyMonster].yMovePosition + 28));
+				attack->setScale(2.0f);
+				addChild(attack, 6);
+				//create 디스펠
+				dispel = Sprite::create("Images/Scene/DISPEL2.png");
+				dispel->setPosition(Vec2(EmyMonster_char[ClickEmyMonster].xMovePosition, EmyMonster_char[ClickEmyMonster].yMovePosition - 28));
+				dispel->setScale(2.0f);
+				addChild(dispel, 6);
+			}
+			//아군 소환몬스터가 적군 몬스터 공격
+			else {
+				float bufDamage = 1.0;
+				float bufDefense = 1.0;
+				if (BufTileCheck(Vec2(monster_char[mons].tx, monster_char[mons].ty))) {
+					bufDamage += 0.2;
+				}
+				if (BufTileCheck(Vec2(EmyMonster_char[ClickEmyMonster].tx, EmyMonster_char[ClickEmyMonster].ty))) {
+					bufDefense += 0.2;
+				}
+
+				if (SynastryCheck(monster_char[mons].Type, EmyMonster_char[ClickEmyMonster].Type) == 1) {
+					bufDamage += 0.2;
+				}
+				else if (SynastryCheck(monster_char[mons].Type, EmyMonster_char[ClickEmyMonster].Type) == 2) {
+					bufDefense += 0.2;
+				}
+				//log("defore hp = %d", EmyMonster_char[ClickEmyMonster].hp);
+				int damage = (monster_char[mons].atk * bufDamage) - (EmyMonster_char[ClickEmyMonster].def * bufDefense);
+				//log("damage = %d, monster_char[mons].atk = %d, bufDamage = %f, EmyMonster_char[ClickEmyMonster].def = %d, bufDefense = %f",
+				//damage, monster_char[mons].atk, bufDamage, EmyMonster_char[ClickEmyMonster].def, bufDefense);
+				if (damage > 0) {
+					EmyMonster_char[ClickEmyMonster].hp -= damage;
+					EmyMonster_char[ClickEmyMonster].sprite->removeChildByTag(2);
+					Sprite* hp = Sprite::createWithSpriteFrameName("EmyMonseter_HP.png");
+					hp->setPosition(2, -5);
+					hp->setScaleX((EmyMonster_char[ClickEmyMonster].HPbarPosition / 25 * 2) * EmyMonster_char[ClickEmyMonster].hp / EmyMonster_char[ClickEmyMonster].Fullhp);
+					//hp->setContentSize(Size(st->getContentSize().width, st->getContentSize().height));
+					hp->setAnchorPoint(Vec2(0, 0.5));
+					EmyMonster_char[ClickEmyMonster].sprite->addChild(hp, 4, 2);
+
+					if (EmyMonster_char[ClickEmyMonster].hp < 0) {
+						EmyMonster_char[ClickEmyMonster].hp = 0;
+						//적 몬스터 죽음 처리
+						removeChild(EmyMonster_char[ClickEmyMonster].sprite);
+						for (int k = ClickEmyMonster; k < EmyMonsterSize - 1; k++) {
+							EmyMonster_char[k] = EmyMonster_char[k + 1];
+						}
+						EmyMonster_char = (Monster_num*)realloc(EmyMonster_char, sizeof(Monster_num) * (EmyMonsterSize - 1));
+						EmyMonsterSize--;
+
+						ExpCheck();
+					}
+				}
+				statusAttack = false;
+				//적 몬스터 타일 지우기
+				for (int i = 0; i < EmyMovePosition.size(); i++) {
+					this->removeChild(EmyMovePosition.at(i));
+				}
+				EmyMovePosition.clear();
+				//
+				for (int i = 0; i < MovePosition.size(); i++) {
+					this->removeChild(MovePosition.at(i));
+				}
+				MovePosition.clear();
+			}
+			CharacterClick = false;
+			return;
+		}
+		
+		//아군몬스터 범위내 클릭시 (경로 이동)
 		else if (checkcoordinate(m_pos)) {
 			
 			SpriteCoordinateChange(m_pos);
 
-			//이동
+			//이동 시작
+
 			//초기화
 			if (shortpassSize) {
 				free(shortpass);
@@ -2296,81 +2429,15 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 				}
 			}
 			
+			//이동 끝
+
 			//이동후 공격범위 내 적 몬스터가 있을 시 공격상태
-			if (DisplayEmyMonsterAttack(m_pos)) {
-				log("몬스터 어택가능");
-			}
-			//공격범위 내 적 몬스터가 없을 시 턴엔드
-			else {
-				log("턴엔드");
-			}
+			//공격가능 몬스터 타일표시
+			DisplayEmyMonsterAttack(m_pos);
+			CharacterClick = true;
 		}
-		//공격 범위내 적군몬스터 클릭시
-		else if (checkEmyMonsterCoordinate(m_pos)) {
-			//데미지 계산
-			//주인공이 적군 몬스터를 공격, 디스펠 할 경우
-			if (mons == 0) {
-				//log("공격, 디스펠");
-				statusAttack = true;
-				//create 공격
-				attack = Sprite::create("Images/Scene/Attack2.png");
-				attack->setPosition(Vec2(EmyMonster_char[ClickEmyMonster].xMovePosition, EmyMonster_char[ClickEmyMonster].yMovePosition + 28));
-				attack->setScale(2.0f);
-				addChild(attack, 6);
-				//create 디스펠
-				dispel = Sprite::create("Images/Scene/DISPEL2.png");
-				dispel->setPosition(Vec2(EmyMonster_char[ClickEmyMonster].xMovePosition, EmyMonster_char[ClickEmyMonster].yMovePosition - 28));
-				dispel->setScale(2.0f);
-				addChild(dispel, 6);
-			}
-			//아군 소환몬스터가 적군 몬스터 공격
-			else {
-				float bufDamage = 1.0;
-				float bufDefense = 1.0;
-				if (BufTileCheck(Vec2(monster_char[mons].tx, monster_char[mons].ty))) {
-					bufDamage += 0.2;
-				}
-				if (BufTileCheck(Vec2(EmyMonster_char[ClickEmyMonster].tx, EmyMonster_char[ClickEmyMonster].ty))) {
-					bufDefense += 0.2;
-				}
-
-				if (SynastryCheck(monster_char[mons].Type, EmyMonster_char[ClickEmyMonster].Type) == 1) {
-					bufDamage += 0.2;
-				}
-				else if (SynastryCheck(monster_char[mons].Type, EmyMonster_char[ClickEmyMonster].Type) == 2) {
-					bufDefense += 0.2;
-				}
-				//log("defore hp = %d", EmyMonster_char[ClickEmyMonster].hp);
-				int damage = (monster_char[mons].atk * bufDamage) - (EmyMonster_char[ClickEmyMonster].def * bufDefense);
-				//log("damage = %d, monster_char[mons].atk = %d, bufDamage = %f, EmyMonster_char[ClickEmyMonster].def = %d, bufDefense = %f",
-					//damage, monster_char[mons].atk, bufDamage, EmyMonster_char[ClickEmyMonster].def, bufDefense);
-				if (damage > 0) {
-					EmyMonster_char[ClickEmyMonster].hp -= damage;
-					EmyMonster_char[ClickEmyMonster].sprite->removeChildByTag(2);
-					Sprite* hp = Sprite::createWithSpriteFrameName("EmyMonseter_HP.png");
-					hp->setPosition(2, -5);
-					hp->setScaleX((EmyMonster_char[ClickEmyMonster].HPbarPosition / 25 * 2) * EmyMonster_char[ClickEmyMonster].hp / EmyMonster_char[ClickEmyMonster].Fullhp);
-					//hp->setContentSize(Size(st->getContentSize().width, st->getContentSize().height));
-					hp->setAnchorPoint(Vec2(0, 0.5));
-					EmyMonster_char[ClickEmyMonster].sprite->addChild(hp, 4, 2);
-
-					if (EmyMonster_char[ClickEmyMonster].hp < 0) {
-						EmyMonster_char[ClickEmyMonster].hp = 0;
-						//적 몬스터 죽음 처리
-						removeChild(EmyMonster_char[ClickEmyMonster].sprite);
-						for (int k = ClickEmyMonster; k < EmyMonsterSize - 1; k++) {
-							EmyMonster_char[k] = EmyMonster_char[k + 1];
-						}
-						EmyMonster_char = (Monster_num*)realloc(EmyMonster_char, sizeof(Monster_num) * (EmyMonsterSize - 1));
-						EmyMonsterSize--;
-
-						ExpCheck();
-					}
-				}
-			}
-		}
-		CharacterClick = false;
 	}
+	//아무런 상태가 아닐 경우
 	else {
 		//아군몬스터 선택시
 		mons = -1;
@@ -2395,6 +2462,18 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 				free(Emypos);
 				EmyposSize = 0;
 			}
+
+			//적 몬스터 타일 지우기
+			for (int i = 0; i < EmyMovePosition.size(); i++) {
+				this->removeChild(EmyMovePosition.at(i));
+			}
+			EmyMovePosition.clear();
+			//
+			for (int i = 0; i < MovePosition.size(); i++) {
+				this->removeChild(MovePosition.at(i));
+			}
+			MovePosition.clear();
+
 			//이동가능한 경로 체크하기
 			if (monster_char[mons].move == 4) {
 				movement = 0;
@@ -2642,7 +2721,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 	}
 }
 
-bool EarthMap::DisplayEmyMonsterAttack(Vec2 pos) {
+void EarthMap::DisplayEmyMonsterAttack(Vec2 posVec) {
 	if (EmyposSize) {
 		free(Emypos);
 		EmyposSize = 0;
@@ -2651,224 +2730,247 @@ bool EarthMap::DisplayEmyMonsterAttack(Vec2 pos) {
 
 		//공격범위 1이상 체크
 		if (monster_char[mons].range > 0) {
-			if (pos.x - 1 == EmyMonster_char[k].tx && pos.y == EmyMonster_char[k].ty) {
+			if (posVec.x - 1 == EmyMonster_char[k].tx && posVec.y == EmyMonster_char[k].ty) {
 				if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 				else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 				EmyposSize++;
-				Emypos[EmyposSize - 1].x = pos.x;
-				Emypos[EmyposSize - 1].y = pos.y;
+				Emypos[EmyposSize - 1].x = posVec.x - 1;
+				Emypos[EmyposSize - 1].y = posVec.y;
 				Emypos[EmyposSize - 1].PositionView = true;
+				Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 			}
-			if (pos.x + 1 == EmyMonster_char[k].tx && pos.y == EmyMonster_char[k].ty) {
+			if (posVec.x + 1 == EmyMonster_char[k].tx && posVec.y == EmyMonster_char[k].ty) {
 				if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 				else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 				EmyposSize++;
-				Emypos[EmyposSize - 1].x = pos.x;
-				Emypos[EmyposSize - 1].y = pos.y;
+				Emypos[EmyposSize - 1].x = posVec.x + 1;
+				Emypos[EmyposSize - 1].y = posVec.y;
 				Emypos[EmyposSize - 1].PositionView = true;
+				Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 			}
-			if (pos.x == EmyMonster_char[k].tx && pos.y - 1 == EmyMonster_char[k].ty) {
+			if (posVec.x == EmyMonster_char[k].tx && posVec.y - 1 == EmyMonster_char[k].ty) {
 				if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 				else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 				EmyposSize++;
-				Emypos[EmyposSize - 1].x = pos.x;
-				Emypos[EmyposSize - 1].y = pos.y;
+				Emypos[EmyposSize - 1].x = posVec.x;
+				Emypos[EmyposSize - 1].y = posVec.y - 1;
 				Emypos[EmyposSize - 1].PositionView = true;
+				Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 			}
-			if (pos.x == EmyMonster_char[k].tx && pos.y + 1 == EmyMonster_char[k].ty) {
+			if (posVec.x == EmyMonster_char[k].tx && posVec.y + 1 == EmyMonster_char[k].ty) {
 				if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 				else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 				EmyposSize++;
-				Emypos[EmyposSize - 1].x = pos.x;
-				Emypos[EmyposSize - 1].y = pos.y;
+				Emypos[EmyposSize - 1].x = posVec.x;
+				Emypos[EmyposSize - 1].y = posVec.y + 1;
 				Emypos[EmyposSize - 1].PositionView = true;
+				Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 			}
-			if (fmodf(pos.y, 2) == 0) {
-				if (pos.x - 1 == EmyMonster_char[k].tx && pos.y - 1 == EmyMonster_char[k].ty) {
+			if (fmodf(posVec.y, 2) == 0) {
+				if (posVec.x - 1 == EmyMonster_char[k].tx && posVec.y - 1 == EmyMonster_char[k].ty) {
 					if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 					else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 					EmyposSize++;
-					Emypos[EmyposSize - 1].x = pos.x;
-					Emypos[EmyposSize - 1].y = pos.y;
+					Emypos[EmyposSize - 1].x = posVec.x - 1;
+					Emypos[EmyposSize - 1].y = posVec.y - 1;
 					Emypos[EmyposSize - 1].PositionView = true;
+					Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 				}
-				if (pos.x - 1 == EmyMonster_char[k].tx && pos.y + 1 == EmyMonster_char[k].ty) {
+				if (posVec.x - 1 == EmyMonster_char[k].tx && posVec.y + 1 == EmyMonster_char[k].ty) {
 					if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 					else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 					EmyposSize++;
-					Emypos[EmyposSize - 1].x = pos.x;
-					Emypos[EmyposSize - 1].y = pos.y;
+					Emypos[EmyposSize - 1].x = posVec.x - 1;
+					Emypos[EmyposSize - 1].y = posVec.y + 1;
 					Emypos[EmyposSize - 1].PositionView = true;
+					Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 				}
 			}
 			else {
-				if (pos.x + 1 == EmyMonster_char[k].tx && pos.y + 1 == EmyMonster_char[k].ty) {
+				if (posVec.x + 1 == EmyMonster_char[k].tx && posVec.y + 1 == EmyMonster_char[k].ty) {
 					if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 					else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 					EmyposSize++;
-					Emypos[EmyposSize - 1].x = pos.x;
-					Emypos[EmyposSize - 1].y = pos.y;
+					Emypos[EmyposSize - 1].x = posVec.x + 1;
+					Emypos[EmyposSize - 1].y = posVec.y + 1;
 					Emypos[EmyposSize - 1].PositionView = true;
+					Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 				}
-				if (pos.x + 1 == EmyMonster_char[k].tx && pos.y - 1 == EmyMonster_char[k].ty) {
+				if (posVec.x + 1 == EmyMonster_char[k].tx && posVec.y - 1 == EmyMonster_char[k].ty) {
 					if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 					else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 					EmyposSize++;
-					Emypos[EmyposSize - 1].x = pos.x;
-					Emypos[EmyposSize - 1].y = pos.y;
+					Emypos[EmyposSize - 1].x = posVec.x + 1;
+					Emypos[EmyposSize - 1].y = posVec.y - 1;
 					Emypos[EmyposSize - 1].PositionView = true;
+					Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 				}
 			}
 			//공격범위 2일때 체크
 			if (monster_char[mons].range > 1) {
-				if (pos.x == EmyMonster_char[k].tx && pos.y - 2 == EmyMonster_char[k].ty) {
+				if (posVec.x == EmyMonster_char[k].tx && posVec.y - 2 == EmyMonster_char[k].ty) {
 					if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 					else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 					EmyposSize++;
-					Emypos[EmyposSize - 1].x = pos.x;
-					Emypos[EmyposSize - 1].y = pos.y;
+					Emypos[EmyposSize - 1].x = posVec.x;
+					Emypos[EmyposSize - 1].y = posVec.y - 2;
 					Emypos[EmyposSize - 1].PositionView = true;
+					Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 				}
-				if (pos.x == EmyMonster_char[k].tx && pos.y + 2 == EmyMonster_char[k].ty) {
+				if (posVec.x == EmyMonster_char[k].tx && posVec.y + 2 == EmyMonster_char[k].ty) {
 					if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 					else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 					EmyposSize++;
-					Emypos[EmyposSize - 1].x = pos.x;
-					Emypos[EmyposSize - 1].y = pos.y;
+					Emypos[EmyposSize - 1].x = posVec.x;
+					Emypos[EmyposSize - 1].y = posVec.y + 2;
 					Emypos[EmyposSize - 1].PositionView = true;
+					Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 				}
-				if (pos.x + 2 == EmyMonster_char[k].tx && pos.y == EmyMonster_char[k].ty) {
+				if (posVec.x + 2 == EmyMonster_char[k].tx && posVec.y == EmyMonster_char[k].ty) {
 					if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 					else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 					EmyposSize++;
-					Emypos[EmyposSize - 1].x = pos.x;
-					Emypos[EmyposSize - 1].y = pos.y;
+					Emypos[EmyposSize - 1].x = posVec.x + 2;
+					Emypos[EmyposSize - 1].y = posVec.y;
 					Emypos[EmyposSize - 1].PositionView = true;
+					Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 				}
-				if (pos.x - 2 == EmyMonster_char[k].tx && pos.y == EmyMonster_char[k].ty) {
+				if (posVec.x - 2 == EmyMonster_char[k].tx && posVec.y == EmyMonster_char[k].ty) {
 					if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 					else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 					EmyposSize++;
-					Emypos[EmyposSize - 1].x = pos.x;
-					Emypos[EmyposSize - 1].y = pos.y;
+					Emypos[EmyposSize - 1].x = posVec.x - 2;
+					Emypos[EmyposSize - 1].y = posVec.y;
 					Emypos[EmyposSize - 1].PositionView = true;
+					Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 				}
-				if (pos.x - 1 == EmyMonster_char[k].tx && pos.y - 2 == EmyMonster_char[k].ty) {
+				if (posVec.x - 1 == EmyMonster_char[k].tx && posVec.y - 2 == EmyMonster_char[k].ty) {
 					if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 					else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 					EmyposSize++;
-					Emypos[EmyposSize - 1].x = pos.x;
-					Emypos[EmyposSize - 1].y = pos.y;
+					Emypos[EmyposSize - 1].x = posVec.x - 1;
+					Emypos[EmyposSize - 1].y = posVec.y - 2;
 					Emypos[EmyposSize - 1].PositionView = true;
+					Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 				}
-				if (pos.x - 1 == EmyMonster_char[k].tx && pos.y + 2 == EmyMonster_char[k].ty) {
+				if (posVec.x - 1 == EmyMonster_char[k].tx && posVec.y + 2 == EmyMonster_char[k].ty) {
 					if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 					else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 					EmyposSize++;
-					Emypos[EmyposSize - 1].x = pos.x;
-					Emypos[EmyposSize - 1].y = pos.y;
+					Emypos[EmyposSize - 1].x = posVec.x - 1;
+					Emypos[EmyposSize - 1].y = posVec.y + 2;
 					Emypos[EmyposSize - 1].PositionView = true;
+					Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 				}
-				if (pos.x + 1 == EmyMonster_char[k].tx && pos.y - 2 == EmyMonster_char[k].ty) {
+				if (posVec.x + 1 == EmyMonster_char[k].tx && posVec.y - 2 == EmyMonster_char[k].ty) {
 					if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 					else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 					EmyposSize++;
-					Emypos[EmyposSize - 1].x = pos.x;
-					Emypos[EmyposSize - 1].y = pos.y;
+					Emypos[EmyposSize - 1].x = posVec.x + 1;
+					Emypos[EmyposSize - 1].y = posVec.y - 2;
 					Emypos[EmyposSize - 1].PositionView = true;
+					Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 				}
-				if (pos.x + 1 == EmyMonster_char[k].tx && pos.y + 2 == EmyMonster_char[k].ty) {
+				if (posVec.x + 1 == EmyMonster_char[k].tx && posVec.y + 2 == EmyMonster_char[k].ty) {
 					if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 					else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 					EmyposSize++;
-					Emypos[EmyposSize - 1].x = pos.x;
-					Emypos[EmyposSize - 1].y = pos.y;
+					Emypos[EmyposSize - 1].x = posVec.x + 1;
+					Emypos[EmyposSize - 1].y = posVec.y + 2;
 					Emypos[EmyposSize - 1].PositionView = true;
+					Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 				}
-				if (fmodf(pos.y, 2) == 0) {
-					if (pos.x - 2 == EmyMonster_char[k].tx && pos.y - 1 == EmyMonster_char[k].ty) {
+				if (fmodf(posVec.y, 2) == 0) {
+					if (posVec.x - 2 == EmyMonster_char[k].tx && posVec.y - 1 == EmyMonster_char[k].ty) {
 						if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 						else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 						EmyposSize++;
-						Emypos[EmyposSize - 1].x = pos.x;
-						Emypos[EmyposSize - 1].y = pos.y;
+						Emypos[EmyposSize - 1].x = posVec.x - 2;
+						Emypos[EmyposSize - 1].y = posVec.y - 1;
 						Emypos[EmyposSize - 1].PositionView = true;
+						Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 					}
-					if (pos.x - 2 == EmyMonster_char[k].tx && pos.y + 1 == EmyMonster_char[k].ty) {
+					if (posVec.x - 2 == EmyMonster_char[k].tx && posVec.y + 1 == EmyMonster_char[k].ty) {
 						if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 						else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 						EmyposSize++;
-						Emypos[EmyposSize - 1].x = pos.x;
-						Emypos[EmyposSize - 1].y = pos.y;
+						Emypos[EmyposSize - 1].x = posVec.x - 2;
+						Emypos[EmyposSize - 1].y = posVec.y + 1;
 						Emypos[EmyposSize - 1].PositionView = true;
+						Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 					}
-					if (pos.x + 1 == EmyMonster_char[k].tx && pos.y - 1 == EmyMonster_char[k].ty) {
+					if (posVec.x + 1 == EmyMonster_char[k].tx && posVec.y - 1 == EmyMonster_char[k].ty) {
 						if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 						else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 						EmyposSize++;
-						Emypos[EmyposSize - 1].x = pos.x;
-						Emypos[EmyposSize - 1].y = pos.y;
+						Emypos[EmyposSize - 1].x = posVec.x + 1;
+						Emypos[EmyposSize - 1].y = posVec.y - 1;
 						Emypos[EmyposSize - 1].PositionView = true;
+						Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 					}
-					if (pos.x + 1 == EmyMonster_char[k].tx && pos.y + 1 == EmyMonster_char[k].ty) {
+					if (posVec.x + 1 == EmyMonster_char[k].tx && posVec.y + 1 == EmyMonster_char[k].ty) {
 						if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 						else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 						EmyposSize++;
-						Emypos[EmyposSize - 1].x = pos.x;
-						Emypos[EmyposSize - 1].y = pos.y;
+						Emypos[EmyposSize - 1].x = posVec.x + 1;
+						Emypos[EmyposSize - 1].y = posVec.y + 1;
 						Emypos[EmyposSize - 1].PositionView = true;
+						Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 					}
 				}
 				else {
-					if (pos.x + 2 == EmyMonster_char[k].tx && pos.y - 1 == EmyMonster_char[k].ty) {
+					if (posVec.x + 2 == EmyMonster_char[k].tx && posVec.y - 1 == EmyMonster_char[k].ty) {
 						if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 						else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 						EmyposSize++;
-						Emypos[EmyposSize - 1].x = pos.x;
-						Emypos[EmyposSize - 1].y = pos.y;
+						Emypos[EmyposSize - 1].x = posVec.x + 2;
+						Emypos[EmyposSize - 1].y = posVec.y - 1;
 						Emypos[EmyposSize - 1].PositionView = true;
+						Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 					}
-					if (pos.x + 2 == EmyMonster_char[k].tx && pos.y + 1 == EmyMonster_char[k].ty) {
+					if (posVec.x + 2 == EmyMonster_char[k].tx && posVec.y + 1 == EmyMonster_char[k].ty) {
 						if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 						else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 						EmyposSize++;
-						Emypos[EmyposSize - 1].x = pos.x;
-						Emypos[EmyposSize - 1].y = pos.y;
+						Emypos[EmyposSize - 1].x = posVec.x + 2;
+						Emypos[EmyposSize - 1].y = posVec.y + 1;
 						Emypos[EmyposSize - 1].PositionView = true;
+						Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 					}
-					if (pos.x - 1 == EmyMonster_char[k].tx && pos.y - 1 == EmyMonster_char[k].ty) {
+					if (posVec.x - 1 == EmyMonster_char[k].tx && posVec.y - 1 == EmyMonster_char[k].ty) {
 						if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 						else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 						EmyposSize++;
-						Emypos[EmyposSize - 1].x = pos.x;
-						Emypos[EmyposSize - 1].y = pos.y;
+						Emypos[EmyposSize - 1].x = posVec.x - 1;
+						Emypos[EmyposSize - 1].y = posVec.y - 1;
 						Emypos[EmyposSize - 1].PositionView = true;
+						Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 					}
-					if (pos.x - 1 == EmyMonster_char[k].tx && pos.y + 1 == EmyMonster_char[k].ty) {
+					if (posVec.x - 1 == EmyMonster_char[k].tx && posVec.y + 1 == EmyMonster_char[k].ty) {
 						if (EmyposSize)	Emypos = (Position*)realloc(Emypos, sizeof(Position) * (EmyposSize + 1));
 						else			Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 						EmyposSize++;
-						Emypos[EmyposSize - 1].x = pos.x;
-						Emypos[EmyposSize - 1].y = pos.y;
+						Emypos[EmyposSize - 1].x = posVec.x - 1;
+						Emypos[EmyposSize - 1].y = posVec.y + 1;
 						Emypos[EmyposSize - 1].PositionView = true;
+						Emypos[EmyposSize - 1].type = EmyMonster_char[k].Type;
 					}
 				}
 			}
 		}
 	}
-	if (EmyposSize == 0) {
-		return false;
-	}
+	
 	//적 표시
+	for (int i = 0; i < EmyMovePosition.size(); i++) {
+		this->removeChild(EmyMovePosition.at(i));
+	}
+	if (EmyMovePosition.size()) {
+		EmyMovePosition.clear();
+	}
 	for (int m = 0; m < EmyposSize; m++) {
 		
 		if (Emypos[m].PositionView) {
-			int type;
-			for (int k = 0; k < EmyMonsterSize; k++) {
-				if (EmyMonster_char[k].tx == Emypos[m].x && EmyMonster_char[k].ty == Emypos[m].y) {
-					type = EmyMonster_char[k].Type;
-				}
-			}
+			int type = Emypos[m].type;
 			Sprite* sp;
 			//선택한 몬스터는 불속성
 			if (monster_char[mons].Type == 0 || (monster_char[mons].Type > 10 && monster_char[mons].Type < 20)) {
@@ -2924,10 +3026,35 @@ bool EarthMap::DisplayEmyMonsterAttack(Vec2 pos) {
 		}
 
 	}
+	//적 몬스터 타일 표시
 	for (int i = 0; i < EmyMovePosition.size(); i++) {
 		this->addChild(EmyMovePosition.at(i), 2);
 	}
-	return true;
+
+	//자기자신 타일 표시
+	if (posSize) {
+		free(pos);
+		posSize = 0;
+	}
+	pos = (Position*)malloc(sizeof(Position) * (posSize + 1));
+	//pos[posSize].num = 0;
+	pos[posSize].x = monster_char[mons].tx;
+	pos[posSize].y = monster_char[mons].ty;
+	//pos[posSize].pos2Size = 0;
+	posSize++;
+	Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
+	Vec2 posit = FindCoordPosition(Vec2(pos[posSize-1].x, pos[posSize-1].y));
+	sp->setPosition(posit.x - 2, posit.y + 17);
+	for (int i = 0; i < MovePosition.size(); i++) {
+		this->removeChild(MovePosition.at(i));
+	}
+	if (MovePosition.size()) {
+		MovePosition.clear();
+	}
+	MovePosition.pushBack(sp);
+	for (int i = 0; i < MovePosition.size(); i++) {
+		addChild(MovePosition.at(i), 2);
+	}
 }
 
 void EarthMap::SpriteCoordinateChange(Vec2 m_pos) {

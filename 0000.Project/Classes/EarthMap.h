@@ -24,6 +24,7 @@ public:
 	float MovePositionDY;
 
 	bool CharacterClick;
+	bool SecondCharacterClick;
 
 	std::string dbfileName;
 
@@ -45,6 +46,8 @@ public:
 		int front_front_front_y;
 
 		bool PositionView;
+
+		int type;
 	};
 
 	Position *pos;
@@ -127,7 +130,7 @@ public:
 	int MaxExp(int type, int level);
 	void LevelUpCheck(Monster_num *monster);
 	void SpriteCoordinateChange(cocos2d::Vec2 m_pos);
-	bool DisplayEmyMonsterAttack(cocos2d::Vec2 pos);
+	void DisplayEmyMonsterAttack(cocos2d::Vec2 pos);
 };
 
 #endif // __EarthMap_SCENE_H__
