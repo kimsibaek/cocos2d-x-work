@@ -2,6 +2,7 @@
 #define __EarthMap_H__
 
 #include "cocos2d.h"
+#include "stdafx.h"
 
 class EarthMap : public cocos2d::LayerColor
 {
@@ -51,6 +52,9 @@ public:
 	
 	Position *Emypos;
 	int EmyposSize = 0;
+
+	Position *EmyposAttack;
+	int EmyposAttackSize = 0;
 
 	Position *shortpass;
 	int shortpassSize = 0;
@@ -119,6 +123,11 @@ public:
 	bool checkEmyMonsterCoordinate(cocos2d::Vec2 click);
 	bool BufTileCheck(cocos2d::Vec2 vec);
 	int SynastryCheck(int s1, int s2);
+	void ExpCheck();
+	int MaxExp(int type, int level);
+	void LevelUpCheck(Monster_num *monster);
+	void SpriteCoordinateChange(cocos2d::Vec2 m_pos);
+	bool DisplayEmyMonsterAttack(cocos2d::Vec2 pos);
 };
 
 #endif // __EarthMap_SCENE_H__
