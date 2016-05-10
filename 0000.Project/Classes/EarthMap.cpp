@@ -80,16 +80,16 @@ bool EarthMap::init()
 	cache->addSpriteFramesWithFile("Plist/WaterUpgrade.plist");
 	//cache->addSpriteFramesWithFile("Plist/UpgradeOK.plist");
 
-	BG = Sprite::create("Images/Scene/EarthMap.png");
-	BG->setPosition(Vec2(1006.5, 767.5));
+	BG = Sprite::create("Images/Scene/Earthmap.png");
+	BG->setPosition(Vec2(1006, 767));
 	this->addChild(BG, 1);
 
 	this->setPosition(Vec2(0, 0));
 
-	tmap = TMXTiledMap::create("Images/Scene/EarthMapTest.tmx");
-	tmap->setPosition(Vec2(-33, -16));
+	tmap = TMXTiledMap::create("Images/Scene/EarthMap.tmx");
+	tmap->setPosition(Vec2(-66, -32));
 	metainfo = tmap->getLayer("MetaInfo");
-	metainfo->setVisible(false);
+	//metainfo->setVisible(false);
 	this->addChild(tmap, 2, 11);
 
 	MovePositionX = tmap->getPosition().x;
@@ -115,7 +115,7 @@ bool EarthMap::init()
 	onCreateCharacter();
 	onCreateEmyCharacter();
 	//주인공이 화면의 센터로
-	FocusCharacter();
+	//FocusCharacter();
 
 	//주인공 클릭상태
 	CharacterClick = false;
@@ -202,13 +202,15 @@ void EarthMap::onCreateCharacter() {
 		monster_char[0].HPbarPosition = 21.5;
 	}
 
-	int num1 = rand() % 30 + 1;
-	int num2 = rand() % 30 + 1;
+	int num1 = rand() % 14 + 1;
+	int num2 = rand() % 14 + 1;
 
 	while (!ChecksPosition(num1, num2)) {
-		num1 = rand() % 30 + 1;
-		num2 = rand() % 30 + 1;
+		num1 = rand() % 14 + 1;
+		num2 = rand() % 14 + 1;
 	}
+
+	log("%d, %d", num1, num2);
 	monster_char[0].tx = num1;
 	monster_char[0].ty = num2;
 	//log("MonsterCreate = %d, %d", num1, num2);
@@ -222,20 +224,20 @@ void EarthMap::onCreateCharacter() {
 		sprintf(str1, "Person1-");
 	}
 
-	monster_char[0].sprite->setScale(1.5);
+	monster_char[0].sprite->setScale(1);
 	if (num2 % 2 == 0) {
-		monster_char[0].sprite->setPosition(64 * num1, 1551 - (37 + 48 * num2));
-		monster_char[0].xPosition = 64 * num1;
-		monster_char[0].yPosition = 1551 - (37 + 48 * num2);
-		monster_char[0].xMovePosition = 64 * num1;
-		monster_char[0].yMovePosition = 1551 - (37 + 48 * num2);
+		monster_char[0].sprite->setPosition(128 * num1, 1632 - (160 + 96 * num2));
+		monster_char[0].xPosition = 128 * num1;
+		monster_char[0].yPosition = 1632 - (160 + 96 * num2);
+		monster_char[0].xMovePosition = 128 * num1;
+		monster_char[0].yMovePosition = 1632 - (160 + 96 * num2);
 	}
 	else {
-		monster_char[0].sprite->setPosition(32 + 64 * num1, 1551 - (37 + 48 * num2));
-		monster_char[0].xPosition = 32 + 64 * num1;
-		monster_char[0].yPosition = 1551 - (37 + 48 * num2);
-		monster_char[0].xMovePosition = 32 + 64 * num1;
-		monster_char[0].yMovePosition = 1551 - (37 + 48 * num2);
+		monster_char[0].sprite->setPosition(62 + 128 * num1, 1632 - (160 + 96 * num2));
+		monster_char[0].xPosition = 62 + 128 * num1;
+		monster_char[0].yPosition = 1632 - (160 + 96 * num2);
+		monster_char[0].xMovePosition = 62 + 128 * num1;
+		monster_char[0].yMovePosition = 1632 - (160 + 96 * num2);
 	}
 	//log("monster_char[i] = %f, %f", monster_char[i].xPosition, monster_char[i].yPosition);
 	this->addChild(monster_char[0].sprite, 5);
@@ -322,12 +324,12 @@ void EarthMap::onCreateEmyCharacter() {
 	}
 
 	for (int i = 0; i < EmyMonsterSize; i++) {
-		int num1 = rand() % 30 + 1;
-		int num2 = rand() % 30 + 1;
+		int num1 = rand() % 14 + 1;
+		int num2 = rand() % 14 + 1;
 
 		while (!ChecksPosition(num1, num2)) {
-			num1 = rand() % 30 + 1;
-			num2 = rand() % 30 + 1;
+			num1 = rand() % 14 + 1;
+			num2 = rand() % 14 + 1;
 		}
 		EmyMonster_char[i].tx = num1;
 		EmyMonster_char[i].ty = num2;
@@ -744,20 +746,20 @@ void EarthMap::onCreateEmyCharacter() {
 			sprintf(str1, "Wind9-");
 		}
 		
-		EmyMonster_char[i].sprite->setScale(1.5);
+		EmyMonster_char[i].sprite->setScale(1);
 		if (num2 % 2 == 0) {
-			EmyMonster_char[i].sprite->setPosition(64 * num1, 1551 - (37 + 48 * num2));
-			EmyMonster_char[i].xPosition = 64 * num1;
-			EmyMonster_char[i].yPosition = 1551 - (37 + 48 * num2);
-			EmyMonster_char[i].xMovePosition = 64 * num1;
-			EmyMonster_char[i].yMovePosition = 1551 - (37 + 48 * num2);
+			EmyMonster_char[i].sprite->setPosition(128 * num1, 1632 - (111 + 96 * num2));
+			EmyMonster_char[i].xPosition = 128 * num1;
+			EmyMonster_char[i].yPosition = 1632 - (111 + 96 * num2);
+			EmyMonster_char[i].xMovePosition = 128 * num1;
+			EmyMonster_char[i].yMovePosition = 1632 - (111 + 96 * num2);
 		}
 		else {
-			EmyMonster_char[i].sprite->setPosition(32 + 64 * num1, 1551 - (37 + 48 * num2));
-			EmyMonster_char[i].xPosition = 32 + 64 * num1;
-			EmyMonster_char[i].yPosition = 1551 - (37 + 48 * num2);
-			EmyMonster_char[i].xMovePosition = 32 + 64 * num1;
-			EmyMonster_char[i].yMovePosition = 1551 - (37 + 48 * num2);
+			EmyMonster_char[i].sprite->setPosition(62 + 128 * num1, 1632 - (111 + 96 * num2));
+			EmyMonster_char[i].xPosition = 62 + 128 * num1;
+			EmyMonster_char[i].yPosition = 1632 - (111 + 96 * num2);
+			EmyMonster_char[i].xMovePosition = 62 + 128 * num1;
+			EmyMonster_char[i].yMovePosition = 1632 - (111 + 96 * num2);
 		}
 		this->addChild(EmyMonster_char[i].sprite, 3);
 		Sprite* st = Sprite::createWithSpriteFrameName("HP_bar.png");
@@ -1130,51 +1132,77 @@ void EarthMap::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) {
 
 	float x = BG->getPosition().x + (EndDragPosition.x - StartDragPosition.x);
 	float y = BG->getPosition().y + (EndDragPosition.y - StartDragPosition.y);
-	if (x < winSize.width - 1006.5) {
-		x = winSize.width - 1006.5;
+	if (x < winSize.width - 1006) {
+		x = winSize.width - 1006;
 	}
-	else if (x > 1006.5) {
-		x = 1006.5;
+	else if (x > 1006) {
+		x = 1006;
 	}
-	if (y < 7.75 + winSize.height - 759.75) {
-		y = 7.75 + winSize.height - 759.75;
+	if (y < winSize.height - 767) {
+		y = winSize.height - 767;
 	}
-	else if (y > 767.5) {
-		y = 767.5;
+	else if (y > 767) {
+		y = 767;
 	}
 	BG->setPosition(Vec2(x, y));
 
 	float tx = tmap->getPosition().x + (EndDragPosition.x - StartDragPosition.x);
 	float ty = tmap->getPosition().y + (EndDragPosition.y - StartDragPosition.y);
-	if (tx < -1039.5 + winSize.width - 1006.5) {
-		tx = -1039.5 + winSize.width - 1006.5;
+	if (tx < -1006 - 66 + winSize.width - 1006) {
+		tx = -1006 - 66 + winSize.width - 1006;
 	}
-	else if (tx > -33) {
-		tx = -33;
+	else if (tx > -66) {
+		tx = -66;
 	}
-	if (ty < -775.5 + winSize.height - 759.75) {
-		ty = -775.5 + winSize.height - 759.75;
+	if (ty < -767 - 32 + winSize.height - 767) {
+		ty = -767 - 32 + winSize.height - 767;
 	}
-	else if (ty > -16) {
-		ty = -16;
+	else if (ty > -32) {
+		ty = -32;
 	}
 	tmap->setPosition(Vec2(tx, ty));
 
 	MovePositionX = tx;
 	MovePositionY = ty;
 
-	StartDragPosition = EndDragPosition;
-
-	for (int i = 0; i < MovePosition.size(); i++) {
-		float testx = MovePosition.at(i)->getPosition().x - (EndDragPosition.x - StartDragPosition.x);
-		float testy = MovePosition.at(i)->getPosition().y - (EndDragPosition.y - StartDragPosition.y);
+	/*for (int i = 0; i < MovePosition.size(); i++) {
+		float testx = MovePosition.at(i)->getPosition().x + (EndDragPosition.x - StartDragPosition.x);
+		float testy = MovePosition.at(i)->getPosition().y + (EndDragPosition.y - StartDragPosition.y);
+		if (testx < winSize.width - 1006.5) {
+			testx = winSize.width - 1006.5;
+		}
+		else if (testx > 1006.5) {
+			testx = 1006.5;
+		}
+		if (testy < 7.75 + winSize.height - 759.75) {
+			testy = 7.75 + winSize.height - 759.75;
+		}
+		else if (testy > 767.5) {
+			testy = 767.5;
+		}
 		MovePosition.at(i)->setPosition(Vec2(testx, testy));
 	}
 	for (int i = 0; i < EmyMovePosition.size(); i++) {
-		float testx = EmyMovePosition.at(i)->getPosition().x - (EndDragPosition.x - StartDragPosition.x);
-		float testy = EmyMovePosition.at(i)->getPosition().y - (EndDragPosition.y - StartDragPosition.y);
+		float testx = EmyMovePosition.at(i)->getPosition().x + (EndDragPosition.x - StartDragPosition.x);
+		float testy = EmyMovePosition.at(i)->getPosition().y + (EndDragPosition.y - StartDragPosition.y);
+		if (testx < winSize.width - 1006.5) {
+			testx = winSize.width - 1006.5;
+		}
+		else if (testx > 1006.5) {
+			testx = 1006.5;
+		}
+		if (testy < 7.75 + winSize.height - 759.75) {
+			testy = 7.75 + winSize.height - 759.75;
+		}
+		else if (testy > 767.5) {
+			testy = 767.5;
+		}
 		EmyMovePosition.at(i)->setPosition(Vec2(testx, testy));
-	}
+	}*/
+
+	StartDragPosition = EndDragPosition;
+
+	
 }
 
 void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
@@ -2494,7 +2522,9 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 				Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
 				Vec2 posit = FindCoordPosition(Vec2(pos[m].x, pos[m].y));
 				//log("pos[%d] = %d", m, pos[m].num);
-				sp->setPosition(posit.x - 2, posit.y + 17);
+				//sp->setPosition(posit.x - 2, posit.y + 17);
+				sp->setPosition(posit.x + 30 - monster_char[mons].xMovePosition, posit.y + 64 - monster_char[mons].yMovePosition);
+				monster_char[mons].sprite->addChild(sp);
 				MovePosition.pushBack(sp);
 				//두칸
 				if (pos[m].pos2Size) {
@@ -2502,7 +2532,9 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 						Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
 						Vec2 posit2 = FindCoordPosition(Vec2(pos[m].pos2[k].x, pos[m].pos2[k].y));
 						//log("pos[%d].pos2[%d] = %d", m, k, pos[m].pos2[k].num);
-						sp->setPosition(posit2.x - 2, posit2.y + 17);
+						//sp->setPosition(posit2.x - 2, posit2.y + 34);
+						sp->setPosition(posit2.x + 30 - monster_char[mons].xMovePosition, posit2.y + 64 - monster_char[mons].yMovePosition);
+						monster_char[mons].sprite->addChild(sp);
 						MovePosition.pushBack(sp);
 						//세칸
 						if (pos[m].pos2[k].pos2Size) {
@@ -2510,7 +2542,9 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 								Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
 								Vec2 posit2 = FindCoordPosition(Vec2(pos[m].pos2[k].pos2[z].x, pos[m].pos2[k].pos2[z].y));
 								//log("pos[%d].pos2[%d].pos2[%d] = %d", m, k, z, pos[m].pos2[k].pos2[z].num);
-								sp->setPosition(posit2.x - 2, posit2.y + 17);
+								//sp->setPosition(posit2.x - 2, posit2.y + 34);
+								sp->setPosition(posit2.x + 30 - monster_char[mons].xMovePosition, posit2.y + 64 - monster_char[mons].yMovePosition);
+								monster_char[mons].sprite->addChild(sp);
 								MovePosition.pushBack(sp);
 								//네칸
 								if (pos[m].pos2[k].pos2[z].pos2Size) {
@@ -2518,7 +2552,9 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 										Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
 										Vec2 posit2 = FindCoordPosition(Vec2(pos[m].pos2[k].pos2[z].pos2[i].x, pos[m].pos2[k].pos2[z].pos2[i].y));
 										//log("pos[%d].pos2[%d].pos2[%d].pos2[i] = %d", m, k, z, i, pos[m].pos2[k].pos2[z].pos2[i].num);
-										sp->setPosition(posit2.x - 2, posit2.y + 17);
+										//sp->setPosition(posit2.x - 2, posit2.y + 34);
+										sp->setPosition(posit2.x + 30 - monster_char[mons].xMovePosition, posit2.y + 64 - monster_char[mons].yMovePosition);
+										monster_char[mons].sprite->addChild(sp);
 										MovePosition.pushBack(sp);
 									}
 								}
@@ -2531,9 +2567,9 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 			//클릭상태표시
 			CharacterClick = true;
 			//이동경로 sprite 띄우기
-			for (int i = 0; i < MovePosition.size(); i++) {
+			/*for (int i = 0; i < MovePosition.size(); i++) {
 				this->addChild(MovePosition.at(i), 2);
-			}
+			}*/
 			//적 표시
 			for (int m = 0; m < EmyposSize; m++) {
 				Emypos[m].PositionView = false;
@@ -2657,66 +2693,70 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 					for (int k = 0; k < EmyMonsterSize; k++) {
 						if (EmyMonster_char[k].tx == Emypos[m].x && EmyMonster_char[k].ty == Emypos[m].y) {
 							type = EmyMonster_char[k].Type;
+							Sprite* sp;
+							//선택한 몬스터는 불속성
+							if (monster_char[mons].Type == 0 || (monster_char[mons].Type > 10 && monster_char[mons].Type < 20)) {
+								if (type > 0 && type < 10) {
+									sp = Sprite::createWithSpriteFrameName("HexInfo1.png");
+								}
+								else if (type > 30 && type < 40) {
+									sp = Sprite::createWithSpriteFrameName("HexInfo2.png");
+								}
+								else {
+									sp = Sprite::createWithSpriteFrameName("HexInfo3.png");
+								}
+							}
+							//선택한 몬스터는 대지속성
+							if (monster_char[mons].Type > 0 && monster_char[mons].Type < 10) {
+								if (type > 20 && type < 30) {
+									sp = Sprite::createWithSpriteFrameName("HexInfo1.png");
+								}
+								else if (type > 10 && type < 20) {
+									sp = Sprite::createWithSpriteFrameName("HexInfo2.png");
+								}
+								else {
+									sp = Sprite::createWithSpriteFrameName("HexInfo3.png");
+								}
+							}
+							//선택한 몬스터는 물속성
+							if (monster_char[mons].Type > 20 && monster_char[mons].Type < 30) {
+								if (type > 30 && type < 40) {
+									sp = Sprite::createWithSpriteFrameName("HexInfo1.png");
+								}
+								else if (type > 0 && type < 10) {
+									sp = Sprite::createWithSpriteFrameName("HexInfo2.png");
+								}
+								else {
+									sp = Sprite::createWithSpriteFrameName("HexInfo3.png");
+								}
+							}
+							//선택한 몬스터는 바람속성
+							if (monster_char[mons].Type > 30 && monster_char[mons].Type < 40) {
+								if (type > 10 && type < 20) {
+									sp = Sprite::createWithSpriteFrameName("HexInfo1.png");
+								}
+								else if (type > 20 && type < 30) {
+									sp = Sprite::createWithSpriteFrameName("HexInfo2.png");
+								}
+								else {
+									sp = Sprite::createWithSpriteFrameName("HexInfo3.png");
+								}
+							}
+							Vec2 posit = FindCoordPosition(Vec2(Emypos[m].x, Emypos[m].y));
+							//sp->setPosition(posit.x - 2, posit.y + 34);
+							sp->setPosition(posit.x + 25 - EmyMonster_char[k].xMovePosition, posit.y + 44 - EmyMonster_char[k].yMovePosition);
+							EmyMonster_char[k].sprite->addChild(sp);
+							EmyMovePosition.pushBack(sp);
+							break;
 						}
 					}
-					Sprite* sp;
-					//선택한 몬스터는 불속성
-					if (monster_char[mons].Type == 0 || (monster_char[mons].Type > 10 && monster_char[mons].Type < 20)) {
-						if (type > 0 && type < 10) {
-							sp = Sprite::createWithSpriteFrameName("HexInfo1.png");
-						}
-						else if (type > 30 && type < 40) {
-							sp = Sprite::createWithSpriteFrameName("HexInfo2.png");
-						}
-						else {
-							sp = Sprite::createWithSpriteFrameName("HexInfo3.png");
-						}
-					}
-					//선택한 몬스터는 대지속성
-					if (monster_char[mons].Type > 0 && monster_char[mons].Type < 10) {
-						if (type > 20 && type < 30) {
-							sp = Sprite::createWithSpriteFrameName("HexInfo1.png");
-						}
-						else if (type > 10 && type < 20) {
-							sp = Sprite::createWithSpriteFrameName("HexInfo2.png");
-						}
-						else {
-							sp = Sprite::createWithSpriteFrameName("HexInfo3.png");
-						}
-					}
-					//선택한 몬스터는 물속성
-					if (monster_char[mons].Type > 20 && monster_char[mons].Type < 30) {
-						if (type > 30 && type < 40) {
-							sp = Sprite::createWithSpriteFrameName("HexInfo1.png");
-						}
-						else if (type > 0 && type < 10) {
-							sp = Sprite::createWithSpriteFrameName("HexInfo2.png");
-						}
-						else {
-							sp = Sprite::createWithSpriteFrameName("HexInfo3.png");
-						}
-					}
-					//선택한 몬스터는 바람속성
-					if (monster_char[mons].Type > 30 && monster_char[mons].Type < 40) {
-						if (type > 10 && type < 20) {
-							sp = Sprite::createWithSpriteFrameName("HexInfo1.png");
-						}
-						else if (type > 20 && type < 30) {
-							sp = Sprite::createWithSpriteFrameName("HexInfo2.png");
-						}
-						else {
-							sp = Sprite::createWithSpriteFrameName("HexInfo3.png");
-						}
-					}
-					Vec2 posit = FindCoordPosition(Vec2(Emypos[m].x, Emypos[m].y));
-					sp->setPosition(posit.x - 2, posit.y + 17);
-					EmyMovePosition.pushBack(sp);
+					
 				}
 				
 			}
-			for (int i = 0; i < EmyMovePosition.size(); i++) {
+			/*for (int i = 0; i < EmyMovePosition.size(); i++) {
 				this->addChild(EmyMovePosition.at(i), 2);
-			}
+			}*/
 		}
 	}
 }
