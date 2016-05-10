@@ -361,7 +361,7 @@ TableViewCell* CreateMonster::tableCellAtIndex(TableView *table, ssize_t idx) {
 		sprintf(str1, "Wind9-");
 	}
 
-	Monster_List[idx].sprite->setScale(1.5);
+	Monster_List[idx].sprite->setScale(0.75);
 	Monster_List[idx].sprite->setPosition(Vec2(sprite_1->getContentSize().width/2, sprite_1->getContentSize().height/2));
 	
 	sprite_1->addChild(Monster_List[idx].sprite, 3);

@@ -7,7 +7,7 @@
 		<key>width</key>
 		<integer>512</integer>
 		<key>height</key>
-		<integer>64</integer>
+		<integer>256</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
@@ -18,150 +18,150 @@
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>50</integer>
+			<integer>100</integer>
 			<key>height</key>
-			<integer>42</integer>
+			<integer>86</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>-0.5</real>
+			<real>-1</real>
 			<key>originalWidth</key>
-			<integer>50</integer>
+			<integer>100</integer>
 			<key>originalHeight</key>
-			<integer>45</integer>
+			<integer>90</integer>
 		</dict>
 		<key>Water8-2.png</key>
 		<dict>
 			<key>x</key>
-			<integer>52</integer>
+			<integer>102</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>45</integer>
+			<integer>92</integer>
 			<key>height</key>
-			<integer>45</integer>
+			<integer>90</integer>
 			<key>offsetX</key>
-			<real>0.5</real>
+			<real>1</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>50</integer>
+			<integer>100</integer>
 			<key>originalHeight</key>
-			<integer>45</integer>
+			<integer>90</integer>
 		</dict>
 		<key>Water8-3.png</key>
 		<dict>
 			<key>x</key>
-			<integer>98</integer>
+			<integer>195</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>40</integer>
+			<integer>82</integer>
 			<key>height</key>
-			<integer>42</integer>
+			<integer>86</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>-0.5</real>
+			<real>-1</real>
 			<key>originalWidth</key>
-			<integer>50</integer>
+			<integer>100</integer>
 			<key>originalHeight</key>
-			<integer>45</integer>
+			<integer>90</integer>
 		</dict>
 		<key>Water8-4.png</key>
 		<dict>
 			<key>x</key>
-			<integer>139</integer>
+			<integer>278</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>45</integer>
+			<integer>92</integer>
 			<key>height</key>
-			<integer>45</integer>
+			<integer>90</integer>
 			<key>offsetX</key>
-			<real>0.5</real>
+			<real>1</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>50</integer>
+			<integer>100</integer>
 			<key>originalHeight</key>
-			<integer>45</integer>
+			<integer>90</integer>
 		</dict>
 		<key>Water8-5.png</key>
 		<dict>
 			<key>x</key>
-			<integer>185</integer>
+			<integer>371</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>50</integer>
+			<integer>100</integer>
 			<key>height</key>
-			<integer>42</integer>
+			<integer>86</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>-0.5</real>
+			<real>-1</real>
 			<key>originalWidth</key>
-			<integer>50</integer>
+			<integer>100</integer>
 			<key>originalHeight</key>
-			<integer>45</integer>
+			<integer>90</integer>
 		</dict>
 		<key>Water8-6.png</key>
 		<dict>
 			<key>x</key>
-			<integer>236</integer>
-			<key>y</key>
 			<integer>1</integer>
+			<key>y</key>
+			<integer>92</integer>
 			<key>width</key>
-			<integer>45</integer>
+			<integer>92</integer>
 			<key>height</key>
-			<integer>45</integer>
+			<integer>90</integer>
 			<key>offsetX</key>
-			<real>0.5</real>
+			<real>1</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>50</integer>
+			<integer>100</integer>
 			<key>originalHeight</key>
-			<integer>45</integer>
+			<integer>90</integer>
 		</dict>
 		<key>Water8-7.png</key>
 		<dict>
 			<key>x</key>
-			<integer>282</integer>
+			<integer>94</integer>
 			<key>y</key>
-			<integer>1</integer>
+			<integer>92</integer>
 			<key>width</key>
-			<integer>40</integer>
+			<integer>82</integer>
 			<key>height</key>
-			<integer>42</integer>
+			<integer>86</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>-0.5</real>
+			<real>-1</real>
 			<key>originalWidth</key>
-			<integer>50</integer>
+			<integer>100</integer>
 			<key>originalHeight</key>
-			<integer>45</integer>
+			<integer>90</integer>
 		</dict>
 		<key>Water8-8.png</key>
 		<dict>
 			<key>x</key>
-			<integer>323</integer>
+			<integer>177</integer>
 			<key>y</key>
-			<integer>1</integer>
+			<integer>92</integer>
 			<key>width</key>
-			<integer>45</integer>
+			<integer>92</integer>
 			<key>height</key>
-			<integer>45</integer>
+			<integer>90</integer>
 			<key>offsetX</key>
-			<real>0.5</real>
+			<real>1</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>50</integer>
+			<integer>100</integer>
 			<key>originalHeight</key>
-			<integer>45</integer>
+			<integer>90</integer>
 		</dict>
 	</dict>
 </dict>

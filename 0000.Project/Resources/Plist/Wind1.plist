@@ -7,7 +7,7 @@
 		<key>width</key>
 		<integer>512</integer>
 		<key>height</key>
-		<integer>64</integer>
+		<integer>128</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
@@ -18,150 +18,150 @@
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>38</integer>
+			<integer>76</integer>
 			<key>height</key>
-			<integer>18</integer>
+			<integer>36</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>38</integer>
+			<integer>76</integer>
 			<key>originalHeight</key>
-			<integer>18</integer>
+			<integer>36</integer>
 		</dict>
 		<key>Wind1-2.png</key>
 		<dict>
 			<key>x</key>
-			<integer>40</integer>
+			<integer>78</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>38</integer>
+			<integer>76</integer>
 			<key>height</key>
-			<integer>18</integer>
+			<integer>36</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>38</integer>
+			<integer>76</integer>
 			<key>originalHeight</key>
-			<integer>18</integer>
+			<integer>36</integer>
 		</dict>
 		<key>Wind1-3.png</key>
 		<dict>
 			<key>x</key>
-			<integer>79</integer>
+			<integer>155</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>34</integer>
+			<integer>70</integer>
 			<key>height</key>
-			<integer>18</integer>
+			<integer>36</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>38</integer>
+			<integer>76</integer>
 			<key>originalHeight</key>
-			<integer>18</integer>
+			<integer>36</integer>
 		</dict>
 		<key>Wind1-4.png</key>
 		<dict>
 			<key>x</key>
-			<integer>114</integer>
+			<integer>226</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>38</integer>
+			<integer>76</integer>
 			<key>height</key>
-			<integer>18</integer>
+			<integer>36</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>38</integer>
+			<integer>76</integer>
 			<key>originalHeight</key>
-			<integer>18</integer>
+			<integer>36</integer>
 		</dict>
 		<key>Wind1-5.png</key>
 		<dict>
 			<key>x</key>
-			<integer>153</integer>
+			<integer>303</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>38</integer>
+			<integer>76</integer>
 			<key>height</key>
-			<integer>18</integer>
+			<integer>36</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>38</integer>
+			<integer>76</integer>
 			<key>originalHeight</key>
-			<integer>18</integer>
+			<integer>36</integer>
 		</dict>
 		<key>Wind1-6.png</key>
 		<dict>
 			<key>x</key>
-			<integer>192</integer>
+			<integer>380</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>38</integer>
+			<integer>76</integer>
 			<key>height</key>
-			<integer>18</integer>
+			<integer>36</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>38</integer>
+			<integer>76</integer>
 			<key>originalHeight</key>
-			<integer>18</integer>
+			<integer>36</integer>
 		</dict>
 		<key>Wind1-7.png</key>
 		<dict>
 			<key>x</key>
-			<integer>231</integer>
-			<key>y</key>
 			<integer>1</integer>
+			<key>y</key>
+			<integer>38</integer>
 			<key>width</key>
-			<integer>34</integer>
+			<integer>70</integer>
 			<key>height</key>
-			<integer>18</integer>
+			<integer>36</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>38</integer>
+			<integer>76</integer>
 			<key>originalHeight</key>
-			<integer>18</integer>
+			<integer>36</integer>
 		</dict>
 		<key>Wind1-8.png</key>
 		<dict>
 			<key>x</key>
-			<integer>266</integer>
+			<integer>72</integer>
 			<key>y</key>
-			<integer>1</integer>
-			<key>width</key>
 			<integer>38</integer>
+			<key>width</key>
+			<integer>76</integer>
 			<key>height</key>
-			<integer>18</integer>
+			<integer>36</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>38</integer>
+			<integer>76</integer>
 			<key>originalHeight</key>
-			<integer>18</integer>
+			<integer>36</integer>
 		</dict>
 	</dict>
 </dict>

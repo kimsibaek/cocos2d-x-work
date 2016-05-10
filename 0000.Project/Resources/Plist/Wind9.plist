@@ -7,7 +7,7 @@
 		<key>width</key>
 		<integer>512</integer>
 		<key>height</key>
-		<integer>64</integer>
+		<integer>256</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
@@ -18,150 +18,150 @@
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>46</integer>
+			<integer>94</integer>
 			<key>height</key>
-			<integer>49</integer>
+			<integer>98</integer>
 			<key>offsetX</key>
-			<real>0.5</real>
+			<real>1</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>49</integer>
+			<integer>98</integer>
 			<key>originalHeight</key>
-			<integer>49</integer>
+			<integer>98</integer>
 		</dict>
 		<key>Wind9-2.png</key>
 		<dict>
 			<key>x</key>
-			<integer>48</integer>
+			<integer>96</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>49</integer>
+			<integer>98</integer>
 			<key>height</key>
-			<integer>48</integer>
+			<integer>97</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>49</integer>
+			<integer>98</integer>
 			<key>originalHeight</key>
-			<integer>49</integer>
+			<integer>98</integer>
 		</dict>
 		<key>Wind9-3.png</key>
 		<dict>
 			<key>x</key>
-			<integer>98</integer>
+			<integer>195</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>46</integer>
+			<integer>94</integer>
 			<key>height</key>
-			<integer>49</integer>
+			<integer>98</integer>
 			<key>offsetX</key>
-			<real>0.5</real>
+			<real>1</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>49</integer>
+			<integer>98</integer>
 			<key>originalHeight</key>
-			<integer>49</integer>
+			<integer>98</integer>
 		</dict>
 		<key>Wind9-4.png</key>
-		<dict>
-			<key>x</key>
-			<integer>145</integer>
-			<key>y</key>
-			<integer>1</integer>
-			<key>width</key>
-			<integer>47</integer>
-			<key>height</key>
-			<integer>47</integer>
-			<key>offsetX</key>
-			<real>0</real>
-			<key>offsetY</key>
-			<real>0</real>
-			<key>originalWidth</key>
-			<integer>49</integer>
-			<key>originalHeight</key>
-			<integer>49</integer>
-		</dict>
-		<key>Wind9-5.png</key>
-		<dict>
-			<key>x</key>
-			<integer>193</integer>
-			<key>y</key>
-			<integer>1</integer>
-			<key>width</key>
-			<integer>46</integer>
-			<key>height</key>
-			<integer>49</integer>
-			<key>offsetX</key>
-			<real>0.5</real>
-			<key>offsetY</key>
-			<real>0</real>
-			<key>originalWidth</key>
-			<integer>49</integer>
-			<key>originalHeight</key>
-			<integer>49</integer>
-		</dict>
-		<key>Wind9-6.png</key>
-		<dict>
-			<key>x</key>
-			<integer>240</integer>
-			<key>y</key>
-			<integer>1</integer>
-			<key>width</key>
-			<integer>49</integer>
-			<key>height</key>
-			<integer>48</integer>
-			<key>offsetX</key>
-			<real>0</real>
-			<key>offsetY</key>
-			<real>-0.5</real>
-			<key>originalWidth</key>
-			<integer>49</integer>
-			<key>originalHeight</key>
-			<integer>49</integer>
-		</dict>
-		<key>Wind9-7.png</key>
 		<dict>
 			<key>x</key>
 			<integer>290</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>46</integer>
+			<integer>96</integer>
 			<key>height</key>
-			<integer>49</integer>
+			<integer>96</integer>
 			<key>offsetX</key>
-			<real>0.5</real>
+			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>49</integer>
+			<integer>98</integer>
 			<key>originalHeight</key>
-			<integer>49</integer>
+			<integer>98</integer>
+		</dict>
+		<key>Wind9-5.png</key>
+		<dict>
+			<key>x</key>
+			<integer>387</integer>
+			<key>y</key>
+			<integer>1</integer>
+			<key>width</key>
+			<integer>94</integer>
+			<key>height</key>
+			<integer>98</integer>
+			<key>offsetX</key>
+			<real>1</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>98</integer>
+			<key>originalHeight</key>
+			<integer>98</integer>
+		</dict>
+		<key>Wind9-6.png</key>
+		<dict>
+			<key>x</key>
+			<integer>1</integer>
+			<key>y</key>
+			<integer>100</integer>
+			<key>width</key>
+			<integer>98</integer>
+			<key>height</key>
+			<integer>97</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>-0.5</real>
+			<key>originalWidth</key>
+			<integer>98</integer>
+			<key>originalHeight</key>
+			<integer>98</integer>
+		</dict>
+		<key>Wind9-7.png</key>
+		<dict>
+			<key>x</key>
+			<integer>100</integer>
+			<key>y</key>
+			<integer>100</integer>
+			<key>width</key>
+			<integer>94</integer>
+			<key>height</key>
+			<integer>98</integer>
+			<key>offsetX</key>
+			<real>1</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>98</integer>
+			<key>originalHeight</key>
+			<integer>98</integer>
 		</dict>
 		<key>Wind9-8.png</key>
 		<dict>
 			<key>x</key>
-			<integer>337</integer>
+			<integer>195</integer>
 			<key>y</key>
-			<integer>1</integer>
+			<integer>100</integer>
 			<key>width</key>
-			<integer>47</integer>
+			<integer>96</integer>
 			<key>height</key>
-			<integer>47</integer>
+			<integer>96</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>49</integer>
+			<integer>98</integer>
 			<key>originalHeight</key>
-			<integer>49</integer>
+			<integer>98</integer>
 		</dict>
 	</dict>
 </dict>

@@ -7,7 +7,7 @@
 		<key>width</key>
 		<integer>512</integer>
 		<key>height</key>
-		<integer>64</integer>
+		<integer>256</integer>
 	</dict>
 	<key>frames</key>
 	<dict>
@@ -18,150 +18,150 @@
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>40</integer>
+			<integer>82</integer>
 			<key>height</key>
-			<integer>50</integer>
+			<integer>101</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>46</integer>
+			<integer>92</integer>
 			<key>originalHeight</key>
-			<integer>51</integer>
+			<integer>102</integer>
 		</dict>
 		<key>Wind6-2.png</key>
 		<dict>
 			<key>x</key>
-			<integer>42</integer>
+			<integer>84</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>46</integer>
+			<integer>92</integer>
 			<key>height</key>
-			<integer>51</integer>
+			<integer>102</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>46</integer>
+			<integer>92</integer>
 			<key>originalHeight</key>
-			<integer>51</integer>
+			<integer>102</integer>
 		</dict>
 		<key>Wind6-3.png</key>
-		<dict>
-			<key>x</key>
-			<integer>89</integer>
-			<key>y</key>
-			<integer>1</integer>
-			<key>width</key>
-			<integer>40</integer>
-			<key>height</key>
-			<integer>51</integer>
-			<key>offsetX</key>
-			<real>0</real>
-			<key>offsetY</key>
-			<real>0</real>
-			<key>originalWidth</key>
-			<integer>46</integer>
-			<key>originalHeight</key>
-			<integer>51</integer>
-		</dict>
-		<key>Wind6-4.png</key>
-		<dict>
-			<key>x</key>
-			<integer>130</integer>
-			<key>y</key>
-			<integer>1</integer>
-			<key>width</key>
-			<integer>46</integer>
-			<key>height</key>
-			<integer>51</integer>
-			<key>offsetX</key>
-			<real>0</real>
-			<key>offsetY</key>
-			<real>0</real>
-			<key>originalWidth</key>
-			<integer>46</integer>
-			<key>originalHeight</key>
-			<integer>51</integer>
-		</dict>
-		<key>Wind6-5.png</key>
 		<dict>
 			<key>x</key>
 			<integer>177</integer>
 			<key>y</key>
 			<integer>1</integer>
 			<key>width</key>
-			<integer>40</integer>
+			<integer>82</integer>
 			<key>height</key>
-			<integer>50</integer>
+			<integer>102</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>92</integer>
+			<key>originalHeight</key>
+			<integer>102</integer>
+		</dict>
+		<key>Wind6-4.png</key>
+		<dict>
+			<key>x</key>
+			<integer>260</integer>
+			<key>y</key>
+			<integer>1</integer>
+			<key>width</key>
+			<integer>92</integer>
+			<key>height</key>
+			<integer>102</integer>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>0</real>
+			<key>originalWidth</key>
+			<integer>92</integer>
+			<key>originalHeight</key>
+			<integer>102</integer>
+		</dict>
+		<key>Wind6-5.png</key>
+		<dict>
+			<key>x</key>
+			<integer>353</integer>
+			<key>y</key>
+			<integer>1</integer>
+			<key>width</key>
+			<integer>82</integer>
+			<key>height</key>
+			<integer>101</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>-0.5</real>
 			<key>originalWidth</key>
-			<integer>46</integer>
+			<integer>92</integer>
 			<key>originalHeight</key>
-			<integer>51</integer>
+			<integer>102</integer>
 		</dict>
 		<key>Wind6-6.png</key>
 		<dict>
 			<key>x</key>
-			<integer>218</integer>
-			<key>y</key>
 			<integer>1</integer>
+			<key>y</key>
+			<integer>104</integer>
 			<key>width</key>
-			<integer>46</integer>
+			<integer>92</integer>
 			<key>height</key>
-			<integer>51</integer>
+			<integer>102</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>46</integer>
+			<integer>92</integer>
 			<key>originalHeight</key>
-			<integer>51</integer>
+			<integer>102</integer>
 		</dict>
 		<key>Wind6-7.png</key>
 		<dict>
 			<key>x</key>
-			<integer>265</integer>
+			<integer>94</integer>
 			<key>y</key>
-			<integer>1</integer>
+			<integer>104</integer>
 			<key>width</key>
-			<integer>40</integer>
+			<integer>82</integer>
 			<key>height</key>
-			<integer>51</integer>
+			<integer>102</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>46</integer>
+			<integer>92</integer>
 			<key>originalHeight</key>
-			<integer>51</integer>
+			<integer>102</integer>
 		</dict>
 		<key>Wind6-8.png</key>
 		<dict>
 			<key>x</key>
-			<integer>306</integer>
+			<integer>177</integer>
 			<key>y</key>
-			<integer>1</integer>
+			<integer>104</integer>
 			<key>width</key>
-			<integer>46</integer>
+			<integer>92</integer>
 			<key>height</key>
-			<integer>51</integer>
+			<integer>102</integer>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>0</real>
 			<key>originalWidth</key>
-			<integer>46</integer>
+			<integer>92</integer>
 			<key>originalHeight</key>
-			<integer>51</integer>
+			<integer>102</integer>
 		</dict>
 	</dict>
 </dict>
