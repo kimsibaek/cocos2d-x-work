@@ -150,6 +150,8 @@ bool EarthMap::init()
 
 	VPos = Vec2(0, 0);
 	ToolUseMonster = 0;
+
+	ReturnState = false;
 	return true;
 }
 
@@ -968,9 +970,10 @@ void EarthMap::doMsgReceivedTurnEnd(Ref* obj) {
 	}
 	else if (!strcmp(testText, "1")) {
 		Director::getInstance()->resume();
-		for (int i = 0; i < monsterSize; i++) {
+		for (int i = monsterSize-1; i >= 0; i--) {
 			monster_char[i]._turn = true;
-			monster_char[i].sprite->removeChildByTag(4, true);
+			log("%d : %d", i, monster_char[i].Type);
+			monster_char[i].sprite->removeChildByTag(4);
 		}
 	}
 	else {
@@ -1049,6 +1052,17 @@ void EarthMap::doMsgReceivedTool(Ref* obj) {
 			//아군 몬스터 타일 표시
 			for (int i = 0; i < MovePosition.size(); i++) {
 				tmap->removeChild(MovePosition.at(i), true);
+			}
+			ReturnState = false;
+			//턴종료
+			if (!status) {
+				Sprite* End = Sprite::createWithSpriteFrameName("End.png");
+				End->setAnchorPoint(Vec2(0, 0));
+				End->setPosition(Vec2(0, 0));
+				End->setScale(2.0f);
+				monster_char[mons]._turn = false;
+				monster_char[mons].sprite->addChild(End, 4, 4);
+				ReturnState = false;
 			}
 		}
 	}
@@ -1268,6 +1282,18 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 
 	//아군소환할 경우
 	if (b_CreateMonster) {
+		ReturnState = false;
+		//턴종료
+		if (!status) {
+			Sprite* End = Sprite::createWithSpriteFrameName("End.png");
+			End->setAnchorPoint(Vec2(0, 0));
+			End->setPosition(Vec2(0, 0));
+			End->setScale(2.0f);
+			monster_char[mons]._turn = false;
+			monster_char[mons].sprite->addChild(End, 4, 4);
+			ReturnState = false;
+		}
+
 		for (int i = 0; i < createPosSize; i++) {
 			if (m_pos == Vec2(createMonsterPos[i].x, createMonsterPos[i].y)) {
 				//아군몬스터 소환 createMonsterNum
@@ -1912,12 +1938,12 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 				}
 
 				//주인공 턴종료
-				Sprite* End1 = Sprite::createWithSpriteFrameName("End.png");
-				End1->setAnchorPoint(Vec2(0, 0));
-				End1->setPosition(Vec2(0, 0));
-				End1->setScale(2.0f);
-				monster_char[mons]._turn = false;
-				monster_char[mons].sprite->addChild(End1, 4, 4);
+				End = Sprite::createWithSpriteFrameName("End.png");
+				End->setAnchorPoint(Vec2(0, 0));
+				End->setPosition(Vec2(0, 0));
+				End->setScale(2.0f);
+				monster_char[0]._turn = false;
+				monster_char[0].sprite->addChild(End, 4, 4);
 			}
 		}
 		return;
@@ -1944,6 +1970,17 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 				tmap->removeChild(MovePosition.at(i));
 			}
 			MovePosition.clear();
+
+			//턴종료
+			if (!status) {
+				Sprite* End = Sprite::createWithSpriteFrameName("End.png");
+				End->setAnchorPoint(Vec2(0, 0));
+				End->setPosition(Vec2(0, 0));
+				End->setScale(2.0f);
+				monster_char[mons]._turn = false;
+				monster_char[mons].sprite->addChild(End, 4, 4);
+				ReturnState = false;
+			}
 		}
 		if (statuschar) {
 			//소환
@@ -1978,15 +2015,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 				}
 			}
 		}
-		//턴종료
-		if (!status) {
-			Sprite* End = Sprite::createWithSpriteFrameName("End.png");
-			End->setAnchorPoint(Vec2(0, 0));
-			End->setPosition(Vec2(0, 0));
-			End->setScale(2.0f);
-			monster_char[mons]._turn = false;
-			monster_char[mons].sprite->addChild(End, 4, 4);
-		}
+		
 		
 		//취소
 		bool bTouch4 = cancel->getBoundingBox().containsPoint(touchPoint);
@@ -2002,16 +2031,18 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 			}
 			MovePosition.clear();
 			//return move 저장
-			monster_char[mons].tx = ReturnMove_tx;
-			monster_char[mons].ty = ReturnMove_ty;
-			monster_char[mons].xPosition = ReturnMove_xPosition;
-			monster_char[mons].yPosition = ReturnMove_yPosition;
-			monster_char[mons].xMovePosition -= Moving_xMovePosition - ReturnMove_xMovePosition;
-			monster_char[mons].yMovePosition -= Moving_yMovePosition - ReturnMove_yMovePosition;
-
-
+			if (ReturnState) {
+				monster_char[mons].tx = ReturnMove_tx;
+				monster_char[mons].ty = ReturnMove_ty;
+				monster_char[mons].xPosition = ReturnMove_xPosition;
+				monster_char[mons].yPosition = ReturnMove_yPosition;
+				monster_char[mons].xMovePosition -= Moving_xMovePosition - ReturnMove_xMovePosition;
+				monster_char[mons].yMovePosition -= Moving_yMovePosition - ReturnMove_yMovePosition;
+				ReturnState = false;
+			}
 			monster_char[mons].sprite->setPosition(monster_char[mons].xMovePosition, monster_char[mons].yMovePosition);
 		}
+		
 		if (!status) {
 			removeChild(EndButton);
 			removeChild(createMonster);
@@ -2229,7 +2260,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 	if (CharacterClick) {
 		Vec2 mon_pos = tileCoordForPosition(Vec2(monster_char[mons].xMovePosition, monster_char[mons].yMovePosition));
 		ToolUsePosition = m_pos;
-		//자기자신을 클릭시 (도구, 소환)
+		//자기자신을 클릭시 (도구, 소환, 취소)
 		if (m_pos == mon_pos) {
 			if (monster_char[mons].Type == 0) {
 				status = true;
@@ -2387,6 +2418,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 		else if (checkcoordinate(m_pos)) {
 			
 			//return move 저장
+			ReturnState = true;
 			ReturnMove_tx = monster_char[mons].tx;
 			ReturnMove_ty = monster_char[mons].ty;
 			ReturnMove_xPosition = monster_char[mons].xPosition;

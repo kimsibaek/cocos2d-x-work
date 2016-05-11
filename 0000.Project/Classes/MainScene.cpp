@@ -36,12 +36,7 @@ bool MainScene::init()
 	this->addChild(title);
 
 	auto cache = SpriteFrameCache::getInstance();
-	cache->addSpriteFramesWithFile("Plist/blue.plist");
-	cache->addSpriteFramesWithFile("Plist/green.plist");
-	cache->addSpriteFramesWithFile("Plist/red.plist");
-	cache->addSpriteFramesWithFile("Plist/yellow.plist");
-	cache->addSpriteFramesWithFile("Plist/black.plist");
-	cache->addSpriteFramesWithFile("Plist/purple.plist");
+	cache->addSpriteFramesWithFile("Plist/Color.plist");
 	char str[100];
 
 	//blue
@@ -147,37 +142,58 @@ bool MainScene::init()
 	auto rep6 = RepeatForever::create(animate6);
 	sprite_purple->runAction(rep6);
 
+	//orange
+	Vector<SpriteFrame*> animFrames7;
+	Sprite* sprite_orange = Sprite::createWithSpriteFrameName("orange1.png");
+	sprite_orange->setPosition(200, 380);
+	sprite_orange->setScale(1.5);
+	this->addChild(sprite_orange);
+	for (int i = 1; i < 5; i++) {
+		sprintf(str, "orange%d.png", i);
+		SpriteFrame* frame = cache->getSpriteFrameByName(str);
+		animFrames7.pushBack(frame);
+	}
+
+	auto animation7 = Animation::createWithSpriteFrames(animFrames7, 0.2f);
+	auto animate7 = Animate::create(animation7);
+	auto rep7 = RepeatForever::create(animate7);
+	sprite_orange->runAction(rep7);
+
 
 	auto pMenuItem1 = MenuItemImage::create("Images/Scene/EarthLand.png", "Images/Scene/EarthLand_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
-	pMenuItem1->setPosition(Vec2(565, 260));
-	pMenuItem1->setScale(1.5);
+	pMenuItem1->setPosition(Vec2(565, 210));
+	pMenuItem1->setScale(3);
 	pMenuItem1->setTag(1);
 	auto pMenuItem2 = MenuItemImage::create("Images/Scene/FireLand.png", "Images/Scene/FireLand_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
-	pMenuItem2->setPosition(Vec2(975, 555));
-	pMenuItem2->setScale(1.5);
+	pMenuItem2->setPosition(Vec2(975, 505));
+	pMenuItem2->setScale(3);
 	pMenuItem2->setTag(2);
 	auto pMenuItem3 = MenuItemImage::create("Images/Scene/WaterLand.png", "Images/Scene/WaterLand_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
-	pMenuItem3->setPosition(Vec2(955, 290));
-	pMenuItem3->setScale(1.5);
+	pMenuItem3->setPosition(Vec2(955, 240));
+	pMenuItem3->setScale(3);
 	pMenuItem3->setTag(3);
 	auto pMenuItem4 = MenuItemImage::create("Images/Scene/WindLand.png", "Images/Scene/WindLand_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
-	pMenuItem4->setPosition(Vec2(535, 500));
-	pMenuItem4->setScale(1.5);
+	pMenuItem4->setPosition(Vec2(535, 450));
+	pMenuItem4->setScale(3);
 	pMenuItem4->setTag(4);
 	auto pMenuItem5 = MenuItemImage::create("Images/Scene/Store.png", "Images/Scene/Store_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
-	pMenuItem5->setPosition(Vec2(660, 60));
-	pMenuItem5->setScale(1.5);
+	pMenuItem5->setPosition(Vec2(730, 60));
+	pMenuItem5->setScale(3);
 	pMenuItem5->setTag(5);
 	auto pMenuItem6 = MenuItemImage::create("Images/Scene/Classchange.png", "Images/Scene/Classchange_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
-	pMenuItem6->setPosition(Vec2(140, 80));
-	pMenuItem6->setScale(1.5);
+	pMenuItem6->setPosition(Vec2(200, 80));
+	pMenuItem6->setScale(3);
 	pMenuItem6->setTag(6);
 	auto pMenuItem7 = MenuItemImage::create("Images/Scene/Back.png", "Images/Scene/Back_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
 	pMenuItem7->setPosition(Vec2(1230, 670));
 	pMenuItem7->setScale(0.2);
 	pMenuItem7->setTag(7);
+	auto pMenuItem8 = MenuItemImage::create("Images/Scene/Itemmanagement.png", "Images/Scene/Itemmanagement_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
+	pMenuItem8->setPosition(Vec2(250, 330));
+	pMenuItem8->setScale(3);
+	pMenuItem8->setTag(8);
 	//auto pMenuItem7 = MenuItemImage::create("Images/Scene/Exit.png", "Images/Scene/Exit_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
-	auto pMenu = Menu::create(pMenuItem1, pMenuItem2, pMenuItem3, pMenuItem4, pMenuItem5, pMenuItem6, pMenuItem7, nullptr);
+	auto pMenu = Menu::create(pMenuItem1, pMenuItem2, pMenuItem3, pMenuItem4, pMenuItem5, pMenuItem6, pMenuItem7, pMenuItem8, nullptr);
 	pMenu->setPosition(Vec2(0, 0));
 	this->addChild(pMenu);
 

@@ -77,7 +77,7 @@ public:
 	cocos2d::Sprite* dispel;
 	cocos2d::Sprite* cancel;
 
-
+	bool ReturnState;
 	int ReturnMove_tx;
 	int ReturnMove_ty;
 	float ReturnMove_xPosition;
