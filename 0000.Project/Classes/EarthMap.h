@@ -70,11 +70,27 @@ public:
 	int mons;
 
 	cocos2d::Sprite* pause;
+	cocos2d::Sprite* EndButton;
 	cocos2d::Sprite* createMonster;
 	cocos2d::Sprite* Items;
 	cocos2d::Sprite* attack;
 	cocos2d::Sprite* dispel;
+	cocos2d::Sprite* cancel;
 
+
+	int ReturnMove_tx;
+	int ReturnMove_ty;
+	float ReturnMove_xPosition;
+	float ReturnMove_yPosition;
+	float ReturnMove_xMovePosition;
+	float ReturnMove_yMovePosition;
+
+	int Moving_tx;
+	int Moving_ty;
+	float Moving_xPosition;
+	float Moving_yPosition;
+	float Moving_xMovePosition;
+	float Moving_yMovePosition;
 
 	bool status;
 	bool statuschar;
@@ -83,6 +99,7 @@ public:
 	bool statusAttack;
 
 	void doMsgReceived(Ref* obj);
+	void doMsgReceivedTurnEnd(Ref* obj);
 	void doMsgReceivedMonster(Ref* obj);
 	void doMsgReceivedTool(Ref* obj);
 
@@ -107,6 +124,7 @@ public:
 
 	int GrobalTempsize;
 
+	void doClick1(Ref *pSender);
 	virtual void onEnter();
 	virtual void onExit();
 	cocos2d::Vec2 StartDragPosition;
