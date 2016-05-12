@@ -149,6 +149,9 @@ public:
 	void LevelUpCheck(Monster_num *monster);
 	void SpriteCoordinateChange(cocos2d::Vec2 m_pos);
 	void DisplayEmyMonsterAttack(cocos2d::Vec2 pos);
+	bool MoveTileCheck(cocos2d::Vec2 vec);
+	Position *VecPosition;
+	int VecPositionSize = 0;
 };
 
 #endif // __EarthMap_SCENE_H__

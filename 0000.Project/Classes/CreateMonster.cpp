@@ -36,6 +36,7 @@ bool CreateMonster::init()
 	dbfileName = dbfileName + "SpiritualSoul.sqlite";
 
 	selectData(this);
+	CheckMonster();
 
 	tableView1 = TableView::create(this, Size(500, 200));
 	tableView1->setDirection(ScrollView::Direction::HORIZONTAL);
@@ -129,8 +130,20 @@ void CreateMonster::selectData(Ref* pSender)
 
 void CreateMonster::doContinue(Ref* pSender) {
 	//std::string str1 = "1";
+	int ViewNum = -1;
+	for (int i = 0; i < MonsterListSize; i++) {
+		if (Monster_List[i].ViewNum == num) {
+			ViewNum = i;
+			break;
+		}
+	}
+
 	char str2[20] = { 0 };
-	sprintf(str2, "%d", num+1);
+	sprintf(str2, "%d", ViewNum +1);
+	if (ViewNum == -1) {
+		log("소환할 몬스터가 없습니다.");
+	}
+
 	NotificationCenter::getInstance()->postNotification("TouchMonster", (Ref*)str2);
 	this->removeFromParentAndCleanup(true);
 }
@@ -168,22 +181,28 @@ Size CreateMonster::tableCellSizeForIndex(TableView *table, ssize_t idx) {
 
 TableViewCell* CreateMonster::tableCellAtIndex(TableView *table, ssize_t idx) {
 	//num = idx;
+	int ViewNum = idx;
+	for (int i = 0; i < MonsterListSize; i++) {
+		if (Monster_List[i].ViewNum == idx) {
+			ViewNum = i;
+		}
+	}
 	char png[25];
-
-	if (Monster_List[idx].Type > 0 && Monster_List[idx].Type < 10) {
+	TableViewCell *cell = table->dequeueCell();
+	if (Monster_List[ViewNum].Type > 0 && Monster_List[ViewNum].Type < 10) {
 		sprite_1 = Sprite::createWithSpriteFrameName("char_bg_earth.png");
 	}
-	if (Monster_List[idx].Type > 10 && Monster_List[idx].Type < 20) {
+	else if (Monster_List[ViewNum].Type > 10 && Monster_List[ViewNum].Type < 20) {
 		sprite_1 = Sprite::createWithSpriteFrameName("char_bg_fire.png");
 	}
-	if (Monster_List[idx].Type > 20 && Monster_List[idx].Type < 30) {
+	else if (Monster_List[ViewNum].Type > 20 && Monster_List[ViewNum].Type < 30) {
 		sprite_1 = Sprite::createWithSpriteFrameName("char_bg_water.png");
 	}
-	if (Monster_List[idx].Type > 30 && Monster_List[idx].Type < 40) {
+	else if (Monster_List[ViewNum].Type > 30 && Monster_List[ViewNum].Type < 40) {
 		sprite_1 = Sprite::createWithSpriteFrameName("char_bg_wind.png");
 	}
 	
-	TableViewCell *cell = table->dequeueCell();
+	
 
 	cell = new CustomTableViewCell();
 	cell->autorelease();
@@ -205,170 +224,170 @@ TableViewCell* CreateMonster::tableCellAtIndex(TableView *table, ssize_t idx) {
 	char str2[100];
 	Vector<SpriteFrame*> animFrames;
 	//땅질퍽이
-	if (Monster_List[idx].Type == 1) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Earth1-1.png");
+	if (Monster_List[ViewNum].Type == 1) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Earth1-1.png");
 		sprintf(str1, "Earth1-");
 	}
-	else if (Monster_List[idx].Type == 2) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Earth2-1.png");
+	else if (Monster_List[ViewNum].Type == 2) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Earth2-1.png");
 		sprintf(str1, "Earth2-");
 	}
-	else if (Monster_List[idx].Type == 3) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Earth3-1.png");
+	else if (Monster_List[ViewNum].Type == 3) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Earth3-1.png");
 		sprintf(str1, "Earth3-");
 	}
 	//모닥픽
-	else if (Monster_List[idx].Type == 4) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Earth4-1.png");
+	else if (Monster_List[ViewNum].Type == 4) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Earth4-1.png");
 		sprintf(str1, "Earth4-");
 	}
-	else if (Monster_List[idx].Type == 5) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Earth5-1.png");
+	else if (Monster_List[ViewNum].Type == 5) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Earth5-1.png");
 		sprintf(str1, "Earth5-");
 	}
-	else if (Monster_List[idx].Type == 6) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Earth6-1.png");
+	else if (Monster_List[ViewNum].Type == 6) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Earth6-1.png");
 		sprintf(str1, "Earth6-");
 	}
 	//모래두지
-	else if (Monster_List[idx].Type == 7) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Earth7-1.png");
+	else if (Monster_List[ViewNum].Type == 7) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Earth7-1.png");
 		sprintf(str1, "Earth7-");
 	}
-	else if (Monster_List[idx].Type == 8) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Earth8-1.png");
+	else if (Monster_List[ViewNum].Type == 8) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Earth8-1.png");
 		sprintf(str1, "Earth8-");
 	}
-	else if (Monster_List[idx].Type == 9) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Earth9-1.png");
+	else if (Monster_List[ViewNum].Type == 9) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Earth9-1.png");
 		sprintf(str1, "Earth9-");
 	}
 	//파이뤼
-	else if (Monster_List[idx].Type == 11) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Fire1-1.png");
+	else if (Monster_List[ViewNum].Type == 11) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Fire1-1.png");
 		sprintf(str1, "Fire1-");
 	}
-	else if (Monster_List[idx].Type == 12) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Fire2-1.png");
+	else if (Monster_List[ViewNum].Type == 12) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Fire2-1.png");
 		sprintf(str1, "Fire2-");
 	}
-	else if (Monster_List[idx].Type == 13) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Fire3-1.png");
+	else if (Monster_List[ViewNum].Type == 13) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Fire3-1.png");
 		sprintf(str1, "Fire3-");
 	}
 	//팬템
-	else if (Monster_List[idx].Type == 14) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Fire4-1.png");
+	else if (Monster_List[ViewNum].Type == 14) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Fire4-1.png");
 		sprintf(str1, "Fire4-");
 	}
-	else if (Monster_List[idx].Type == 15) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Fire5-1.png");
+	else if (Monster_List[ViewNum].Type == 15) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Fire5-1.png");
 		sprintf(str1, "Fire5-");
 	}
-	else if (Monster_List[idx].Type == 16) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Fire6-1.png");
+	else if (Monster_List[ViewNum].Type == 16) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Fire6-1.png");
 		sprintf(str1, "Fire6-");
 	}
 	//블랙매직숀
-	else if (Monster_List[idx].Type == 17) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Fire7-1.png");
+	else if (Monster_List[ViewNum].Type == 17) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Fire7-1.png");
 		sprintf(str1, "Fire7-");
 	}
-	else if (Monster_List[idx].Type == 18) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Fire8-1.png");
+	else if (Monster_List[ViewNum].Type == 18) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Fire8-1.png");
 		sprintf(str1, "Fire8-");
 	}
-	else if (Monster_List[idx].Type == 19) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Fire9-1.png");
+	else if (Monster_List[ViewNum].Type == 19) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Fire9-1.png");
 		sprintf(str1, "Fire9-");
 	}
 	//물질퍽이
-	else if (Monster_List[idx].Type == 21) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Water1-1.png");
+	else if (Monster_List[ViewNum].Type == 21) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Water1-1.png");
 		sprintf(str1, "Water1-");
 	}
-	else if (Monster_List[idx].Type == 22) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Water2-1.png");
+	else if (Monster_List[ViewNum].Type == 22) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Water2-1.png");
 		sprintf(str1, "Water2-");
 	}
-	else if (Monster_List[idx].Type == 23) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Water3-1.png");
+	else if (Monster_List[ViewNum].Type == 23) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Water3-1.png");
 		sprintf(str1, "Water3-");
 	}
 	//꼬북이
-	else if (Monster_List[idx].Type == 24) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Water4-1.png");
+	else if (Monster_List[ViewNum].Type == 24) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Water4-1.png");
 		sprintf(str1, "Water4-");
 	}
-	else if (Monster_List[idx].Type == 25) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Water5-1.png");
+	else if (Monster_List[ViewNum].Type == 25) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Water5-1.png");
 		sprintf(str1, "Water5-");
 	}
-	else if (Monster_List[idx].Type == 26) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Water6-1.png");
+	else if (Monster_List[ViewNum].Type == 26) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Water6-1.png");
 		sprintf(str1, "Water6-");
 	}
 	//리아커
-	else if (Monster_List[idx].Type == 27) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Water7-1.png");
+	else if (Monster_List[ViewNum].Type == 27) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Water7-1.png");
 		sprintf(str1, "Water7-");
 	}
-	else if (Monster_List[idx].Type == 28) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Water8-1.png");
+	else if (Monster_List[ViewNum].Type == 28) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Water8-1.png");
 		sprintf(str1, "Water8-");
 	}
-	else if (Monster_List[idx].Type == 29) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Water9-1.png");
+	else if (Monster_List[ViewNum].Type == 29) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Water9-1.png");
 		sprintf(str1, "Water9-");
 	}
 	//코이
-	else if (Monster_List[idx].Type == 31) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Wind1-1.png");
+	else if (Monster_List[ViewNum].Type == 31) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Wind1-1.png");
 		sprintf(str1, "Wind1-");
 	}
-	else if (Monster_List[idx].Type == 32) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Wind2-1.png");
+	else if (Monster_List[ViewNum].Type == 32) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Wind2-1.png");
 		sprintf(str1, "Wind2-");
 	}
-	else if (Monster_List[idx].Type == 33) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Wind3-1.png");
+	else if (Monster_List[ViewNum].Type == 33) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Wind3-1.png");
 		sprintf(str1, "Wind3-");
 	}
 	//피젼
-	else if (Monster_List[idx].Type == 34) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Wind4-1.png");
+	else if (Monster_List[ViewNum].Type == 34) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Wind4-1.png");
 		sprintf(str1, "Wind4-");
 	}
-	else if (Monster_List[idx].Type == 35) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Wind5-1.png");
+	else if (Monster_List[ViewNum].Type == 35) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Wind5-1.png");
 		sprintf(str1, "Wind5-");
 	}
-	else if (Monster_List[idx].Type == 36) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Wind6-1.png");
+	else if (Monster_List[ViewNum].Type == 36) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Wind6-1.png");
 		sprintf(str1, "Wind6-");
 	}
 	//코이
-	else if (Monster_List[idx].Type == 37) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Wind7-1.png");
+	else if (Monster_List[ViewNum].Type == 37) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Wind7-1.png");
 		sprintf(str1, "Wind7-");
 	}
-	else if (Monster_List[idx].Type == 38) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Wind8-1.png");
+	else if (Monster_List[ViewNum].Type == 38) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Wind8-1.png");
 		sprintf(str1, "Wind8-");
 	}
-	else if (Monster_List[idx].Type == 39) {
-		Monster_List[idx].sprite = Sprite::createWithSpriteFrameName("Wind9-1.png");
+	else if (Monster_List[ViewNum].Type == 39) {
+		Monster_List[ViewNum].sprite = Sprite::createWithSpriteFrameName("Wind9-1.png");
 		sprintf(str1, "Wind9-");
 	}
 
-	Monster_List[idx].sprite->setScale(0.75);
-	Monster_List[idx].sprite->setPosition(Vec2(sprite_1->getContentSize().width/2, sprite_1->getContentSize().height/2));
+	Monster_List[ViewNum].sprite->setScale(0.75);
+	Monster_List[ViewNum].sprite->setPosition(Vec2(sprite_1->getContentSize().width/2, sprite_1->getContentSize().height/2));
 	
-	sprite_1->addChild(Monster_List[idx].sprite, 3);
+	sprite_1->addChild(Monster_List[ViewNum].sprite, 3);
 	
 
 	char level[3];
-	sprintf(level, "%d", Monster_List[idx].level);
+	sprintf(level, "%d", Monster_List[ViewNum].level);
 	auto pLabel3 = LabelAtlas::create(level, "MonsterLevel.png", 7, 9, '0');
 	pLabel3->setAnchorPoint(Vec2(0, 0));
 	pLabel3->setScale(1.5);
@@ -390,11 +409,40 @@ TableViewCell* CreateMonster::tableCellAtIndex(TableView *table, ssize_t idx) {
 	auto animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
 	auto animate = Animate::create(animation);
 	auto rep = RepeatForever::create(animate);
-	Monster_List[idx].sprite->runAction(rep);
+	Monster_List[ViewNum].sprite->runAction(rep);
 
 	return cell;
 }
 
 ssize_t CreateMonster::numberOfCellsInTableView(TableView *table) {
-	return MonsterListSize;
+	return MonsterListSize - EarthSize - FireSize - WaterSize - WindSize;
+}
+
+void CreateMonster::CheckMonster() {
+	int ViewNum = 0;
+	for (int i = 0; i < MonsterListSize; i++) {
+		Monster_List[i].View = true;
+		for (int m = 0; m < monsterSize; m++) {
+			if (Monster_List[i].ID == monster_char[m].ID) {
+				Monster_List[i].View = false;
+				if (Monster_List[i].Type > 0 && Monster_List[i].Type < 10) {
+					EarthSize++;
+				}
+				else if (Monster_List[i].Type > 10 && Monster_List[i].Type < 20) {
+					FireSize++;
+				}
+				else if (Monster_List[i].Type > 20 && Monster_List[i].Type < 30) {
+					WaterSize++;
+				}
+				else if (Monster_List[i].Type > 30 && Monster_List[i].Type < 40) {
+					WindSize++;
+				}
+				break;
+			}
+			else if(m == monsterSize - 1){
+				Monster_List[i].ViewNum = ViewNum;
+				ViewNum++;
+			}
+		}
+	}
 }

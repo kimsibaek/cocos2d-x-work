@@ -975,6 +975,7 @@ void EarthMap::doMsgReceivedTurnEnd(Ref* obj) {
 			log("%d : %d", i, monster_char[i].Type);
 			monster_char[i].sprite->removeChildByTag(4);
 		}
+		monster_char[0].sprite->removeChildByTag(4);
 	}
 	else {
 		Director::getInstance()->resume();
@@ -1283,16 +1284,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 	//아군소환할 경우
 	if (b_CreateMonster) {
 		ReturnState = false;
-		//턴종료
-		if (!status) {
-			Sprite* End = Sprite::createWithSpriteFrameName("End.png");
-			End->setAnchorPoint(Vec2(0, 0));
-			End->setPosition(Vec2(0, 0));
-			End->setScale(2.0f);
-			monster_char[mons]._turn = false;
-			monster_char[mons].sprite->addChild(End, 4, 4);
-			ReturnState = false;
-		}
+		
 
 		for (int i = 0; i < createPosSize; i++) {
 			if (m_pos == Vec2(createMonsterPos[i].x, createMonsterPos[i].y)) {
@@ -1944,6 +1936,17 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 				End->setScale(2.0f);
 				monster_char[0]._turn = false;
 				monster_char[0].sprite->addChild(End, 4, 4);
+
+				//턴종료
+				if (!status) {
+					Sprite* End = Sprite::createWithSpriteFrameName("End.png");
+					End->setAnchorPoint(Vec2(0, 0));
+					End->setPosition(Vec2(0, 0));
+					End->setScale(2.0f);
+					monster_char[mons]._turn = false;
+					monster_char[mons].sprite->addChild(End, 4, 4);
+					ReturnState = false;
+				}
 			}
 		}
 		return;
@@ -2733,40 +2736,55 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 			}
 			pos = ChecksPosition(mon_pos, pos, posSize, monster_char[mons].move, 1);
 			posSize = GrobalTempsize;
+
+			if (VecPositionSize) {
+				free(VecPosition);
+				VecPositionSize = 0;
+			}
 			//한칸
 			for (int m = 0; m < posSize; m++) {
 				Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-				Vec2 posit = FindCoordPosition(Vec2(pos[m].x, pos[m].y));
-				sp->setPosition(posit.x - MovePositionX, posit.y - 60 - MovePositionY);
-				tmap->addChild(sp);
-				MovePosition.pushBack(sp);
+				if (MoveTileCheck(Vec2(pos[m].x, pos[m].y))) {
+					Vec2 posit = FindCoordPosition(Vec2(pos[m].x, pos[m].y));
+					sp->setPosition(posit.x - MovePositionX, posit.y - 60 - MovePositionY);
+					tmap->addChild(sp);
+					MovePosition.pushBack(sp);
+				}
 				//두칸
 				if (pos[m].pos2Size) {
 					for (int k = 0; k < pos[m].pos2Size; k++) {
 						Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-						Vec2 posit2 = FindCoordPosition(Vec2(pos[m].pos2[k].x, pos[m].pos2[k].y));
-						//log("pos[%d].pos2[%d] = %d", m, k, pos[m].pos2[k].num);
-						sp->setPosition(posit2.x - MovePositionX, posit2.y - 60 - MovePositionY);
-						tmap->addChild(sp);
-						MovePosition.pushBack(sp);
+						if (MoveTileCheck(Vec2(pos[m].pos2[k].x, pos[m].pos2[k].y))) {
+							Vec2 posit2 = FindCoordPosition(Vec2(pos[m].pos2[k].x, pos[m].pos2[k].y));
+							//log("pos[%d].pos2[%d] = %d", m, k, pos[m].pos2[k].num);
+							sp->setPosition(posit2.x - MovePositionX, posit2.y - 60 - MovePositionY);
+							tmap->addChild(sp);
+							MovePosition.pushBack(sp);
+						}
+						
 						//세칸
 						if (pos[m].pos2[k].pos2Size) {
 							for (int z = 0; z < pos[m].pos2[k].pos2Size; z++) {
 								Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-								Vec2 posit2 = FindCoordPosition(Vec2(pos[m].pos2[k].pos2[z].x, pos[m].pos2[k].pos2[z].y));
-								//log("pos[%d].pos2[%d].pos2[%d] = %d", m, k, z, pos[m].pos2[k].pos2[z].num);
-								sp->setPosition(posit2.x - MovePositionX, posit2.y - 60 - MovePositionY);
-								tmap->addChild(sp);
-								MovePosition.pushBack(sp);
+								if (MoveTileCheck(Vec2(pos[m].pos2[k].pos2[z].x, pos[m].pos2[k].pos2[z].y))) {
+									Vec2 posit2 = FindCoordPosition(Vec2(pos[m].pos2[k].pos2[z].x, pos[m].pos2[k].pos2[z].y));
+									//log("pos[%d].pos2[%d].pos2[%d] = %d", m, k, z, pos[m].pos2[k].pos2[z].num);
+									sp->setPosition(posit2.x - MovePositionX, posit2.y - 60 - MovePositionY);
+									tmap->addChild(sp);
+									MovePosition.pushBack(sp);
+								}
+								
 								//네칸
 								if (pos[m].pos2[k].pos2[z].pos2Size) {
 									for (int i = 0; i < pos[m].pos2[k].pos2[z].pos2Size; i++) {
 										Sprite* sp = Sprite::createWithSpriteFrameName("HexInfo4.png");
-										Vec2 posit2 = FindCoordPosition(Vec2(pos[m].pos2[k].pos2[z].pos2[i].x, pos[m].pos2[k].pos2[z].pos2[i].y));
-										//log("pos[%d].pos2[%d].pos2[%d].pos2[i] = %d", m, k, z, i, pos[m].pos2[k].pos2[z].pos2[i].num);
-										sp->setPosition(posit2.x - MovePositionX, posit2.y - 60 - MovePositionY);
-										tmap->addChild(sp);
-										MovePosition.pushBack(sp);
+										if (MoveTileCheck(Vec2(pos[m].pos2[k].pos2[z].pos2[i].x, pos[m].pos2[k].pos2[z].pos2[i].y))) {
+											Vec2 posit2 = FindCoordPosition(Vec2(pos[m].pos2[k].pos2[z].pos2[i].x, pos[m].pos2[k].pos2[z].pos2[i].y));
+											//log("pos[%d].pos2[%d].pos2[%d].pos2[i] = %d", m, k, z, i, pos[m].pos2[k].pos2[z].pos2[i].num);
+											sp->setPosition(posit2.x - MovePositionX, posit2.y - 60 - MovePositionY);
+											tmap->addChild(sp);
+											MovePosition.pushBack(sp);
+										}
 									}
 								}
 							}
@@ -2931,6 +2949,28 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 			/*for (int i = 0; i < EmyMovePosition.size(); i++) {
 				this->addChild(EmyMovePosition.at(i), 2);
 			}*/
+		}
+	}
+}
+
+bool EarthMap::MoveTileCheck(Vec2 vec) {
+	if (VecPositionSize == 0) {
+		VecPosition = (Position*)malloc(sizeof(Position) * (VecPositionSize + 1));
+		VecPositionSize++;
+		VecPosition[VecPositionSize - 1].x = vec.x;
+		VecPosition[VecPositionSize - 1].y = vec.y;
+		return true;
+	}
+	for (int i = 0; i < VecPositionSize; i++) {
+		if (VecPosition[i].x == vec.x && VecPosition[i].y == vec.y) {
+			return false;
+		}
+		else if (i == VecPositionSize -1) {
+			VecPosition = (Position*)realloc(VecPosition, sizeof(Position) * (VecPositionSize + 1));
+			VecPositionSize++;
+			VecPosition[VecPositionSize - 1].x = vec.x;
+			VecPosition[VecPositionSize - 1].y = vec.y;
+			return true;
 		}
 	}
 }
@@ -3685,7 +3725,32 @@ void EarthMap::ExpCheck() {
 				monster_char[mons].exp = 0;
 				//log("monster_char[mons].level = %d, monster_char[mons].atk = %d", monster_char[mons].level, monster_char[mons].atk);
 				monster_char[mons].level++;
+
 				LevelUpCheck(&monster_char[mons]);
+				monster_char[mons].sprite->removeAllChildren();
+
+				Sprite* st = Sprite::createWithSpriteFrameName("HP_bar.png");
+				st->setPosition(0, -5);
+				st->setScaleX(monster_char[mons].HPbarPosition / 25 * 2);
+				st->setScaleY(2.0f);
+				st->setAnchorPoint(Vec2(0, 0.5));
+				monster_char[mons].sprite->addChild(st, 4, 1);
+
+				Sprite* hp = Sprite::createWithSpriteFrameName("Monster_HP.png");
+				hp->setPosition(0, -5);
+				hp->setScaleX(monster_char[mons].HPbarPosition / 25 * 2);
+				hp->setScaleY(2.0f);
+				//hp->setContentSize(Size(st->getContentSize().width, st->getContentSize().height));
+				hp->setAnchorPoint(Vec2(0, 0.5));
+				monster_char[mons].sprite->addChild(hp, 4, 2);
+
+				char level[3];
+				sprintf(level, "%d", monster_char[mons].level);
+				auto pLabel3 = LabelAtlas::create(level, "Images/MonsterLevel.png", 7, 9, '0');
+				pLabel3->setAnchorPoint(Vec2(0, 0));
+				pLabel3->setPosition(Vec2(hp->getContentSize().width*(monster_char[mons].HPbarPosition / 25 * 2) + 5, -10));
+				pLabel3->setScale(2.0f);
+				monster_char[mons].sprite->addChild(pLabel3, 4, 3);
 				//log("monster_char[mons].level = %d, monster_char[mons].atk = %d", monster_char[mons].level, monster_char[mons].atk);
 			}
 		}
@@ -3716,7 +3781,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster_char[0].Fullhp = 400 + ((monster_char[0].level - 1) * 40);
 		monster_char[0].move = 3;
 		monster_char[0].range = 1;
-		monster_char[0].HPbarPosition = 21.5;
 	}
 	//땅질퍽이
 	else if (monster->Type == 1) {
@@ -3726,7 +3790,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 300 + ((monster->level - 1) * 30);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 14.5;
 	}
 	else if (monster->Type == 2) {
 		monster->atk = 200 + ((monster->level - 1) * 20);
@@ -3735,7 +3798,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 450 + ((monster->level - 1) * 45);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 17;
 	}
 	else if (monster->Type == 3) {
 		monster->atk = 300 + ((monster->level - 1) * 30);
@@ -3744,7 +3806,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 600 + ((monster->level - 1) * 60);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 25;
 	}
 	//모닥픽
 	else if (monster->Type == 4) {
@@ -3754,7 +3815,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 300 + ((monster->level - 1) * 30);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 9;
 	}
 	else if (monster->Type == 5) {
 		monster->atk = 200 + ((monster->level - 1) * 20);
@@ -3763,7 +3823,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 450 + ((monster->level - 1) * 45);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 12.5;
 	}
 	else if (monster->Type == 6) {
 		monster->atk = 300 + ((monster->level - 1) * 30);
@@ -3772,7 +3831,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 600 + ((monster->level - 1) * 60);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 20;
 	}
 	//모래두지
 	else if (monster->Type == 7) {
@@ -3782,7 +3840,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 200 + ((monster->level - 1) * 20);
 		monster->move = 3;
 		monster->range = 2;
-		monster->HPbarPosition = 19;
 	}
 	else if (monster->Type == 8) {
 		monster->atk = 150 + ((monster->level - 1) * 15);
@@ -3791,7 +3848,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 350 + ((monster->level - 1) * 35);
 		monster->move = 3;
 		monster->range = 2;
-		monster->HPbarPosition = 20;
 	}
 	else if (monster->Type == 9) {
 		monster->atk = 250 + ((monster->level - 1) * 25);
@@ -3800,7 +3856,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 500 + ((monster->level - 1) * 50);
 		monster->move = 3;
 		monster->range = 2;
-		monster->HPbarPosition = 17;
 	}
 	//파이뤼
 	else if (monster->Type == 11) {
@@ -3810,7 +3865,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 300 + ((monster->level - 1) * 30);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 13.5;
 	}
 	else if (monster->Type == 12) {
 		monster->atk = 200 + ((monster->level - 1) * 20);
@@ -3819,7 +3873,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 450 + ((monster->level - 1) * 45);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 21;
 	}
 	else if (monster->Type == 13) {
 		monster->atk = 300 + ((monster->level - 1) * 30);
@@ -3828,7 +3881,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 600 + ((monster->level - 1) * 60);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 23.5;
 	}
 	//팬템
 	else if (monster->Type == 14) {
@@ -3838,7 +3890,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 300 + ((monster->level - 1) * 30);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 19;
 	}
 	else if (monster->Type == 15) {
 		monster->atk = 200 + ((monster->level - 1) * 20);
@@ -3847,7 +3898,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 450 + ((monster->level - 1) * 45);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 23.5;
 	}
 	else if (monster->Type == 16) {
 		monster->atk = 350 + ((monster->level - 1) * 35);
@@ -3856,7 +3906,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 600 + ((monster->level - 1) * 60);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 23.5;
 	}
 	//블랙매직숀
 	else if (monster->Type == 17) {
@@ -3866,7 +3915,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 300 + ((monster->level - 1) * 30);
 		monster->move = 3;
 		monster->range = 2;
-		monster->HPbarPosition = 22;
 	}
 	else if (monster->Type == 18) {
 		monster->atk = 150 + ((monster->level - 1) * 15);
@@ -3875,7 +3923,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 450 + ((monster->level - 1) * 45);
 		monster->move = 3;
 		monster->range = 2;
-		monster->HPbarPosition = 25.5;
 	}
 	else if (monster->Type == 19) {
 		monster->atk = 250 + ((monster->level - 1) * 25);
@@ -3884,7 +3931,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 600 + ((monster->level - 1) * 60);
 		monster->move = 3;
 		monster->range = 2;
-		monster->HPbarPosition = 21;
 	}
 	//물질퍽이
 	else if (monster->Type == 21) {
@@ -3892,9 +3938,8 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->def = 30 + ((monster->level - 1) * 3);
 		monster->hp = 300 + ((monster->level - 1) * 30);
 		monster->Fullhp = 300 + ((monster->level - 1) * 30);
-		monster->move = 30;
+		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 14.5;
 	}
 	else if (monster->Type == 22) {
 		monster->atk = 200 + ((monster->level - 1) * 20);
@@ -3903,7 +3948,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 450 + ((monster->level - 1) * 45);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 13.5;
 	}
 	else if (monster->Type == 23) {
 		monster->atk = 300 + ((monster->level - 1) * 30);
@@ -3912,7 +3956,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 600 + ((monster->level - 1) * 60);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 25;
 	}
 	//꼬북이
 	else if (monster->Type == 24) {
@@ -3922,7 +3965,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 350 + ((monster->level - 1) * 35);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 20;
 	}
 	else if (monster->Type == 25) {
 		monster->atk = 200 + ((monster->level - 1) * 20);
@@ -3931,7 +3973,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 500 + ((monster->level - 1) * 50);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 22.5;
 	}
 	else if (monster->Type == 26) {
 		monster->atk = 350 + ((monster->level - 1) * 35);
@@ -3940,7 +3981,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 650 + ((monster->level - 1) * 65);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 25;
 	}
 	//리아커
 	else if (monster->Type == 27) {
@@ -3950,7 +3990,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 300 + ((monster->level - 1) * 30);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 20;
 	}
 	else if (monster->Type == 28) {
 		monster->atk = 200 + ((monster->level - 1) * 20);
@@ -3959,7 +3998,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 450 + ((monster->level - 1) * 45);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 22.5;
 	}
 	else if (monster->Type == 29) {
 		monster->atk = 300 + ((monster->level - 1) * 30);
@@ -3968,7 +4006,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 600 + ((monster->level - 1) * 60);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 28;
 	}
 	//코이
 	else if (monster->Type == 31) {
@@ -3978,7 +4015,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 300 + ((monster->level - 1) * 30);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 19;
 	}
 	else if (monster->Type == 32) {
 		monster->atk = 200 + ((monster->level - 1) * 20);
@@ -3987,7 +4023,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 450 + ((monster->level - 1) * 45);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 18.5;
 	}
 	else if (monster->Type == 33) {
 		monster->atk = 300 + ((monster->level - 1) * 30);
@@ -3996,7 +4031,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 600 + ((monster->level - 1) * 60);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 19.5;
 	}
 	//피젼
 	else if (monster->Type == 34) {
@@ -4006,7 +4040,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 300 + ((monster->level - 1) * 30);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 11.5;
 	}
 	else if (monster->Type == 35) {
 		monster->atk = 200 + ((monster->level - 1) * 20);
@@ -4015,7 +4048,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 450 + ((monster->level - 1) * 45);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 17.5;
 	}
 	else if (monster->Type == 36) {
 		monster->atk = 350 + ((monster->level - 1) * 35);
@@ -4024,7 +4056,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 600 + ((monster->level - 1) * 60);
 		monster->move = 3;
 		monster->range = 1;
-		monster->HPbarPosition = 20;
 	}
 	//코이
 	else if (monster->Type == 37) {
@@ -4034,7 +4065,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 300 + ((monster->level - 1) * 30);
 		monster->move = 3;
 		monster->range = 2;
-		monster->HPbarPosition = 20;
 	}
 	else if (monster->Type == 38) {
 		monster->atk = 150 + ((monster->level - 1) * 15);
@@ -4043,7 +4073,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 450 + ((monster->level - 1) * 45);
 		monster->move = 3;
 		monster->range = 2;
-		monster->HPbarPosition = 17;
 	}
 	else if (monster->Type == 39) {
 		monster->atk = 250 + ((monster->level - 1) * 25);
@@ -4052,7 +4081,6 @@ void EarthMap::LevelUpCheck(Monster_num *monster) {
 		monster->Fullhp = 600 + ((monster->level - 1) * 60);
 		monster->move = 3;
 		monster->range = 2;
-		monster->HPbarPosition = 23.5;
 	}
 }
 

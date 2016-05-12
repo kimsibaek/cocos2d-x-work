@@ -21,9 +21,9 @@ struct Monster_num {
 	int range;
 
 	bool _turn;
-
 	bool upgrade;
-
+	bool View;
+	int ViewNum;
 	cocos2d::Sprite *sprite;
 	//화면이동좌표
 	float xMovePosition;

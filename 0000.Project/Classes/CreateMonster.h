@@ -39,7 +39,10 @@ public:
 	//cocos2d::Menu* menu;
 	TableView* tableView1;
 	int num;
-
+	int FireSize;
+	int EarthSize;
+	int WaterSize;
+	int WindSize;
 	cocos2d::SpriteFrameCache *cache;
 
 	cocos2d::Vector<cocos2d::Sprite*> sprite_vector;
@@ -49,6 +52,7 @@ public:
 	virtual Size tableCellSizeForIndex(TableView *table, ssize_t idx);
 	virtual TableViewCell* tableCellAtIndex(TableView *table, ssize_t idx);
 	virtual ssize_t numberOfCellsInTableView(TableView *table);
+	void CheckMonster();
 };
 
 #endif // __CreateMonster_SCENE_H__
