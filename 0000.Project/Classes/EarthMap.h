@@ -138,20 +138,32 @@ public:
 	void onCreateEmyCharacter();
 	void FocusCharacter();
 
-	bool ChecksPosition(int num1, int num2);
-	Position* ChecksPosition(cocos2d::Vec2 charactor, Position *pos_temp, int tempSize, int Count, int move);
+	//bool ChecksPosition(int num1, int num2);
+	//Position* ChecksPosition(cocos2d::Vec2 charactor, Position *pos_temp, int tempSize, int Count, int move);
+	bool CheckPosition(int num1, int num2, int monSize, Monster_num *monster, int EmyMonSize, Monster_num *EmyMonster);
+	Position* CheckPosition(cocos2d::Vec2 charactor, Position *pos_temp, int tempSize, int Count, int move, int monSize, Monster_num *monster, int EmyMonSize, Monster_num *EmyMonster);
+
 	bool checkcoordinate(cocos2d::Vec2 click); 
-	bool checkEmyMonsterCoordinate(cocos2d::Vec2 click);
+
+	//bool                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             (cocos2d::Vec2 click);
+	bool checkEmyMonsterCoordinate(cocos2d::Vec2 click, Monster_num *EmyMon, int EmyMonSize);
+
 	bool BufTileCheck(cocos2d::Vec2 vec);
 	int SynastryCheck(int s1, int s2);
 	void ExpCheck();
 	int MaxExp(int type, int level);
 	void LevelUpCheck(Monster_num *monster);
-	void SpriteCoordinateChange(cocos2d::Vec2 m_pos);
+
+	//void SpriteCoordinateChange(cocos2d::Vec2 m_pos);
+	void SpriteCoordinateChange(cocos2d::Vec2 m_pos, Monster_num *monster, int mon_num);
+
 	void DisplayEmyMonsterAttack(cocos2d::Vec2 pos);
 	bool MoveTileCheck(cocos2d::Vec2 vec);
 	Position *VecPosition;
 	int VecPositionSize = 0;
+	void EmyTurn(float f);
+
+	
 };
 
 #endif // __EarthMap_SCENE_H__
