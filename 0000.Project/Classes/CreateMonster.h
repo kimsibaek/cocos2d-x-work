@@ -27,6 +27,7 @@ public:
 	virtual void onExit();
 
 	cocos2d::EventListenerTouchOneByOne* listener;
+	virtual bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
 	//cocos2d::EventListenerTouchAllAtOnce* listener;
 	cocos2d::Size winSize;
 	//cocos2d::RenderTexture* m_pTarget;

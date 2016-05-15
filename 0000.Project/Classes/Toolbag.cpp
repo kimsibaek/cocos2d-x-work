@@ -26,7 +26,7 @@ bool Toolbag::init()
 
 	winSize = Director::getInstance()->getWinSize();
 
-	auto popLayer = CCLayerColor::create(Color4B(0, 0, 0, 255), 600, 400);
+	popLayer = LayerColor::create(Color4B(0, 0, 0, 255), 600, 400);
 	popLayer->setAnchorPoint(Vec2(0, 0));
 	popLayer->setPosition(Vec2((winSize.width - popLayer->getContentSize().width) / 2, (winSize.height - popLayer->getContentSize().height) / 2));
 
@@ -60,15 +60,6 @@ bool Toolbag::init()
 	popLayer->addChild(pMenu);
 
 	return true;
-}
-
-void Toolbag::onEnter() {
-	Layer::onEnter();
-
-}
-
-void Toolbag::onExit() {
-	Layer::onExit();
 }
 
 void Toolbag::selectData(Ref* pSender)
@@ -121,10 +112,55 @@ void Toolbag::selectData(Ref* pSender)
 
 void Toolbag::doContinue(Ref* pSender) {
 	//std::string str1 = "1";
+	for (int i = 0; i < ItemsListSize; i++) {
+		if (Items_List[i]._ID == num + 6) {
+			if (Items_List[i].Num <= 0) {
+				//아이템 없음
+				MenuItemFont::setFontSize(24);
+				Sprite *BG = Sprite::create("Images/Scene/TexScene.png");
+				BG->setAnchorPoint(Vec2(0.5, 0.5));
+				BG->setScale(2.0f);
+				BG->setPosition(Vec2((winSize.width) / 2, (winSize.height) / 2));
+				this->addChild(BG, 10, 10);
+
+				auto pMenuItem = MenuItemFont::create("선택한 아이템이 부족합니다.");
+				pMenuItem->setColor(Color3B(0, 0, 0));
+				pMenuItem->setPosition(Vec2(200, 80));
+				BG->addChild(pMenuItem, 11, 11);
+
+				return;
+			}
+		}
+	}
+	
 	char str2[20] = { 0 };
 	sprintf(str2, "%d", num + 1);
 	NotificationCenter::getInstance()->postNotification("TouchTool", (Ref*)str2);
 	this->removeFromParentAndCleanup(true);
+}
+
+void Toolbag::onEnter() {
+	Layer::onEnter();
+
+	listener = EventListenerTouchOneByOne::create();
+	listener->setSwallowTouches(true);
+
+	listener->onTouchBegan = CC_CALLBACK_2(Toolbag::onTouchBegan, this);
+
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+}
+
+void Toolbag::onExit() {
+	_eventDispatcher->removeEventListener(listener);
+	Layer::onExit();
+}
+
+bool Toolbag::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) {
+	auto touchPoint = touch->getLocation();
+
+	this->removeChildByTag(10);
+	
+	return true;
 }
 
 void Toolbag::doSendMsg(Ref* pSender) {

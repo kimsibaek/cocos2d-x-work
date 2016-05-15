@@ -291,9 +291,11 @@ void MainScene::createDatabase()
 			insertData(this);
 		}
 	}
+	sqlite3_finalize(statement);
 	sqlite3_close(pDB);
 	//
 }
+
 void MainScene::insertData(Ref* pSender)
 {
 	sqlite3* pDB = nullptr;
@@ -322,9 +324,11 @@ void MainScene::insertData(Ref* pSender)
 	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
 	sqlStr = "insert into Items(_ID, Num) values (5, 0)";
 	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
-	sqlStr = "insert into Items(_ID, Num) values (6, 0)";
+	sqlStr = "insert into Items(_ID, Num) values (6, 1)";
 	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
-	sqlStr = "insert into Items(_ID, Num) values (7, 0)";
+	sqlStr = "insert into Items(_ID, Num) values (7, 1)";
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+	sqlStr = "insert into Items(_ID, Num) values (8, 1)";
 	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
 	//Monster table
 	sqlStr = "insert into Monster(Monster_Id, Type, level, Item1, Item2, Item3, Exp) values (0, 0, 1, 0, 0, 0, 0)";
@@ -340,6 +344,7 @@ void MainScene::insertData(Ref* pSender)
 
 	sqlite3_close(pDB);
 }
+
 void MainScene::selectData(Ref* pSender)
 {
 	sqlite3* pDB = NULL;
@@ -386,7 +391,8 @@ void MainScene::doClick1(Ref *pSender) {
 	log("%d번째 메뉴가 선택되었습니다.", i);
 	if (i == 1) {
 		auto pScene = EarthMap::createScene();
-		Director::getInstance()->replaceScene(pScene);
+		Director::getInstance()->pushScene(pScene);
+		//Director::getInstance()->replaceScene(pScene);
 	}
 	else if (i == 2) {
 		auto pScene = FireMap::createScene();

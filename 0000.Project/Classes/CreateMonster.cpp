@@ -63,11 +63,29 @@ bool CreateMonster::init()
 
 void CreateMonster::onEnter() {
 	Layer::onEnter();
+	listener = EventListenerTouchOneByOne::create();
+	listener->setSwallowTouches(true);
 
+	listener->onTouchBegan = CC_CALLBACK_2(CreateMonster::onTouchBegan, this);
+
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
 void CreateMonster::onExit() {
+	_eventDispatcher->removeEventListener(listener);
+	if (MonsterListSize) {
+		free(Monster_List);
+		MonsterListSize = 0;
+	}
 	Layer::onExit();
+}
+
+bool CreateMonster::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) {
+	auto touchPoint = touch->getLocation();
+
+	this->removeChildByTag(10);
+
+	return true;
 }
 
 void CreateMonster::selectData(Ref* pSender)
@@ -76,10 +94,6 @@ void CreateMonster::selectData(Ref* pSender)
 	char* errMsg = nullptr;
 	int result;
 
-	if (MonsterListSize) {
-		free(Monster_List);
-		MonsterListSize = 0;
-	}
 
 	result = sqlite3_open(dbfileName.c_str(), &pDB);
 
@@ -107,17 +121,40 @@ void CreateMonster::selectData(Ref* pSender)
 			int Exp = sqlite3_column_int(statement, 6);
 
 			if (ID != 0) {
-				if (MonsterListSize)	Monster_List = (Monster_num*)realloc(Monster_List,	sizeof(Monster_num) * (MonsterListSize + 1));
-				else					Monster_List = (Monster_num*)malloc(				sizeof(Monster_num) * (MonsterListSize + 1));
-				Monster_List[MonsterListSize].ID = ID;
-				Monster_List[MonsterListSize].Type = Type;
-				Monster_List[MonsterListSize].level = level;
-				Monster_List[MonsterListSize].Item1 = Item1;
-				Monster_List[MonsterListSize].Item2 = Item2;
-				Monster_List[MonsterListSize].Item3 = Item3;
-				Monster_List[MonsterListSize].exp = Exp;
+				if (DeathMonsterListSize) {
+					for (int i = 0; i < DeathMonsterListSize; i++) {
+						if (Death_Monster_List[i].ID == ID) {
+							break;
+						}
+						else if (i == DeathMonsterListSize - 1) {
+							if (MonsterListSize)	Monster_List = (Monster_num*)realloc(Monster_List, sizeof(Monster_num) * (MonsterListSize + 1));
+							else					Monster_List = (Monster_num*)malloc(sizeof(Monster_num) * (MonsterListSize + 1));
+							Monster_List[MonsterListSize].ID = ID;
+							Monster_List[MonsterListSize].Type = Type;
+							Monster_List[MonsterListSize].level = level;
+							Monster_List[MonsterListSize].Item1 = Item1;
+							Monster_List[MonsterListSize].Item2 = Item2;
+							Monster_List[MonsterListSize].Item3 = Item3;
+							Monster_List[MonsterListSize].exp = Exp;
 
-				MonsterListSize++;
+							MonsterListSize++;
+						}
+					}
+				}
+				else {
+					if (MonsterListSize)	Monster_List = (Monster_num*)realloc(Monster_List, sizeof(Monster_num) * (MonsterListSize + 1));
+					else					Monster_List = (Monster_num*)malloc(sizeof(Monster_num) * (MonsterListSize + 1));
+					Monster_List[MonsterListSize].ID = ID;
+					Monster_List[MonsterListSize].Type = Type;
+					Monster_List[MonsterListSize].level = level;
+					Monster_List[MonsterListSize].Item1 = Item1;
+					Monster_List[MonsterListSize].Item2 = Item2;
+					Monster_List[MonsterListSize].Item3 = Item3;
+					Monster_List[MonsterListSize].exp = Exp;
+
+					MonsterListSize++;
+				}
+				
 			}
 		}
 
@@ -126,22 +163,34 @@ void CreateMonster::selectData(Ref* pSender)
 	sqlite3_finalize(statement);
 
 	sqlite3_close(pDB);
+
 }
 
 void CreateMonster::doContinue(Ref* pSender) {
-	//std::string str1 = "1";
 	int ViewNum = -1;
 	for (int i = 0; i < MonsterListSize; i++) {
 		if (Monster_List[i].ViewNum == num) {
-			ViewNum = i;
+			ViewNum = Monster_List[i].ID;
 			break;
 		}
 	}
 
 	char str2[20] = { 0 };
-	sprintf(str2, "%d", ViewNum +1);
+	sprintf(str2, "%d", ViewNum);
 	if (ViewNum == -1) {
 		log("소환할 몬스터가 없습니다.");
+		MenuItemFont::setFontSize(24);
+		Sprite *BG = Sprite::create("Images/Scene/TexScene.png");
+		BG->setAnchorPoint(Vec2(0.5f, 0.5f));
+		BG->setScale(2.0f);
+		BG->setPosition(Vec2((winSize.width) / 2, (winSize.height) / 2));
+		this->addChild(BG, 10, 10);
+
+		auto pMenuItem = MenuItemFont::create("선택한 몬스터가 없습니다.");
+		pMenuItem->setColor(Color3B(0, 0, 0));
+		pMenuItem->setPosition(Vec2(200, 80));
+		BG->addChild(pMenuItem, 11, 11);
+		return;
 	}
 
 	NotificationCenter::getInstance()->postNotification("TouchMonster", (Ref*)str2);

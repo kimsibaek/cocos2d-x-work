@@ -1,6 +1,4 @@
 ﻿#include "TurnEndScene.h"
-#include "MainScene.h"
-#include "sqlite3.h"
 USING_NS_CC;
 
 Scene* TurnEndScene::createScene()

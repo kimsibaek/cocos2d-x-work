@@ -18,6 +18,8 @@ public:
 	virtual bool init();
 	// implement the "static create()" method manually
 	CREATE_FUNC(Toolbag);
+	cocos2d::EventListenerTouchOneByOne* listener;
+	virtual bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
 	std::string dbfileName;
 	void selectData(Ref* pSender);
 	void doContinue(Ref* pSender);
@@ -26,7 +28,7 @@ public:
 	virtual void onEnter();
 	virtual void onExit();
 
-	cocos2d::EventListenerTouchOneByOne* listener;
+	cocos2d::LayerColor *popLayer;
 	//cocos2d::EventListenerTouchAllAtOnce* listener;
 	cocos2d::Size winSize;
 	//cocos2d::RenderTexture* m_pTarget;

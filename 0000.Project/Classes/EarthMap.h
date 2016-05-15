@@ -65,9 +65,9 @@ public:
 	//이동 경로 표시
 	//cocos2d::Vector<cocos2d::Sprite*> MovePosition;
 	//적 표시
-	cocos2d::Vector<cocos2d::Sprite*> EmyMovePosition;
+	//cocos2d::Vector<cocos2d::Sprite*> EmyMovePosition;
 
-	int mons;
+	
 
 	cocos2d::Sprite* pause;
 	cocos2d::Sprite* EndButton;
@@ -80,17 +80,9 @@ public:
 	bool ReturnState;
 	int ReturnMove_tx;
 	int ReturnMove_ty;
-	float ReturnMove_xPosition;
-	float ReturnMove_yPosition;
-	float ReturnMove_xMovePosition;
-	float ReturnMove_yMovePosition;
 
 	int Moving_tx;
 	int Moving_ty;
-	float Moving_xPosition;
-	float Moving_yPosition;
-	float Moving_xMovePosition;
-	float Moving_yMovePosition;
 
 	bool status;
 	bool statuschar;
@@ -116,9 +108,7 @@ public:
 	void RemoveSprite();
 
 	bool b_CreateMonster;
-	bool b_UseTool;
-	int ToolUseMonster;
-	cocos2d::Vec2 ToolUsePosition;
+	
 
 	int ClickEmyMonster;
 
@@ -136,7 +126,6 @@ public:
 	cocos2d::Vec2 FindCoordPosition(cocos2d::Vec2 pos);
 	void onCreateCharacter();
 	void onCreateEmyCharacter();
-	void FocusCharacter();
 
 	//bool ChecksPosition(int num1, int num2);
 	//Position* ChecksPosition(cocos2d::Vec2 charactor, Position *pos_temp, int tempSize, int Count, int move);
@@ -162,8 +151,24 @@ public:
 	Position *VecPosition;
 	int VecPositionSize = 0;
 	void EmyTurn(float f);
-
-	
+	void EmyMoveAttack(float f);
+	void EmyMove(float f);
+	void ShortistMove(cocos2d::Vec2 v_pos, Position *temppos, int tempposSize, Monster_num *monster);
+	int emynum;
+	int monsterNum;
+	void Attack(Monster_num *monster, Monster_num *Emymonster);
+	void FocusMonster(Monster_num *monster);
+	void deleytime(float f);
+	void EndGame(int num);
+	void DistelMonsterSave(Monster_num *monster);
+	void doChange(float f);
+	bool ChageSchedule;
+	void UpdateMonsterDB();
+	void UpdateItemDB(int num);
+	bool Msgerror;
+	bool CreateMonsterPositionCheck();
+	bool CheckOnePositionMonster(cocos2d::Vec2 mon_pos);
+	int Coin;
 };
 
 #endif // __EarthMap_SCENE_H__
