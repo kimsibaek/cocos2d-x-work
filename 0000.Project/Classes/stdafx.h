@@ -79,3 +79,5 @@ extern int EndGame_Num;
 extern int mons;
 
 extern int ToolUseMonster;
+
+extern int MonsterCellNum;

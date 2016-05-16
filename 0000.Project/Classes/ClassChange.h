@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "extensions/cocos-ext.h"
 #include "CustomTableViewCell.h"
+#include "MonsterCell.h"
 
 using namespace cocos2d;
 using namespace cocos2d::extension;
@@ -30,8 +31,10 @@ public:
 	virtual bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
 	cocos2d::Size winSize;
 	cocos2d::Sprite* sprite_1;
+	MonsterCell *temp[4];
 	TableView* tableView1;
-	int num;
+	int x_Num;
+	int Cell_Num;
 	int FireSize;
 	int EarthSize;
 	int WaterSize;
@@ -45,9 +48,13 @@ public:
 	virtual Size tableCellSizeForIndex(TableView *table, ssize_t idx);
 	virtual TableViewCell* tableCellAtIndex(TableView *table, ssize_t idx);
 	virtual ssize_t numberOfCellsInTableView(TableView *table);
-	void Monster(int num);
+	void Monster(int num, int row);
 	cocos2d::Sprite *tableViewSprite;
-	void touchCheckInSprite(Vec2 touchPoint);
+	bool CheckClass(int num);
+	void UpdateMonsterDB(int num, int Type);
+	void MonsterAdd(int num, cocos2d::Sprite *st);
+	void RemoveSprite();
+	cocos2d::Sprite *Upgrade;
 };
 
 #endif // __ClassChange_SCENE_H__

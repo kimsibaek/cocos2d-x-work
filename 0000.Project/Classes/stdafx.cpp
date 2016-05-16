@@ -32,3 +32,5 @@ int EndGame_Num = 0;
 int mons = 0;
 
 int ToolUseMonster = 0;
+
+int MonsterCellNum = 0;

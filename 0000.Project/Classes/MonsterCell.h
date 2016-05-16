@@ -11,7 +11,7 @@ public:
 	void setPriority(int fixedPriority);
 	void setPriorityWithThis(bool useNodePriotity);
 
-
+	bool Color;
 	virtual void onEnter();
 	virtual void onExit();
 
