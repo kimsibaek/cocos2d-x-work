@@ -5,6 +5,7 @@
 #include "FireMap.h"
 #include "EarthMap.h"
 #include "ClassChange.h"
+#include "StoreScene.h"
 
 USING_NS_CC;
 
@@ -408,6 +409,8 @@ void MainScene::doClick1(Ref *pSender) {
 	}
 	else if (i == 5) {
 		//상점
+		auto pScene = StoreScene::createScene();
+		Director::getInstance()->replaceScene(pScene);
 	}
 	else if (i == 6) {
 		//class change
