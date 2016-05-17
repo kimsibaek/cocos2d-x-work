@@ -65,7 +65,7 @@ bool ClassChange::init()
 	cache->addSpriteFramesWithFile("Plist/Wind7.plist");
 	cache->addSpriteFramesWithFile("Plist/Wind8.plist");
 	cache->addSpriteFramesWithFile("Plist/Wind9.plist");
-
+	cache->addSpriteFramesWithFile("Plist/etc.plist");
 	cache->addSpriteFramesWithFile("Plist/EarthUpgrade.plist");
 	cache->addSpriteFramesWithFile("Plist/FireUpgrade.plist");
 	cache->addSpriteFramesWithFile("Plist/WindUpgrade.plist");

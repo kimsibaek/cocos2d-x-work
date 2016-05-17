@@ -81,3 +81,4 @@ extern int mons;
 extern int ToolUseMonster;
 
 extern int MonsterCellNum;
+extern int MonsterCellNum2;

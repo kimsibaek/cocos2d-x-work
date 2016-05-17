@@ -9,6 +9,7 @@ public:
 	MonsterCell();
 
 	void setPriority(int fixedPriority);
+	void setPriority2(int fixedPriority);
 	void setPriorityWithThis(bool useNodePriotity);
 
 	bool Color;
@@ -19,8 +20,9 @@ private :
 	cocos2d::EventListener* _listener;
 
 	int _fixedPriority;
+	int _fixedPriority2;
 	bool _useNodePriority;
-
+	bool usevalue;
 };
 
 #endif // __SpriteExtendEx__MonsterCell__

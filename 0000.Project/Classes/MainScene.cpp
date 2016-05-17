@@ -32,7 +32,7 @@ bool MainScene::init()
 		return false;
 	}
 	////////////////////
-	CCSprite* title = CCSprite::create("Images/Scene/mapScene2.png");
+	CCSprite* title = CCSprite::create("Images/Scene/mapScene.png");
 	title->setPosition(Vec2(640, 360));
 	this->addChild(title);
 
@@ -199,18 +199,6 @@ bool MainScene::init()
 	this->addChild(pMenu);
 
 
-
-	lblStatus = LabelTTF::create("",
-		"Arial",
-		16,
-		Size(50, 50),
-		TextHAlignment::CENTER,
-		TextVAlignment::CENTER);
-	lblStatus->setPosition(Vec2(1100, 650));
-	lblStatus->setColor(Color3B(0, 0, 0));  // 255, 0, 0
-	this->addChild(lblStatus, 4);
-
-
 	dbfileName = cocos2d::FileUtils::getInstance()->getWritablePath();
 	log("%s", dbfileName.c_str());
 	//dbfileName = "C:\\cocos2d-x-work\\0000.Project\\SpiritualSoul\\Resources\\";
@@ -221,7 +209,6 @@ bool MainScene::init()
 
 	// 데이타베이스 생성
 	this->createDatabase();
-	selectData(this);
 	return true;
 }
 
@@ -346,44 +333,7 @@ void MainScene::insertData(Ref* pSender)
 	sqlite3_close(pDB);
 }
 
-void MainScene::selectData(Ref* pSender)
-{
-	sqlite3* pDB = NULL;
-	char* errMsg = nullptr;
-	int result;
 
-	result = sqlite3_open(dbfileName.c_str(), &pDB);
-
-	if (result != SQLITE_OK)
-	{
-		log("Open Error : Code:%d   Msg:%s", result, errMsg);
-	}
-
-	// select data
-	std::string sqlStr;
-	sqlStr = "select Coin from Player";
-
-	sqlite3_stmt* statement;
-	if (sqlite3_prepare_v2(pDB, sqlStr.c_str(), -1, &statement, nullptr) == SQLITE_OK)
-	{
-		std::string str1 = "";
-		while (sqlite3_step(statement) == SQLITE_ROW)
-		{
-			int   row1 = sqlite3_column_int(statement, 0);
-
-			log("%d", row1);
-
-			char str2[50] = { 0 };
-			sprintf(str2, "%d", row1);
-			str1 = str1 + str2;
-		}
-
-		lblStatus->setString(str1);
-	}
-	sqlite3_finalize(statement);
-
-	sqlite3_close(pDB);
-}
 
 void MainScene::doClick1(Ref *pSender) {
 	auto tItem = (MenuItem *)pSender;

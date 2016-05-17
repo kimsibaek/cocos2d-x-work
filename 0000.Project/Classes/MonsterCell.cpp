@@ -6,7 +6,9 @@ USING_NS_CC;
 MonsterCell::MonsterCell()
 	: _listener(nullptr)
 	, _fixedPriority(0)
+	, _fixedPriority2(0)
 	, _useNodePriority(false)
+	, usevalue(false)
 {
 	bool bOk = initWithTexture(nullptr, Rect::ZERO);
 	if (bOk) {
@@ -18,6 +20,14 @@ void MonsterCell::setPriority(int fixedPriority)
 {
 	_fixedPriority = fixedPriority;
 	_useNodePriority = false;
+	usevalue = true;
+}
+
+void MonsterCell::setPriority2(int fixedPriority)
+{
+	_fixedPriority2 = fixedPriority;
+	_useNodePriority = false;
+	usevalue = false;
 }
 
 void MonsterCell::setPriorityWithThis(bool useNodePriority) {
@@ -46,7 +56,13 @@ void MonsterCell::onEnter() {
 			if (rect.containsPoint(locationInNode)) {
 				//reZorder(target);
 				//log("touch began..%d", _fixedPriority);
-				MonsterCellNum = _fixedPriority;
+				if (usevalue) {
+					MonsterCellNum = _fixedPriority;
+				}
+				else {
+					MonsterCellNum2 = _fixedPriority2;
+				}
+			
 				//this->setColor(Color3B::RED);
 			}
 			//this->setColor(Color3B::WHITE);

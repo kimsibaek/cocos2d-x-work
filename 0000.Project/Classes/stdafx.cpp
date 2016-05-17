@@ -34,3 +34,4 @@ int mons = 0;
 int ToolUseMonster = 0;
 
 int MonsterCellNum = 0;
+int MonsterCellNum2 = 0;

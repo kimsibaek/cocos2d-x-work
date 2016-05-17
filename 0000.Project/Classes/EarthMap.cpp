@@ -1517,6 +1517,11 @@ void EarthMap::onExit() {
 		free(VecPosition);
 	}
 
+	if (ItemsListSize) {
+		free(Items_List);
+		ItemsListSize = 0;
+	}
+
 	posSize = 0;
 	EmyposSize = 0;
 	EmyposAttackSize = 0;

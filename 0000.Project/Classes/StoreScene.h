@@ -21,9 +21,10 @@ public:
 	void doClick1(Ref *pSender);
 	std::string dbfileName;
 	void selectData(Ref* pSender);
-	void doContinue(Ref* pSender);
+	void selectGoldData(Ref* pSender);
+	void doBuy(Ref* pSender);
 	void doSendMsg(Ref* pSender);
-	void doClose(Ref* pSender);
+	void doSell(Ref* pSender);
 	virtual void onEnter();
 	virtual void onExit();
 
@@ -33,6 +34,7 @@ public:
 	cocos2d::Sprite* sprite_1;
 	MonsterCell *temp[4];
 	TableView* tableView1;
+	TableView* tableView2;
 	int x_Num;
 	int Cell_Num;
 	int FireSize;
@@ -50,11 +52,14 @@ public:
 	virtual ssize_t numberOfCellsInTableView(TableView *table);
 	void Monster(int num, int row);
 	cocos2d::Sprite *tableViewSprite;
-	bool CheckClass(int num);
-	void UpdateMonsterDB(int num, int Type);
-	void MonsterAdd(int num, cocos2d::Sprite *st);
-	void RemoveSprite();
+	void UpdatePlayerDB();
+	void UpdateItemsDB(int num);
 	cocos2d::Sprite *Upgrade;
+	bool setUpdateItemproperty;
+	int Gold;
+	cocos2d::LabelAtlas *Gold_Label;
+	cocos2d::Sprite* Gold_Img;
+	cocos2d::Sprite* Gold_text;
 };
 
 #endif // __StoreScene_SCENE_H__
