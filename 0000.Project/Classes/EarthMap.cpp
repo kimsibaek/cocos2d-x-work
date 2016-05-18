@@ -363,7 +363,7 @@ void EarthMap::onCreateCharacter() {
 	
 	char level[3];
 	sprintf(level, "%d", monster_char[0].level);
-	auto pLabel3 = LabelAtlas::create(level, "Images/MonsterLevel.png", 7, 9, '0');
+	auto pLabel3 = LabelAtlas::create(level, "Images/Scene/MonsterLevel.png", 7, 9, '0');
 	pLabel3->setAnchorPoint(Vec2(0, 0));
 	pLabel3->setPosition(Vec2(hp->getContentSize().width*(monster_char[0].HPbarPosition / 25 * 2) + 5, -10));
 	pLabel3->setScale(2.0f);
@@ -873,7 +873,7 @@ void EarthMap::onCreateEmyCharacter() {
 
 		char level[3];
 		sprintf(level, "%d", EmyMonster_char[i].level);
-		auto pLabel3 = LabelAtlas::create(level, "Images/EmyMonsterLevel.png", 7, 9, '0');
+		auto pLabel3 = LabelAtlas::create(level, "Images/Scene/EmyMonsterLevel.png", 7, 9, '0');
 		pLabel3->setAnchorPoint(Vec2(0, 0));
 		pLabel3->setScale(2.0f);
 		pLabel3->setPosition(Vec2(st->getContentSize().width*(EmyMonster_char[i].HPbarPosition / 25 * 2) + 5, -10));
@@ -2223,7 +2223,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 
 				char level[3];
 				sprintf(level, "%d", monster_char[monsterSize - 1].level);
-				auto pLabel3 = LabelAtlas::create(level, "Images/MonsterLevel.png", 7, 9, '0');
+				auto pLabel3 = LabelAtlas::create(level, "Images/Scene/MonsterLevel.png", 7, 9, '0');
 				pLabel3->setAnchorPoint(Vec2(0, 0));
 				pLabel3->setScale(2.0f);
 				pLabel3->setPosition(Vec2(hp->getContentSize().width*(monster_char[monsterSize - 1].HPbarPosition / 25 * 2) + 5, -10));
@@ -4068,7 +4068,7 @@ void EarthMap::ExpCheck() {
 
 				char level[3];
 				sprintf(level, "%d", monster_char[mons].level);
-				auto pLabel3 = LabelAtlas::create(level, "Images/MonsterLevel.png", 7, 9, '0');
+				auto pLabel3 = LabelAtlas::create(level, "Images/Scene/MonsterLevel.png", 7, 9, '0');
 				pLabel3->setAnchorPoint(Vec2(0, 0));
 				pLabel3->setPosition(Vec2(hp->getContentSize().width*(monster_char[mons].HPbarPosition / 25 * 2) + 5, -10));
 				pLabel3->setScale(2.0f);

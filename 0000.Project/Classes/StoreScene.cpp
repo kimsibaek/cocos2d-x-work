@@ -171,7 +171,7 @@ void StoreScene::doClick1(Ref *pSender) {
 void StoreScene::onEnter() {
 	Layer::onEnter();
 	listener = EventListenerTouchOneByOne::create();
-	//listener->setSwallowTouches(true);
+	listener->setSwallowTouches(true);
 
 	listener->onTouchBegan = CC_CALLBACK_2(StoreScene::onTouchBegan, this);
 
@@ -191,6 +191,7 @@ void StoreScene::onExit() {
 
 bool StoreScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) {
 	auto touchPoint = touch->getLocation();
+	this->removeChild(TexScene);
 	if (winSize.width / 2 < touchPoint.x) {
 		setUpdateItemproperty = false;
 	}
@@ -292,7 +293,7 @@ void StoreScene::selectGoldData(Ref* pSender)
 
 	char Num[20];
 	sprintf(Num, "%d", row1);
-	Gold_Label = LabelAtlas::create(Num, "MonsterLevel.png", 7, 9, '0');
+	Gold_Label = LabelAtlas::create(Num, "Images/Scene/MonsterLevel.png", 7, 9, '0');
 	Gold_Label->setAnchorPoint(Vec2(0, 0));
 	Gold_Label->setScale(1.4);
 	Gold_Label->setPosition(Vec2(30, 0));
@@ -345,7 +346,7 @@ void StoreScene::UpdatePlayerDB() {
 
 	char Num[20];
 	sprintf(Num, "%d", Gold);
-	Gold_Label = LabelAtlas::create(Num, "MonsterLevel.png", 7, 9, '0');
+	Gold_Label = LabelAtlas::create(Num, "Images/Scene/MonsterLevel.png", 7, 9, '0');
 	Gold_Label->setAnchorPoint(Vec2(0, 0));
 	Gold_Label->setScale(1.4);
 	Gold_Label->setPosition(Vec2(30, 0));
@@ -390,30 +391,66 @@ void StoreScene::UpdateItemsDB(int num) {
 
 void StoreScene::doBuy(Ref* pSender) {
 	if (MonsterCellNum == 0) {
+		if (Gold - 30 < 0) {
+			doSendMsg(0);
+			return;
+		}
 		Gold -= 30;
 	}
 	else if (MonsterCellNum == 1) {
+		if (Gold - 60 < 0) {
+			doSendMsg(0);
+			return;
+		}
 		Gold -= 60;
 	}
 	else if (MonsterCellNum == 2) {
+		if (Gold - 90 < 0) {
+			doSendMsg(0);
+			return;
+		}
 		Gold -= 90;
 	}
 	else if (MonsterCellNum == 3) {
+		if (Gold - 30 < 0) {
+			doSendMsg(0);
+			return;
+		}
 		Gold -= 30;
 	}
 	else if (MonsterCellNum == 4) {
+		if (Gold - 60 < 0) {
+			doSendMsg(0);
+			return;
+		}
 		Gold -= 60;
 	}
 	else if (MonsterCellNum == 5) {
+		if (Gold - 90 < 0) {
+			doSendMsg(0);
+			return;
+		}
 		Gold -= 90;
 	}
 	else if (MonsterCellNum == 6) {
+		if (Gold - 5 < 0) {
+			doSendMsg(0);
+			return;
+		}
 		Gold -= 5;
 	}
 	else if (MonsterCellNum == 7) {
+		if (Gold - 10 < 0) {
+			doSendMsg(0);
+			return;
+		}
 		Gold -= 10;
 	}
 	else if (MonsterCellNum == 8) {
+		if (Gold - 20 < 0) {
+			doSendMsg(0);
+			return;
+		}
 		Gold -= 20;
 	}
 
@@ -425,7 +462,7 @@ void StoreScene::doBuy(Ref* pSender) {
 
 	char Num[3];
 	sprintf(Num, "%d", Items_List[MonsterCellNum].Num);
-	auto pLabel2 = LabelAtlas::create(Num, "MonsterLevel.png", 7, 9, '0');
+	auto pLabel2 = LabelAtlas::create(Num, "Images/Scene/MonsterLevel.png", 7, 9, '0');
 	pLabel2->setAnchorPoint(Vec2(1, 0));
 	pLabel2->setScale(1.8);
 	pLabel2->setPosition(Vec2(st1->getContentSize().width / 2 + 8, 10));
@@ -436,6 +473,11 @@ void StoreScene::doBuy(Ref* pSender) {
 }
 
 void StoreScene::doSell(Ref* pSender) {
+	if (Items_List[MonsterCellNum2].Num < 1) {
+		doSendMsg(1);
+		return;
+	}
+
 	if (MonsterCellNum2 == 0) {
 		Gold += 15;
 	}
@@ -472,7 +514,7 @@ void StoreScene::doSell(Ref* pSender) {
 
 	char Num[3];
 	sprintf(Num, "%d", Items_List[MonsterCellNum2].Num);
-	auto pLabel2 = LabelAtlas::create(Num, "MonsterLevel.png", 7, 9, '0');
+	auto pLabel2 = LabelAtlas::create(Num, "Images/Scene/MonsterLevel.png", 7, 9, '0');
 	pLabel2->setAnchorPoint(Vec2(1, 0));
 	pLabel2->setScale(1.8);
 	pLabel2->setPosition(Vec2(st1->getContentSize().width / 2 + 8, 10));
@@ -482,8 +524,28 @@ void StoreScene::doSell(Ref* pSender) {
 	UpdateItemsDB(MonsterCellNum2);
 }
 
-void StoreScene::doSendMsg(Ref* pSender) {
+void StoreScene::doSendMsg(int num) {
 	//option Scene
+	this->removeChild(TexScene);
+
+	TexScene = Sprite::create("Images/Scene/TexScene.png");
+	TexScene->setAnchorPoint(Vec2(0.5, 0.5));
+	TexScene->setScale(2.0f);
+	TexScene->setPosition(Vec2((winSize.width) / 2, (winSize.height) / 2));
+	this->addChild(TexScene, 100);
+	MenuItemFont::setFontSize(30.0f);
+	if (num == 0) {
+		auto pMenuItem = MenuItemFont::create("Gold가 부족합니다.");
+		pMenuItem->setColor(Color3B(0, 0, 0));
+		pMenuItem->setPosition(Vec2(200, 80));
+		TexScene->addChild(pMenuItem, 2);
+	}
+	else {
+		auto pMenuItem = MenuItemFont::create("아이템이 부족합니다.");
+		pMenuItem->setColor(Color3B(0, 0, 0));
+		pMenuItem->setPosition(Vec2(200, 80));
+		TexScene->addChild(pMenuItem, 2);
+	}
 }
 
 void StoreScene::tableCellTouched(TableView* table, TableViewCell* cell) {
@@ -623,7 +685,7 @@ void StoreScene::Monster(int num, int row) {
 	}
 	if (setUpdateItemproperty) {
 		sprintf(Num, "%d", price);
-		auto pLabel3 = LabelAtlas::create(Num, "MonsterLevel.png", 7, 9, '0');
+		auto pLabel3 = LabelAtlas::create(Num, "Images/Scene/MonsterLevel.png", 7, 9, '0');
 		pLabel3->setAnchorPoint(Vec2(1, 0));
 		pLabel3->setScale(1.8);
 		pLabel3->setPosition(Vec2(temp[row]->getContentSize().width / 2 + 8, 10));
@@ -638,7 +700,7 @@ void StoreScene::Monster(int num, int row) {
 	else {
 		char Num[3];
 		sprintf(Num, "%d", Items_List[num].Num);
-		auto pLabel2 = LabelAtlas::create(Num, "MonsterLevel.png", 7, 9, '0');
+		auto pLabel2 = LabelAtlas::create(Num, "Images/Scene/MonsterLevel.png", 7, 9, '0');
 		pLabel2->setAnchorPoint(Vec2(1, 0));
 		pLabel2->setScale(1.8);
 		pLabel2->setPosition(Vec2(temp[row]->getContentSize().width / 2 + 8, 10));

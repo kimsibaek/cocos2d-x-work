@@ -225,13 +225,13 @@ TableViewCell* Toolbag::tableCellAtIndex(TableView *table, ssize_t idx) {
 
 
 	if (Items_List[idx]._ID == 6) {
-		Items_List[idx].sprite = Sprite::createWithSpriteFrameName("item6.png");
+		Items_List[idx].sprite = Sprite::createWithSpriteFrameName("items6.png");
 	}
 	else if (Items_List[idx]._ID == 7) {
-		Items_List[idx].sprite = Sprite::createWithSpriteFrameName("item7.png");
+		Items_List[idx].sprite = Sprite::createWithSpriteFrameName("items7.png");
 	}
 	else if (Items_List[idx]._ID == 8) {
-		Items_List[idx].sprite = Sprite::createWithSpriteFrameName("item8.png");
+		Items_List[idx].sprite = Sprite::createWithSpriteFrameName("items8.png");
 	}
 	Items_List[idx].sprite->setScale(1.5);
 	Items_List[idx].sprite->setPosition(Vec2(sprite_1->getContentSize().width / 2, sprite_1->getContentSize().height / 2));
@@ -241,7 +241,7 @@ TableViewCell* Toolbag::tableCellAtIndex(TableView *table, ssize_t idx) {
 
 	char level[3];
 	sprintf(level, "%d", Items_List[idx].Num);
-	auto pLabel3 = LabelAtlas::create(level, "MonsterLevel.png", 7, 9, '0');
+	auto pLabel3 = LabelAtlas::create(level, "Images/Scene/MonsterLevel.png", 7, 9, '0');
 	pLabel3->setAnchorPoint(Vec2(0, 0));
 	pLabel3->setScale(1.5);
 	pLabel3->setPosition(Vec2(sprite_1->getContentSize().width / 2 + 8, 10));

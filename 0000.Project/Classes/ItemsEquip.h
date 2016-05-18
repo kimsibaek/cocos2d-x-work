@@ -1,5 +1,5 @@
-﻿#ifndef __StoreScene_H__
-#define __StoreScene_H__
+﻿#ifndef __ItemsEquip_H__
+#define __ItemsEquip_H__
 
 #include "cocos2d.h"
 #include "extensions/cocos-ext.h"
@@ -9,7 +9,7 @@
 using namespace cocos2d;
 using namespace cocos2d::extension;
 
-class StoreScene : public cocos2d::Layer,
+class ItemsEquip : public cocos2d::Layer,
 	public cocos2d::extension::TableViewDataSource,
 	public cocos2d::extension::TableViewDelegate
 {
@@ -17,7 +17,7 @@ public:
 	static cocos2d::Scene* createScene();
 	virtual bool init();
 	// implement the "static create()" method manually
-	CREATE_FUNC(StoreScene);
+	CREATE_FUNC(ItemsEquip);
 	void doClick1(Ref *pSender);
 	std::string dbfileName;
 	void selectData(Ref* pSender);
@@ -61,6 +61,7 @@ public:
 	cocos2d::Sprite* Gold_Img;
 	cocos2d::Sprite* Gold_text;
 	cocos2d::Sprite* TexScene;
+	void ItemsView(int num);
 };
 
-#endif // __StoreScene_SCENE_H__
+#endif // __ItemsEquip_SCENE_H__

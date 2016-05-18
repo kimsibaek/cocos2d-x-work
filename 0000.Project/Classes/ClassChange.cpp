@@ -362,15 +362,18 @@ void ClassChange::tableCellTouched(TableView* table, TableViewCell* cell) {
 	for (int i = 0; i < MonsterListSize; i++) {
 		int num1;
 		num1 = i / 4;
-		TableViewCell *cell1 = table->cellAtIndex(num1);
-		Sprite *st = (Sprite *)cell1->getChildByTag(num1);
-		Sprite *st1 = (Sprite *)st->getChildByTag(i);
-		if (i == MonsterCellNum) {
-			st1->setColor(Color3B::RED);
+		if (table->cellAtIndex(num1)) {
+			TableViewCell *cell1 = table->cellAtIndex(num1);
+			Sprite *st = (Sprite *)cell1->getChildByTag(num1);
+			Sprite *st1 = (Sprite *)st->getChildByTag(i);
+			if (i == MonsterCellNum) {
+				st1->setColor(Color3B::RED);
+			}
+			else {
+				st1->setColor(Color3B::WHITE);
+			}
 		}
-		else {
-			st1->setColor(Color3B::WHITE);
-		}
+		
 	}
 }
 
@@ -610,7 +613,7 @@ void ClassChange::Monster(int num, int row) {
 
 	char level[3];
 	sprintf(level, "%d", Monster_List[num].level);
-	auto pLabel3 = LabelAtlas::create(level, "MonsterLevel.png", 7, 9, '0');
+	auto pLabel3 = LabelAtlas::create(level, "Images/Scene/MonsterLevel.png", 7, 9, '0');
 	pLabel3->setAnchorPoint(Vec2(0, 0));
 	pLabel3->setScale(1.5);
 	pLabel3->setPosition(Vec2(temp[row]->getContentSize().width / 2 + 8, 10));
@@ -803,7 +806,7 @@ void ClassChange::MonsterAdd(int num, Sprite *st) {
 
 	char level[3];
 	sprintf(level, "%d", Monster_List[num].level);
-	auto pLabel3 = LabelAtlas::create(level, "MonsterLevel.png", 7, 9, '0');
+	auto pLabel3 = LabelAtlas::create(level, "Images/Scene/MonsterLevel.png", 7, 9, '0');
 	pLabel3->setAnchorPoint(Vec2(0, 0));
 	pLabel3->setScale(1.5);
 	pLabel3->setPosition(Vec2(st->getContentSize().width / 2 + 8, 10));

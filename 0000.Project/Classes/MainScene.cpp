@@ -6,6 +6,7 @@
 #include "EarthMap.h"
 #include "ClassChange.h"
 #include "StoreScene.h"
+#include "ItemsEquip.h"
 
 USING_NS_CC;
 
@@ -370,6 +371,11 @@ void MainScene::doClick1(Ref *pSender) {
 	else if (i == 7) {
 		//초기화면
 		auto pScene = IntroScene::createScene();
+		Director::getInstance()->replaceScene(pScene);
+	}
+	else if (i == 8) {
+		//아이템 장착화면
+		auto pScene = ItemsEquip::createScene();
 		Director::getInstance()->replaceScene(pScene);
 	}
 }
