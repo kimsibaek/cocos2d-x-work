@@ -52,7 +52,7 @@ public:
 	virtual ssize_t numberOfCellsInTableView(TableView *table);
 	void Monster(int num, int row);
 	cocos2d::Sprite *tableViewSprite;
-	void UpdatePlayerDB();
+	void UpdateMonsterDB(int num);
 	void UpdateItemsDB(int num);
 	cocos2d::Sprite *Upgrade;
 	bool setUpdateItemproperty;

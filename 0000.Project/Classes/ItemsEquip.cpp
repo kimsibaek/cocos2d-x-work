@@ -348,8 +348,42 @@ void ItemsEquip::selectGoldData(Ref* pSender)
 	
 }
 
-void ItemsEquip::UpdatePlayerDB() {
+void ItemsEquip::UpdateMonsterDB(int num) {
+	sqlite3* pDB = nullptr;
+	char* errMsg = nullptr;
+	int result;
+
+	std::string sqlStr;
+
+	result = sqlite3_open(dbfileName.c_str(), &pDB);
+
+	if (result != SQLITE_OK)
+	{
+		log("Open Error : Code:%d  Msg:%s", result, errMsg);
+	}
+
+	char sqlstr[200];
 	
+	if (num == 1) {
+		sprintf(sqlstr, "update Monster set Item1 = %d  where Monster_Id = %d", MonsterCellNum2, MonsterCellNum);
+	}
+	if (num == 2) {
+		sprintf(sqlstr, "update Monster set Item2 = %d  where Monster_Id = %d", MonsterCellNum2, MonsterCellNum);
+	}
+	if (num == 3) {
+		sprintf(sqlstr, "update Monster set Item3 = %d  where Monster_Id = %d", MonsterCellNum2, MonsterCellNum);
+	}
+	//log(sqlstr);
+	sqlStr = sqlstr;
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+
+
+	if (result != SQLITE_OK)
+	{
+		log("update Error : Code:%d  Msg:%s", result, errMsg);
+	}
+
+	sqlite3_close(pDB);
 
 }
 
@@ -391,6 +425,33 @@ void ItemsEquip::doEquipment(Ref* pSender) {
 		//아이템 선택하기
 		return;
 	}
+	if (MonsterCellNum == -1) {
+		//몬스터 선택하기
+		return;
+	}
+	if (Items_List[MonsterCellNum2].Num == 0) {
+		//아이템 부족
+		return;
+	}
+
+	//아이템 테이블 최신화
+	Items_List[MonsterCellNum2].Num--;
+	TableViewCell *cell1 = tableView2->cellAtIndex(MonsterCellNum2 / 3);
+	Sprite *st = (Sprite *)cell1->getChildByTag(MonsterCellNum2 / 3);
+	Sprite *st1 = (Sprite *)st->getChildByTag(MonsterCellNum2);
+	st1->removeChildByTag(50);
+
+	char Num[3];
+	sprintf(Num, "%d", Items_List[MonsterCellNum2].Num);
+	auto pLabel2 = LabelAtlas::create(Num, "Images/Scene/MonsterLevel.png", 7, 9, '0');
+	pLabel2->setAnchorPoint(Vec2(1, 0));
+	pLabel2->setScale(1.8);
+	pLabel2->setPosition(Vec2(st1->getContentSize().width / 2 + 8, 10));
+	st1->addChild(pLabel2, 4, 50);
+	
+	
+	UpdateItemsDB(MonsterCellNum2);
+
 
 	Sprite *Items;
 	if (MonsterCellNum2 == 0) {
@@ -414,16 +475,22 @@ void ItemsEquip::doEquipment(Ref* pSender) {
 	
 	Items->setScale(2.0f);
 	if (ItemsEquipmentNum == 1) {
+		UpdateMonsterDB(1);
+		Monster_List[MonsterCellNum].Item1 = MonsterCellNum2;
 		Items_BG1->removeChildByTag(3);
 		Items->setPosition(Vec2(Items_BG1->getContentSize().width / 2, Items_BG1->getContentSize().height / 2));
 		Items_BG1->addChild(Items, 3, 3);
 	}
 	else if (ItemsEquipmentNum == 2) {
+		UpdateMonsterDB(2);
+		Monster_List[MonsterCellNum].Item2 = MonsterCellNum2;
 		Items_BG2->removeChildByTag(3);
 		Items->setPosition(Vec2(Items_BG2->getContentSize().width / 2, Items_BG2->getContentSize().height / 2));
 		Items_BG2->addChild(Items, 3, 3);
 	}
 	else if (ItemsEquipmentNum == 3) {
+		UpdateMonsterDB(3);
+		Monster_List[MonsterCellNum].Item3 = MonsterCellNum2;
 		Items_BG3->removeChildByTag(3);
 		Items->setPosition(Vec2(Items_BG3->getContentSize().width / 2, Items_BG3->getContentSize().height / 2));
 		Items_BG3->addChild(Items, 3, 3);
@@ -572,6 +639,9 @@ void ItemsEquip::tableCellTouched(TableView* table, TableViewCell* cell) {
 		ItemsView(1);
 		ItemsView(2);
 		ItemsView(3);
+		Items_BG1->setColor(Color3B::WHITE);
+		Items_BG2->setColor(Color3B::WHITE);
+		Items_BG3->setColor(Color3B::WHITE);
 	}
 	else {
 		//인벤토리 선택
