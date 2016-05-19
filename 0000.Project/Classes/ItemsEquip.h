@@ -22,7 +22,7 @@ public:
 	std::string dbfileName;
 	void selectData(Ref* pSender);
 	void selectGoldData(Ref* pSender);
-	void doBuy(Ref* pSender);
+	void doEquipment(Ref* pSender);
 	void doSendMsg(int num);
 	void doSell(Ref* pSender);
 	virtual void onEnter();
@@ -62,6 +62,11 @@ public:
 	cocos2d::Sprite* Gold_text;
 	cocos2d::Sprite* TexScene;
 	void ItemsView(int num);
+
+	cocos2d::Sprite* Items_BG1;
+	cocos2d::Sprite* Items_BG2;
+	cocos2d::Sprite* Items_BG3;
+	int ItemsEquipmentNum;
 };
 
 #endif // __ItemsEquip_SCENE_H__

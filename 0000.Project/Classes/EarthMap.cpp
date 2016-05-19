@@ -4885,7 +4885,7 @@ void EarthMap::UpdateMonsterDB() {
 		int Item3 = monster_char[i].Item3;
 		int Exp = monster_char[i].exp;
 		sprintf(sqlstr, "update Monster set Type = %d, level = %d, Item1 = %d, Item2 = %d, Item3 = %d, Exp = %d  where Monster_Id = %d", type, level, Item1, Item2, Item3, Exp, ID);
-		log(sqlstr);
+		//log(sqlstr);
 		sqlStr = sqlstr;
 		result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
 
@@ -4898,7 +4898,7 @@ void EarthMap::UpdateMonsterDB() {
 
 	//update Coin
 	sprintf(sqlstr, "update Player set Coin = %d where _Id = 1", before_Coin + Coin);
-	log(sqlstr);
+	//log(sqlstr);
 	sqlStr = sqlstr;
 	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
 	if (result != SQLITE_OK)
@@ -4975,7 +4975,7 @@ void EarthMap::UpdateItemDB(int num) {
 	char sqlstr[200];
 
 	sprintf(sqlstr, "update Items set Num = %d  where _ID = %d", DeleteItem - 1, num + 5);
-	log(sqlstr);
+	//log(sqlstr);
 	sqlStr = sqlstr;
 	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
 

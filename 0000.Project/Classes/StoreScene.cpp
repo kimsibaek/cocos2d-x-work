@@ -323,7 +323,7 @@ void StoreScene::UpdatePlayerDB() {
 	char sqlstr[200];
 
 	sprintf(sqlstr, "update Player set Coin = %d  where _Id = 1", Gold);
-	log(sqlstr);
+	//log(sqlstr);
 	sqlStr = sqlstr;
 	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
 
@@ -376,7 +376,7 @@ void StoreScene::UpdateItemsDB(int num) {
 
 	char sqlstr[200];
 	sprintf(sqlstr, "update Items set Num = %d  where _ID = %d", Items_List[num].Num, num);
-	log(sqlstr);
+	//log(sqlstr);
 	sqlStr = sqlstr;
 	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
 

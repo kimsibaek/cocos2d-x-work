@@ -132,12 +132,12 @@ bool ItemsEquip::init()
 	MonsterCellNum = -1;
 
 	MenuItemFont::setFontSize(64);
-	auto pMenuItem2 = MenuItemFont::create("장착", CC_CALLBACK_1(ItemsEquip::doBuy, this));
+	auto pMenuItem2 = MenuItemFont::create("장착", CC_CALLBACK_1(ItemsEquip::doEquipment, this));
 	pMenuItem2->setColor(Color3B(0, 0, 0));
 	
 	auto pMenu = Menu::create(pMenuItem2, nullptr);
 	pMenu->alignItemsHorizontallyWithPadding(300.0f);
-	pMenu->setPosition(Vec2(630, 50));
+	pMenu->setPosition(Vec2(300, 50));
 	this->addChild(pMenu);
 
 	auto pMenuItem1 = MenuItemImage::create("Images/Scene/Back.png", "Images/Scene/Back_click.png", CC_CALLBACK_1(ItemsEquip::doClick1, this));
@@ -150,7 +150,26 @@ bool ItemsEquip::init()
 	this->addChild(pMenu1);
 
 
-	//selectGoldData(this);
+	//Items_BG1
+	Items_BG1 = Sprite::create("Images/Scene/char_bg_Item.png");
+	Items_BG1->setPosition(Vec2(655, 50));
+	Items_BG1->setScale(1.5);
+	Items_BG1->setAnchorPoint(Vec2(0, 0));
+	this->addChild(Items_BG1);
+
+	//Items_BG2
+	Items_BG2 = Sprite::create("Images/Scene/char_bg_Item.png");
+	Items_BG2->setPosition(Vec2(805, 50));
+	Items_BG2->setScale(1.5);
+	Items_BG2->setAnchorPoint(Vec2(0, 0));
+	this->addChild(Items_BG2);
+
+	//Items_BG3
+	Items_BG3 = Sprite::create("Images/Scene/char_bg_Item.png");
+	Items_BG3->setPosition(Vec2(955, 50));
+	Items_BG3->setScale(1.5);
+	Items_BG3->setAnchorPoint(Vec2(0, 0));
+	this->addChild(Items_BG3);
 	return true;
 }
 
@@ -169,11 +188,17 @@ void ItemsEquip::doClick1(Ref *pSender) {
 void ItemsEquip::onEnter() {
 	Layer::onEnter();
 	listener = EventListenerTouchOneByOne::create();
-	listener->setSwallowTouches(true);
+	//listener->setSwallowTouches(true);
 
 	listener->onTouchBegan = CC_CALLBACK_2(ItemsEquip::onTouchBegan, this);
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener->clone(), Items_BG1);
+
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener->clone(), Items_BG2);
+
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener->clone(), Items_BG3);
 }
 
 void ItemsEquip::onExit() {
@@ -200,6 +225,32 @@ bool ItemsEquip::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) {
 		setUpdateItemproperty = false;
 	}
 
+	auto target = (Sprite*)event->getCurrentTarget();
+	//ItemsEquipmentNum = 0;
+	Vec2 pos = target->convertToNodeSpace(touch->getLocation());
+	Rect rect = Rect(0, 0, target->getContentSize().width, target->getContentSize().height);
+	if (rect.containsPoint(pos)) {
+		if (target == Items_BG1) {
+			Items_BG1->setColor(Color3B::RED);
+			Items_BG2->setColor(Color3B::WHITE);
+			Items_BG3->setColor(Color3B::WHITE);
+			ItemsEquipmentNum = 1;
+		}
+		else if (target == Items_BG2) {
+			Items_BG1->setColor(Color3B::WHITE);
+			Items_BG2->setColor(Color3B::RED);
+			Items_BG3->setColor(Color3B::WHITE);
+			ItemsEquipmentNum = 2;
+		}
+		else if(target == Items_BG3) {
+			Items_BG1->setColor(Color3B::WHITE);
+			Items_BG2->setColor(Color3B::WHITE);
+			Items_BG3->setColor(Color3B::RED);
+			ItemsEquipmentNum = 3;
+		}
+	}
+
+	
 	return true;
 }
 
@@ -318,7 +369,7 @@ void ItemsEquip::UpdateItemsDB(int num) {
 
 	char sqlstr[200];
 	sprintf(sqlstr, "update Items set Num = %d  where _ID = %d", Items_List[num].Num, num);
-	log(sqlstr);
+	//log(sqlstr);
 	sqlStr = sqlstr;
 	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
 
@@ -331,8 +382,52 @@ void ItemsEquip::UpdateItemsDB(int num) {
 	sqlite3_close(pDB);
 }
 
-void ItemsEquip::doBuy(Ref* pSender) {
+void ItemsEquip::doEquipment(Ref* pSender) {
+	if (ItemsEquipmentNum == 0) {
+		//장착할 위치 정하기
+		return;
+	}
+	if (MonsterCellNum2 == -1) {
+		//아이템 선택하기
+		return;
+	}
+
+	Sprite *Items;
+	if (MonsterCellNum2 == 0) {
+		Items = Sprite::createWithSpriteFrameName("items0.png");
+	}
+	if (MonsterCellNum2 == 1) {
+		Items = Sprite::createWithSpriteFrameName("items1.png");
+	}
+	if (MonsterCellNum2 == 2) {
+		Items = Sprite::createWithSpriteFrameName("items2.png");
+	}
+	if (MonsterCellNum2 == 3) {
+		Items = Sprite::createWithSpriteFrameName("items3.png");
+	}
+	if (MonsterCellNum2 == 4) {
+		Items = Sprite::createWithSpriteFrameName("items4.png");
+	}
+	if (MonsterCellNum2 == 5) {
+		Items = Sprite::createWithSpriteFrameName("items5.png");
+	}
 	
+	Items->setScale(2.0f);
+	if (ItemsEquipmentNum == 1) {
+		Items_BG1->removeChildByTag(3);
+		Items->setPosition(Vec2(Items_BG1->getContentSize().width / 2, Items_BG1->getContentSize().height / 2));
+		Items_BG1->addChild(Items, 3, 3);
+	}
+	else if (ItemsEquipmentNum == 2) {
+		Items_BG2->removeChildByTag(3);
+		Items->setPosition(Vec2(Items_BG2->getContentSize().width / 2, Items_BG2->getContentSize().height / 2));
+		Items_BG2->addChild(Items, 3, 3);
+	}
+	else if (ItemsEquipmentNum == 3) {
+		Items_BG3->removeChildByTag(3);
+		Items->setPosition(Vec2(Items_BG3->getContentSize().width / 2, Items_BG3->getContentSize().height / 2));
+		Items_BG3->addChild(Items, 3, 3);
+	}
 }
 
 void ItemsEquip::doSell(Ref* pSender) {
@@ -364,7 +459,90 @@ void ItemsEquip::doSendMsg(int num) {
 }
 
 void ItemsEquip::ItemsView(int num) {
-
+	if (num == 1) {
+		Sprite *Items;
+		Items_BG1->removeChildByTag(3);
+		if (Monster_List[MonsterCellNum].Item1 == -1) {
+			return;
+		}
+		if (Monster_List[MonsterCellNum].Item1 == 0) {
+			Items = Sprite::createWithSpriteFrameName("items0.png");
+		}
+		if (Monster_List[MonsterCellNum].Item1 == 1) {
+			Items = Sprite::createWithSpriteFrameName("items1.png");
+		}
+		if (Monster_List[MonsterCellNum].Item1 == 2) {
+			Items = Sprite::createWithSpriteFrameName("items2.png");
+		}
+		if (Monster_List[MonsterCellNum].Item1 == 3) {
+			Items = Sprite::createWithSpriteFrameName("items3.png");
+		}
+		if (Monster_List[MonsterCellNum].Item1 == 4) {
+			Items = Sprite::createWithSpriteFrameName("items4.png");
+		}
+		if (Monster_List[MonsterCellNum].Item1 == 5) {
+			Items = Sprite::createWithSpriteFrameName("items5.png");
+		}
+		Items->setScale(2.0f);
+		Items->setPosition(Vec2(Items_BG1->getContentSize().width / 2, Items_BG1->getContentSize().height / 2));
+		Items_BG1->addChild(Items, 3, 3);
+	}
+	else if(num == 2) {
+		Sprite *Items;
+		Items_BG2->removeChildByTag(3);
+		if (Monster_List[MonsterCellNum].Item2 == -1) {
+			return;
+		}
+		if (Monster_List[MonsterCellNum].Item2 == 0) {
+			Items = Sprite::createWithSpriteFrameName("items0.png");
+		}
+		if (Monster_List[MonsterCellNum].Item2 == 1) {
+			Items = Sprite::createWithSpriteFrameName("items1.png");
+		}
+		if (Monster_List[MonsterCellNum].Item2 == 2) {
+			Items = Sprite::createWithSpriteFrameName("items2.png");
+		}
+		if (Monster_List[MonsterCellNum].Item2 == 3) {
+			Items = Sprite::createWithSpriteFrameName("items3.png");
+		}
+		if (Monster_List[MonsterCellNum].Item2 == 4) {
+			Items = Sprite::createWithSpriteFrameName("items4.png");
+		}
+		if (Monster_List[MonsterCellNum].Item2 == 5) {
+			Items = Sprite::createWithSpriteFrameName("items5.png");
+		}
+		Items->setScale(2.0f);
+		Items->setPosition(Vec2(Items_BG2->getContentSize().width / 2, Items_BG2->getContentSize().height / 2));
+		Items_BG2->addChild(Items, 3, 3);
+	}
+	else {
+		Sprite *Items;
+		Items_BG3->removeChildByTag(3);
+		if (Monster_List[MonsterCellNum].Item3 == -1) {
+			return;
+		}
+		if (Monster_List[MonsterCellNum].Item3 == 0) {
+			Items = Sprite::createWithSpriteFrameName("items0.png");
+		}
+		if (Monster_List[MonsterCellNum].Item3 == 1) {
+			Items = Sprite::createWithSpriteFrameName("items1.png");
+		}
+		if (Monster_List[MonsterCellNum].Item3 == 2) {
+			Items = Sprite::createWithSpriteFrameName("items2.png");
+		}
+		if (Monster_List[MonsterCellNum].Item3 == 3) {
+			Items = Sprite::createWithSpriteFrameName("items3.png");
+		}
+		if (Monster_List[MonsterCellNum].Item3 == 4) {
+			Items = Sprite::createWithSpriteFrameName("items4.png");
+		}
+		if (Monster_List[MonsterCellNum].Item3 == 5) {
+			Items = Sprite::createWithSpriteFrameName("items5.png");
+		}
+		Items->setScale(2.0f);
+		Items->setPosition(Vec2(Items_BG3->getContentSize().width / 2, Items_BG3->getContentSize().height / 2));
+		Items_BG3->addChild(Items, 3, 3);
+	}
 }
 
 void ItemsEquip::tableCellTouched(TableView* table, TableViewCell* cell) {
@@ -373,6 +551,7 @@ void ItemsEquip::tableCellTouched(TableView* table, TableViewCell* cell) {
 		//몬스터 선택
 		log("cell = %d, MonsterCellNum = %d", Cell_Num, MonsterCellNum);
 
+		//몬스터 선택 표시
 		for (int i = 0; i < MonsterListSize; i++) {
 			int num1;
 			num1 = i / 3;
@@ -388,6 +567,11 @@ void ItemsEquip::tableCellTouched(TableView* table, TableViewCell* cell) {
 				}
 			}
 		}
+
+		//몬스터 아이템 표시
+		ItemsView(1);
+		ItemsView(2);
+		ItemsView(3);
 	}
 	else {
 		//인벤토리 선택

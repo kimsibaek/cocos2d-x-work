@@ -183,7 +183,7 @@ void EndGame::insertData(Ref* pSender)
 			Item3 = Distel_Monster_List[i].Item3;
 			ID = ID + i;
 			sprintf(sqlstr, "insert into Monster(Monster_Id, Type, level, Item1, Item2, Item3, Exp) values (%d, %d, %d, %d, %d, %d, 0)", ID, type, level, Item1, Item2, Item3);
-			log(sqlstr);
+			//log(sqlstr);
 			sqlStr = sqlstr;
 			result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
 

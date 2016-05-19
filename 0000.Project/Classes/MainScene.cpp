@@ -201,12 +201,12 @@ bool MainScene::init()
 
 
 	dbfileName = cocos2d::FileUtils::getInstance()->getWritablePath();
-	log("%s", dbfileName.c_str());
+	//log("%s", dbfileName.c_str());
 	//dbfileName = "C:\\cocos2d-x-work\\0000.Project\\SpiritualSoul\\Resources\\";
 	//dbfileName = "C:\\cocos2d-x-work\\SpiritualSoul\\Resources\\";
 	//log("%s", dbfileName.c_str());
 	dbfileName = dbfileName + "SpiritualSoul.sqlite";
-	log("%s", dbfileName.c_str());
+	//log("%s", dbfileName.c_str());
 
 	// 데이타베이스 생성
 	this->createDatabase();

@@ -237,7 +237,7 @@ void ClassChange::UpdateMonsterDB(int num, int Type) {
 	char sqlstr[200];
 
 	sprintf(sqlstr, "update Monster set Type = %d, level = 1, Exp = 0  where Monster_Id = %d", Type, num + 1);
-	log(sqlstr);
+	//log(sqlstr);
 	sqlStr = sqlstr;
 	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
 
