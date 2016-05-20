@@ -29,7 +29,7 @@ bool ItemsEquip::init()
 	////////////////////
 	cache = SpriteFrameCache::getInstance();
 	cache->addSpriteFramesWithFile("Plist/char_bg.plist");
-	cache->addSpriteFramesWithFile("Plist/Person1.plist");
+	cache->addSpriteFramesWithFile("Plist/Person.plist");
 	cache->addSpriteFramesWithFile("Plist/Earth1.plist");
 	cache->addSpriteFramesWithFile("Plist/Earth2.plist");
 	cache->addSpriteFramesWithFile("Plist/Earth3.plist");
@@ -622,7 +622,7 @@ void ItemsEquip::tableCellTouched(TableView* table, TableViewCell* cell) {
 		for (int i = 0; i < MonsterListSize; i++) {
 			int num1;
 			num1 = i / 3;
-			if (table->cellAtIndex(num1)) {
+				if (table->cellAtIndex(num1)) {
 				TableViewCell *cell1 = table->cellAtIndex(num1);
 				Sprite *st = (Sprite *)cell1->getChildByTag(num1);
 				Sprite *st1 = (Sprite *)st->getChildByTag(i);

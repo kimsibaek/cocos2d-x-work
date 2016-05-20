@@ -38,7 +38,7 @@ bool EarthMap::init()
 	winSize = Director::getInstance()->getWinSize();
 
 	cache = SpriteFrameCache::getInstance();
-	cache->addSpriteFramesWithFile("Plist/Person1.plist");
+	cache->addSpriteFramesWithFile("Plist/Person.plist");
 	cache->addSpriteFramesWithFile("Plist/Earth1.plist");
 	cache->addSpriteFramesWithFile("Plist/Earth2.plist");
 	cache->addSpriteFramesWithFile("Plist/Earth3.plist");
@@ -92,7 +92,7 @@ bool EarthMap::init()
 	tmap = TMXTiledMap::create("Images/Scene/EarthMap.tmx");
 	tmap->setPosition(Vec2(-66, -32));
 	metainfo = tmap->getLayer("MetaInfo");
-	//metainfo->setVisible(false);
+	metainfo->setVisible(false);
 	this->addChild(tmap, 2, 11);
 
 	MovePositionX = tmap->getPosition().x;
@@ -204,7 +204,7 @@ bool EarthMap::init()
 
 	MovePositionDX = 0;
 	MovePositionDY = 0;
-
+	createDatabase();
 	onCreateCharacter();
 	onCreateEmyCharacter();
 	//주인공이 화면의 센터로
@@ -249,6 +249,54 @@ void EarthMap::doClick1(Ref *pSender) {
 		popWin = pauseScene::createScene();
 		this->addChild(popWin, 2000, 2000);
 	}
+}
+
+void EarthMap::createDatabase()
+{
+	sqlite3* pDB = nullptr;
+	char* errMsg;
+	int result;
+
+	result = sqlite3_open(dbfileName.c_str(), &pDB);
+
+	if (result != SQLITE_OK)
+	{
+		log("Open Error : Code:%d  Msg:%s", result, errMsg);
+	}
+
+
+	// create database
+	std::string sqlStr;
+	sqlStr = "create table IF NOT EXISTS Items( \
+                             _ID integer primary key autoincrement, \
+                             Num integer)";
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+
+	sqlStr = "create table IF NOT EXISTS Monster( \
+								Monster_Id integer, \
+								Type integer, \
+								level integer, \
+								Item1 integer, \
+								Item2 integer, \
+								Item3 integer, \
+								Exp integer)";
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+
+	sqlStr = "create table IF NOT EXISTS Player( \
+                             _Id integer primary key autoincrement, \
+                             Coin integer)";
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+
+	if (result != SQLITE_OK)
+	{
+		log("Create Error : Code:%d  Msg:%s", result, errMsg);
+	}
+	else
+	{
+		log("Database created successfully!");
+	}
+	sqlite3_close(pDB);
+	//
 }
 
 //주인공 생성
@@ -394,7 +442,7 @@ void EarthMap::onCreateEmyCharacter() {
 	}
 
 	std::string str1 = "";
-	for(int i=0; i<1; i++)
+	for(int i=0; i<10; i++)
 	{
 		//객체생성
 		int num = rand() % 39 + 1;

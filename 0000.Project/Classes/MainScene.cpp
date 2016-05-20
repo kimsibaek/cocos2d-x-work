@@ -182,7 +182,7 @@ bool MainScene::init()
 	pMenuItem5->setPosition(Vec2(730, 60));
 	pMenuItem5->setScale(3);
 	pMenuItem5->setTag(5);
-	auto pMenuItem6 = MenuItemImage::create("Images/Scene/Classchange.png", "Images/Scene/Classchange_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
+	auto pMenuItem6 = MenuItemImage::create("Images/Scene/CC.png", "Images/Scene/CCC.png", CC_CALLBACK_1(MainScene::doClick1, this));
 	pMenuItem6->setPosition(Vec2(200, 80));
 	pMenuItem6->setScale(3);
 	pMenuItem6->setTag(6);
@@ -201,10 +201,6 @@ bool MainScene::init()
 
 
 	dbfileName = cocos2d::FileUtils::getInstance()->getWritablePath();
-	//log("%s", dbfileName.c_str());
-	//dbfileName = "C:\\cocos2d-x-work\\0000.Project\\SpiritualSoul\\Resources\\";
-	//dbfileName = "C:\\cocos2d-x-work\\SpiritualSoul\\Resources\\";
-	//log("%s", dbfileName.c_str());
 	dbfileName = dbfileName + "SpiritualSoul.sqlite";
 	//log("%s", dbfileName.c_str());
 

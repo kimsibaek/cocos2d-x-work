@@ -124,6 +124,7 @@ public:
 	virtual void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
 	cocos2d::Vec2 tileCoordForPosition(cocos2d::Vec2 position);
 	cocos2d::Vec2 FindCoordPosition(cocos2d::Vec2 pos);
+	void createDatabase();
 	void onCreateCharacter();
 	void onCreateEmyCharacter();
 
