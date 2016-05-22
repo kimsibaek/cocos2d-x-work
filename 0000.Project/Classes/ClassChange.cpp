@@ -613,7 +613,7 @@ void ClassChange::Monster(int num, int row) {
 
 	char level[3];
 	sprintf(level, "%d", Monster_List[num].level);
-	auto pLabel3 = LabelAtlas::create(level, "Images/Scene/MonsterLevel.png", 7, 9, '0');
+	auto pLabel3 = LabelAtlas::create(level, "Images/Scene/ML.png", 7, 9, '0');
 	pLabel3->setAnchorPoint(Vec2(0, 0));
 	pLabel3->setScale(1.5);
 	pLabel3->setPosition(Vec2(temp[row]->getContentSize().width / 2 + 8, 10));
@@ -806,7 +806,7 @@ void ClassChange::MonsterAdd(int num, Sprite *st) {
 
 	char level[3];
 	sprintf(level, "%d", Monster_List[num].level);
-	auto pLabel3 = LabelAtlas::create(level, "Images/Scene/MonsterLevel.png", 7, 9, '0');
+	auto pLabel3 = LabelAtlas::create(level, "Images/Scene/ML.png", 7, 9, '0');
 	pLabel3->setAnchorPoint(Vec2(0, 0));
 	pLabel3->setScale(1.5);
 	pLabel3->setPosition(Vec2(st->getContentSize().width / 2 + 8, 10));

@@ -27,7 +27,7 @@ bool FireMap::init()
 		return false;
 	}
 	////////////////////
-	BG = Sprite::create("Images/Scene/FireMap.png");
+	BG = Sprite::create("Images/Scene/Firemap.png");
 	BG->setPosition(Vec2(1006.5, 767.5));
 	this->addChild(BG, 1);
 

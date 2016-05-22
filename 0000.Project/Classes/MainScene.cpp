@@ -279,6 +279,37 @@ void MainScene::createDatabase()
 	sqlite3_finalize(statement);
 	sqlite3_close(pDB);
 	//
+	int Coin = 1000;
+	result = sqlite3_open(dbfileName.c_str(), &pDB);
+
+	if (result != SQLITE_OK)
+	{
+		log("Open Error : Code:%d   Msg:%s", result, errMsg);
+	}
+
+	// select data
+	sqlStr = "select _Id, Coin from Player";
+
+	//sqlite3_stmt* statement;
+	if (sqlite3_prepare_v2(pDB, sqlStr.c_str(), -1, &statement, nullptr) == SQLITE_OK)
+	{
+		while (sqlite3_step(statement) == SQLITE_ROW)
+		{
+			int ID = sqlite3_column_int(statement, 0);
+			Coin = sqlite3_column_int(statement, 1);
+			
+		}
+	}
+	sqlite3_finalize(statement);
+	sqlite3_close(pDB);
+	
+	char level[10];
+	sprintf(level, "%d", Coin);
+	auto pLabel3 = LabelAtlas::create(level, "Images/Scene/ML.png", 7, 9, '0');
+	pLabel3->setAnchorPoint(Vec2(0, 0));
+	pLabel3->setScale(1.5);
+	pLabel3->setPosition(Vec2(1000, 650));
+	this->addChild(pLabel3, 100);
 }
 
 void MainScene::insertData(Ref* pSender)
@@ -316,7 +347,7 @@ void MainScene::insertData(Ref* pSender)
 	sqlStr = "insert into Items(_ID, Num) values (8, 1)";
 	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
 	//Monster table
-	sqlStr = "insert into Monster(Monster_Id, Type, level, Item1, Item2, Item3, Exp) values (0, 0, 1, 0, 0, 0, 0)";
+	sqlStr = "insert into Monster(Monster_Id, Type, level, Item1, Item2, Item3, Exp) values (0, 0, 1, -1, -1, -1, 0)";
 	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
 	//Player table
 	sqlStr = "insert into Player(_id, Coin) values (1, 0)";

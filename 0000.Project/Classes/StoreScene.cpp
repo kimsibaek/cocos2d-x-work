@@ -293,7 +293,7 @@ void StoreScene::selectGoldData(Ref* pSender)
 
 	char Num[20];
 	sprintf(Num, "%d", row1);
-	Gold_Label = LabelAtlas::create(Num, "Images/Scene/MonsterLevel.png", 7, 9, '0');
+	Gold_Label = LabelAtlas::create(Num, "Images/Scene/ML.png", 7, 9, '0');
 	Gold_Label->setAnchorPoint(Vec2(0, 0));
 	Gold_Label->setScale(1.4);
 	Gold_Label->setPosition(Vec2(30, 0));
@@ -346,7 +346,7 @@ void StoreScene::UpdatePlayerDB() {
 
 	char Num[20];
 	sprintf(Num, "%d", Gold);
-	Gold_Label = LabelAtlas::create(Num, "Images/Scene/MonsterLevel.png", 7, 9, '0');
+	Gold_Label = LabelAtlas::create(Num, "Images/Scene/ML.png", 7, 9, '0');
 	Gold_Label->setAnchorPoint(Vec2(0, 0));
 	Gold_Label->setScale(1.4);
 	Gold_Label->setPosition(Vec2(30, 0));
@@ -462,7 +462,7 @@ void StoreScene::doBuy(Ref* pSender) {
 
 	char Num[3];
 	sprintf(Num, "%d", Items_List[MonsterCellNum].Num);
-	auto pLabel2 = LabelAtlas::create(Num, "Images/Scene/MonsterLevel.png", 7, 9, '0');
+	auto pLabel2 = LabelAtlas::create(Num, "Images/Scene/ML.png", 7, 9, '0');
 	pLabel2->setAnchorPoint(Vec2(1, 0));
 	pLabel2->setScale(1.8);
 	pLabel2->setPosition(Vec2(st1->getContentSize().width / 2 + 8, 10));
@@ -514,7 +514,7 @@ void StoreScene::doSell(Ref* pSender) {
 
 	char Num[3];
 	sprintf(Num, "%d", Items_List[MonsterCellNum2].Num);
-	auto pLabel2 = LabelAtlas::create(Num, "Images/Scene/MonsterLevel.png", 7, 9, '0');
+	auto pLabel2 = LabelAtlas::create(Num, "Images/Scene/ML.png", 7, 9, '0');
 	pLabel2->setAnchorPoint(Vec2(1, 0));
 	pLabel2->setScale(1.8);
 	pLabel2->setPosition(Vec2(st1->getContentSize().width / 2 + 8, 10));
@@ -685,7 +685,7 @@ void StoreScene::Monster(int num, int row) {
 	}
 	if (setUpdateItemproperty) {
 		sprintf(Num, "%d", price);
-		auto pLabel3 = LabelAtlas::create(Num, "Images/Scene/MonsterLevel.png", 7, 9, '0');
+		auto pLabel3 = LabelAtlas::create(Num, "Images/Scene/ML.png", 7, 9, '0');
 		pLabel3->setAnchorPoint(Vec2(1, 0));
 		pLabel3->setScale(1.8);
 		pLabel3->setPosition(Vec2(temp[row]->getContentSize().width / 2 + 8, 10));
@@ -700,7 +700,7 @@ void StoreScene::Monster(int num, int row) {
 	else {
 		char Num[3];
 		sprintf(Num, "%d", Items_List[num].Num);
-		auto pLabel2 = LabelAtlas::create(Num, "Images/Scene/MonsterLevel.png", 7, 9, '0');
+		auto pLabel2 = LabelAtlas::create(Num, "Images/Scene/ML.png", 7, 9, '0');
 		pLabel2->setAnchorPoint(Vec2(1, 0));
 		pLabel2->setScale(1.8);
 		pLabel2->setPosition(Vec2(temp[row]->getContentSize().width / 2 + 8, 10));

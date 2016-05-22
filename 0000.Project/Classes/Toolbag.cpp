@@ -241,7 +241,7 @@ TableViewCell* Toolbag::tableCellAtIndex(TableView *table, ssize_t idx) {
 
 	char level[3];
 	sprintf(level, "%d", Items_List[idx].Num);
-	auto pLabel3 = LabelAtlas::create(level, "Images/Scene/MonsterLevel.png", 7, 9, '0');
+	auto pLabel3 = LabelAtlas::create(level, "Images/Scene/ML.png", 7, 9, '0');
 	pLabel3->setAnchorPoint(Vec2(0, 0));
 	pLabel3->setScale(1.5);
 	pLabel3->setPosition(Vec2(sprite_1->getContentSize().width / 2 + 8, 10));

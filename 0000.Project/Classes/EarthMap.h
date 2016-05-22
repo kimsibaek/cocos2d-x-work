@@ -170,6 +170,11 @@ public:
 	bool CreateMonsterPositionCheck();
 	bool CheckOnePositionMonster(cocos2d::Vec2 mon_pos);
 	int Coin;
+	void AttackAction();
+	bool L_R;
+	int attackdamage;
+	void callbackrepeatforever(float delta);
+	void MonsterAdd(int num, cocos2d::Sprite *st);
 };
 
 #endif // __EarthMap_SCENE_H__
