@@ -38,6 +38,9 @@ bool EarthMap::init()
 	winSize = Director::getInstance()->getWinSize();
 
 	cache = SpriteFrameCache::getInstance();
+	//test
+	cache->addSpriteFramesWithFile("Plist/fx_firetornado.plist");
+
 	cache->addSpriteFramesWithFile("Plist/Person1.plist");
 	cache->addSpriteFramesWithFile("Plist/Earth1.plist");
 	cache->addSpriteFramesWithFile("Plist/Earth2.plist");
@@ -3282,8 +3285,24 @@ void EarthMap::AttackAction() {
 			animFrames.pushBack(frame);
 		}
 	}
+	char str3[100];
+	char str4[100];
+	Vector<SpriteFrame*> animFrames3;
+	Sprite *sst = Sprite::createWithSpriteFrameName("fx_firetornado_000.png");
+	sprintf(str3, "fx_firetornado_0");
+	for (int i = 0; i <= 12; i++) {
+		sprintf(str4, "%s%02d.png", str3, i);
+		SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+		animFrames3.pushBack(frame);
+	}
 
-	
+	auto animation2 = Animation::createWithSpriteFrames(animFrames3, 0.1f);
+	auto animate2 = Animate::create(animation2);
+	sst->runAction(animate2);
+	sst->setScale(2.0f);
+	Vec2 Vector1 = FindCoordPosition(Vec2(EmyMonster_char[ClickEmyMonster].tx, EmyMonster_char[ClickEmyMonster].ty));
+	sst->setPosition(Vec2(Vector1.x - MovePositionX, Vector1.y - 60 - MovePositionY));
+	tmap->addChild(sst, 5, ClickEmyMonster);
 
 	auto animation1 = Animation::createWithSpriteFrames(animFrames, 0.2f);
 	auto animation0 = Animation::createWithSpriteFrames(animFrames_Action, 0.2f);
@@ -3294,7 +3313,7 @@ void EarthMap::AttackAction() {
 	
 	monster_char[mons].sprite->runAction(animate0);
 	Vec2 Vector = FindCoordPosition(Vec2(monster_char[mons].tx, monster_char[mons].ty));
-		//posit.x - MovePositionX, posit.y - 60 - MovePositionY
+		//posit.x - MovePositionX,		posit.y - 60 - MovePositionY
 	monster_char[mons].sprite->setPosition(Vec2(Vector.x - MovePositionX, Vector.y - 60 - MovePositionY));
 	tmap->addChild(monster_char[mons].sprite, 5, mons);
 
