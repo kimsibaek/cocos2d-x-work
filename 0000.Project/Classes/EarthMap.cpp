@@ -38,8 +38,8 @@ bool EarthMap::init()
 	winSize = Director::getInstance()->getWinSize();
 
 	cache = SpriteFrameCache::getInstance();
-	//test
-	//불공격 액션
+
+	//대지공격 액션
 	cache->addSpriteFramesWithFile("Plist/EarthAttackPlist/fx_f5_earthsphere.plist");
 	cache->addSpriteFramesWithFile("Plist/EarthAttackPlist/fx_impactgreen.plist");
 	cache->addSpriteFramesWithFile("Plist/EarthAttackPlist/fx_smoke.plist");
@@ -528,9 +528,9 @@ void EarthMap::onCreateEmyCharacter() {
 		int	ID = i;
 		int	Type = num;
 		int	level = 1;
-		int	Item1 = 0;
-		int	Item2 = 0;
-		int	Item3 = 0;
+		int	Item1 = -1;
+		int	Item2 = -1;
+		int	Item3 = -1;
 
 		EmyMonster_char[EmyMonsterSize].ID = ID;
 		EmyMonster_char[EmyMonsterSize].Type = Type;
@@ -1368,10 +1368,11 @@ void EarthMap::EmyMove(float f) {
 }
 
 void EarthMap::EmyMonsterAttackAction() {
-	log("%d", EmyMonster_char[emynum].sprite->getTag());
+
 	EmyMonster_char[emynum].sprite->stopAllActions();
 	EmyMonster_char[emynum].sprite->removeAllChildren();
 	tmap->removeChild(EmyMonster_char[emynum].sprite, true);
+
 	//L_R == true 왼쪽 false 오른쪽
 	char str1[100];
 	char str2[100];
@@ -1382,18 +1383,6 @@ void EarthMap::EmyMonsterAttackAction() {
 	Sprite *sst = Sprite::create();
 	Vector<SpriteFrame*> animFrames_Action;
 
-	if (EmyMonster_char[emynum].Type == 0) {
-		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Person1-A1.png");
-		sprintf(str1, "Person1-A");
-
-		sst = Sprite::createWithSpriteFrameName("fx_firetornado_000.png");
-		sprintf(str3, "fx_firetornado_0");
-		for (int i = 0; i <= 12; i++) {
-			sprintf(str4, "%s%02d.png", str3, i);
-			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
-			animFrames3.pushBack(frame);
-		}
-	}
 	//땅질퍽이
 	if (EmyMonster_char[emynum].Type == 1) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth1-A1.png");
@@ -1621,8 +1610,8 @@ void EarthMap::EmyMonsterAttackAction() {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water1-A1.png");
 		sprintf(str1, "Water1-A");
 
-		sst = Sprite::createWithSpriteFrameName("fx_cleanse_burst_000.png");
-		sprintf(str3, "fx_cleanse_burst_0");
+		sst = Sprite::createWithSpriteFrameName("fx_cleanse_ripples_000.png");
+		sprintf(str3, "fx_cleanse_ripples_0");
 		for (int i = 0; i <= 6; i++) {
 			sprintf(str4, "%s%02d.png", str3, i);
 			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
@@ -1840,51 +1829,37 @@ void EarthMap::EmyMonsterAttackAction() {
 	}
 
 	if (L_R) {
-		if (mons == 0) {
-			for (int i = 1; i <= 4; i++) {
-				sprintf(str2, "%s%d.png", str1, i);
-				SpriteFrame* frame = cache->getSpriteFrameByName(str2);
-				animFrames_Action.pushBack(frame);
-			}
+		for (int i = 1; i <= 3; i++) {
+			sprintf(str2, "%s%d.png", str1, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+			animFrames_Action.pushBack(frame);
 		}
-		else {
-			for (int i = 1; i <= 3; i++) {
-				sprintf(str2, "%s%d.png", str1, i);
-				SpriteFrame* frame = cache->getSpriteFrameByName(str2);
-				animFrames_Action.pushBack(frame);
-			}
-		}
-
-
 	}
 	else {
-		if (mons == 0) {
-			for (int i = 5; i <= 8; i++) {
-				sprintf(str2, "%s%d.png", str1, i);
-				SpriteFrame* frame = cache->getSpriteFrameByName(str2);
-				animFrames_Action.pushBack(frame);
-			}
+		for (int i = 4; i <= 6; i++) {
+			sprintf(str2, "%s%d.png", str1, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+			animFrames_Action.pushBack(frame);
 		}
-		else {
-			for (int i = 4; i <= 6; i++) {
-				sprintf(str2, "%s%d.png", str1, i);
-				SpriteFrame* frame = cache->getSpriteFrameByName(str2);
-				animFrames_Action.pushBack(frame);
-			}
-		}
-
 	}
 
 	//공격 사용 스킬 액션
-	auto animation2 = Animation::createWithSpriteFrames(animFrames3, 0.1f);
+	auto animation2 = Animation::createWithSpriteFrames(animFrames3, 0.05f);
 	auto animate2 = Animate::create(animation2);
 	sst->runAction(animate2);
-	sst->setScale(2.0f);
+	if (EmyMonster_char[emynum].Type == 22 || EmyMonster_char[emynum].Type == 23 || EmyMonster_char[emynum].Type == 28) {
+		sst->setScale(0.5f);
+	}
+	else if(EmyMonster_char[emynum].Type == 16 || EmyMonster_char[emynum].Type == 17 || EmyMonster_char[emynum].Type == 19 || EmyMonster_char[emynum].Type == 26 || EmyMonster_char[emynum].Type == 38) {
+		sst->setScale(1.0f);
+	}
+	else {
+		sst->setScale(2.0f);
+	}
+	
 	Vec2 Vector1 = FindCoordPosition(Vec2(monster_char[monsterNum].tx, monster_char[monsterNum].ty));
 	sst->setPosition(Vec2(Vector1.x - MovePositionX, Vector1.y - 60 - MovePositionY));
 	tmap->addChild(sst, 5, 500);
-
-
 
 	auto animation0 = Animation::createWithSpriteFrames(animFrames_Action, 0.2f);
 	auto animate0 = Animate::create(animation0);
@@ -1894,13 +1869,13 @@ void EarthMap::EmyMonsterAttackAction() {
 	//posit.x - MovePositionX,		posit.y - 60 - MovePositionY
 	EmyMonster_char[emynum].sprite->setPosition(Vec2(Vector.x - MovePositionX, Vector.y - 60 - MovePositionY));
 	tmap->addChild(EmyMonster_char[emynum].sprite, 5, 100+emynum);
-
+	
 	//다시 걸어다니는 액션으로 교체
-	this->scheduleOnce(schedule_selector(EarthMap::callbackrepeatforeverAmy), 0.9f);
+	this->scheduleOnce(schedule_selector(EarthMap::callbackrepeatforeverAmy), 0.3f);
 }
 
 void EarthMap::callbackrepeatforeverAmy(float delta) {
-	log("%d", EmyMonster_char[emynum].sprite->getTag());
+	log("callbackrepeatforeverAmy %d", EmyMonster_char[emynum].sprite->getTag());
 	EmyMonster_char[emynum].sprite->stopAllActions();
 	EmyMonster_char[emynum].sprite->removeAllChildren();
 	tmap->removeChild(EmyMonster_char[emynum].sprite);
@@ -2106,7 +2081,7 @@ void EarthMap::callbackrepeatforeverAmy(float delta) {
 
 	Sprite* hp = Sprite::createWithSpriteFrameName("EmyMonseter_HP.png");
 	hp->setPosition(0, -5);
-	hp->setScaleX(EmyMonster_char[emynum].HPbarPosition / 25 * 2);
+	hp->setScaleX((EmyMonster_char[emynum].HPbarPosition / 25 * 2) * EmyMonster_char[emynum].hp / EmyMonster_char[emynum].Fullhp);
 	hp->setScaleY(2.0f);
 	hp->setAnchorPoint(Vec2(0, 0.5));
 	EmyMonster_char[emynum].sprite->addChild(hp, 4, 2);
@@ -2128,7 +2103,48 @@ void EarthMap::callbackrepeatforeverAmy(float delta) {
 	//hp->setAnchorPoint(Vec2(0, 0.5));
 	//monster_char[monsterNum].sprite->addChild(hp, 4, 2);
 
-	
+	monster_char[monsterNum].hp -= attackdamage;
+	monster_char[monsterNum].sprite->removeChildByTag(2);
+	Sprite* hp1 = Sprite::createWithSpriteFrameName("Monster_HP.png");
+	hp1->setPosition(2, -5);
+	hp1->setScaleX((monster_char[monsterNum].HPbarPosition / 25 * 2) * monster_char[monsterNum].hp / monster_char[monsterNum].Fullhp);
+	hp1->setScaleY(2);
+	//hp->setContentSize(Size(st->getContentSize().width, st->getContentSize().height));
+	hp1->setAnchorPoint(Vec2(0, 0.5));
+	monster_char[monsterNum].sprite->addChild(hp1, 4, 2);
+	log("after monster_char[monsterNum].hp = %d", monster_char[monsterNum].hp);
+	if (monster_char[monsterNum].hp < 0) {
+		monster_char[monsterNum].hp = 0;
+		//적 몬스터 죽음 처리
+		tmap->removeChild(monster_char[monsterNum].sprite);
+		if (monster_char[monsterNum].Type == 0) {
+			log("주인공 죽음");
+			//주인공 죽음 화면 전환
+
+			EndGame(2);
+		}
+		else {
+			int monster_num;
+			for (int k = 0; k < monsterSize; k++) {
+				if (monster_char[monsterNum].ID == monster_char[k].ID) {
+					monster_num = k;
+					break;
+				}
+			}
+
+			if (DeathMonsterListSize)	Death_Monster_List = (Monster_num*)realloc(Death_Monster_List, sizeof(Monster_num) * (DeathMonsterListSize + 1));
+			else						Death_Monster_List = (Monster_num*)malloc(sizeof(Monster_num) * (DeathMonsterListSize + 1));
+			DeathMonsterListSize++;
+			Death_Monster_List[DeathMonsterListSize - 1].ID = monster_char[monsterNum].ID;
+
+			for (int k = monster_num; k < monsterSize - 1; k++) {
+				monster_char[k] = monster_char[k + 1];
+			}
+			monster_char = (Monster_num*)realloc(monster_char, sizeof(Monster_num) * (monsterSize - 1));
+			monsterSize--;
+		}
+	}
+	log("callbackrepeatforeverAmy End %d", EmyMonster_char[emynum].sprite->getTag());
 }
 
 void EarthMap::Attack(Monster_num *monster, Monster_num *Emymonster) {
@@ -2148,58 +2164,19 @@ void EarthMap::Attack(Monster_num *monster, Monster_num *Emymonster) {
 		bufDefense += 0.2;
 	}
 	//log("defore hp = %d", Emymonster->hp);
-	int damage = (monster->atk * bufDamage) - (Emymonster->def * bufDefense);
-	log("type = %d", monster->Type);
-	log("damage = %d, monster->atk = %d, bufDamage = %f, Emymonster->def = %d, bufDefense = %f",
-	damage, monster->atk, bufDamage, Emymonster->def, bufDefense);
-	if (damage > 0) {
+	attackdamage = (monster->atk * bufDamage) - (Emymonster->def * bufDefense);
+	//log("type = %d", monster->Type);
+	//log("attackdamage = %d, monster->atk = %d, bufDamage = %f, Emymonster->def = %d, bufDefense = %f",
+	//	attackdamage, monster->atk, bufDamage, Emymonster->def, bufDefense);
+	if (attackdamage > 0) {
 		Vec2 vec1 = FindCoordPosition(Vec2(monster->tx, monster->ty));
 		Vec2 vec2 = FindCoordPosition(Vec2(Emymonster->tx, Emymonster->ty));
 		if (vec1.x < vec2.x)	L_R = false;
 		else 					L_R = true;
-		EmyMonsterAttackAction();
 		log("defore Emymonster->hp = %d", Emymonster->hp);
-		Emymonster->hp -= damage;
-		Emymonster->sprite->removeChildByTag(2);
-		Sprite* hp = Sprite::createWithSpriteFrameName("Monster_HP.png");
-		hp->setPosition(2, -5);
-		hp->setScaleX((Emymonster->HPbarPosition / 25 * 2) * Emymonster->hp / Emymonster->Fullhp);
-		hp->setScaleY(2);
-		//hp->setContentSize(Size(st->getContentSize().width, st->getContentSize().height));
-		hp->setAnchorPoint(Vec2(0, 0.5));
-		Emymonster->sprite->addChild(hp, 4, 2);
-		log("after Emymonster->hp = %d", Emymonster->hp);
-		if (Emymonster->hp < 0) {
-			Emymonster->hp = 0;
-			//적 몬스터 죽음 처리
-			tmap->removeChild(Emymonster->sprite);
-			if (Emymonster->Type == 0) {
-				log("주인공 죽음");
-				//주인공 죽음 화면 전환
-				
-				EndGame(2);
-			}
-			else {
-				int monster_num;
-				for (int k = 0; k < monsterSize; k++) {
-					if (Emymonster->ID == monster_char[k].ID) {
-						monster_num = k;
-						break;
-					}
-				}
-				
-				if (DeathMonsterListSize)	Death_Monster_List = (Monster_num*)realloc(Death_Monster_List,	sizeof(Monster_num) * (DeathMonsterListSize + 1));
-				else						Death_Monster_List = (Monster_num*)malloc(sizeof(Monster_num) * (DeathMonsterListSize + 1));
-				DeathMonsterListSize++;
-				Death_Monster_List[DeathMonsterListSize - 1].ID = Emymonster->ID;
-
-				for (int k = monster_num; k < monsterSize - 1; k++) {
-					monster_char[k] = monster_char[k + 1];
-				}
-				monster_char = (Monster_num*)realloc(monster_char, sizeof(Monster_num) * (monsterSize - 1));
-				monsterSize--;
-			}
-		}
+		EmyMonsterAttackAction();
+		
+		
 	}
 	
 }
@@ -3558,46 +3535,46 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 					bufDefense += 0.2;
 				}
 				//log("defore hp = %d", EmyMonster_char[ClickEmyMonster].hp);
-				int damage = (monster_char[mons].atk * bufDamage) - (EmyMonster_char[ClickEmyMonster].def * bufDefense);
+				attackdamage = (monster_char[mons].atk * bufDamage) - (EmyMonster_char[ClickEmyMonster].def * bufDefense);
 				//log("damage = %d, monster_char[mons].atk = %d, bufDamage = %f, EmyMonster_char[ClickEmyMonster].def = %d, bufDefense = %f",
 				//damage, monster_char[mons].atk, bufDamage, EmyMonster_char[ClickEmyMonster].def, bufDefense);
-				if (damage > 0) {
+				if (attackdamage > 0) {
 					Vec2 vec1 = FindCoordPosition(Vec2(monster_char[mons].tx, monster_char[mons].ty));
 					Vec2 vec2 = FindCoordPosition(Vec2(EmyMonster_char[ClickEmyMonster].tx, EmyMonster_char[ClickEmyMonster].ty));
 					if (vec1.x < vec2.x)	L_R = false;
 					else 					L_R = true;
 					AttackAction();
 
-					EmyMonster_char[ClickEmyMonster].hp -= damage;
-					EmyMonster_char[ClickEmyMonster].sprite->removeChildByTag(2);
-					Sprite* hp = Sprite::createWithSpriteFrameName("EmyMonseter_HP.png");
-					hp->setPosition(2, -5);
-					hp->setScaleX((EmyMonster_char[ClickEmyMonster].HPbarPosition / 25 * 2) * EmyMonster_char[ClickEmyMonster].hp / EmyMonster_char[ClickEmyMonster].Fullhp);
-					//hp->setContentSize(Size(st->getContentSize().width, st->getContentSize().height));
-					hp->setAnchorPoint(Vec2(0, 0.5));
-					EmyMonster_char[ClickEmyMonster].sprite->addChild(hp, 4, 2);
+					//EmyMonster_char[ClickEmyMonster].hp -= damage;
+					//EmyMonster_char[ClickEmyMonster].sprite->removeChildByTag(2);
+					//Sprite* hp = Sprite::createWithSpriteFrameName("EmyMonseter_HP.png");
+					//hp->setPosition(2, -5);
+					//hp->setScaleX((EmyMonster_char[ClickEmyMonster].HPbarPosition / 25 * 2) * EmyMonster_char[ClickEmyMonster].hp / EmyMonster_char[ClickEmyMonster].Fullhp);
+					////hp->setContentSize(Size(st->getContentSize().width, st->getContentSize().height));
+					//hp->setAnchorPoint(Vec2(0, 0.5));
+					//EmyMonster_char[ClickEmyMonster].sprite->addChild(hp, 4, 2);
 
-					if (EmyMonster_char[ClickEmyMonster].hp < 0) {
-						EmyMonster_char[ClickEmyMonster].hp = 0;
-						//적 몬스터 죽음 처리
-						tmap->removeChild(EmyMonster_char[ClickEmyMonster].sprite);
-						for (int k = ClickEmyMonster; k < EmyMonsterSize - 1; k++) {
-							EmyMonster_char[k] = EmyMonster_char[k + 1];
-						}
-						EmyMonster_char = (Monster_num*)realloc(EmyMonster_char, sizeof(Monster_num) * (EmyMonsterSize - 1));
-						EmyMonsterSize--;
+					//if (EmyMonster_char[ClickEmyMonster].hp < 0) {
+					//	EmyMonster_char[ClickEmyMonster].hp = 0;
+					//	//적 몬스터 죽음 처리
+					//	tmap->removeChild(EmyMonster_char[ClickEmyMonster].sprite);
+					//	for (int k = ClickEmyMonster; k < EmyMonsterSize - 1; k++) {
+					//		EmyMonster_char[k] = EmyMonster_char[k + 1];
+					//	}
+					//	EmyMonster_char = (Monster_num*)realloc(EmyMonster_char, sizeof(Monster_num) * (EmyMonsterSize - 1));
+					//	EmyMonsterSize--;
 
-						ExpCheck();
+					//	ExpCheck();
 
-						Coin += 2;
+					//	Coin += 2;
 
-						if (!EmyMonsterSize) {
-							log("적군 몬스터 전멸");
-							//적군 몬스터 전멸
-							EndGame(1);
-							return;
-						}
-					}
+					//	if (!EmyMonsterSize) {
+					//		log("적군 몬스터 전멸");
+					//		//적군 몬스터 전멸
+					//		EndGame(1);
+					//		return;
+					//	}
+					//}
 				}
 				statusAttack = false;
 				//적 몬스터 타일 지우기
@@ -4185,8 +4162,8 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water1-A1.png");
 		sprintf(str1, "Water1-A");
 
-		sst = Sprite::createWithSpriteFrameName("fx_cleanse_burst_000.png");
-		sprintf(str3, "fx_cleanse_burst_0");
+		sst = Sprite::createWithSpriteFrameName("fx_cleanse_ripples_000.png");
+		sprintf(str3, "fx_cleanse_ripples_0");
 		for (int i = 0; i <= 6; i++) {
 			sprintf(str4, "%s%02d.png", str3, i);
 			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
@@ -4222,8 +4199,8 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water4-A1.png");
 		sprintf(str1, "Water4-A");
 
-		sst = Sprite::createWithSpriteFrameName("fx_cleanse_burst_000.png");
-		sprintf(str3, "fx_cleanse_burst_0");
+		sst = Sprite::createWithSpriteFrameName("fx_cleanse_ripples_000.png");
+		sprintf(str3, "fx_cleanse_ripples_0");
 		for (int i = 0; i <= 6; i++) {
 			sprintf(str4, "%s%02d.png", str3, i);
 			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
@@ -4443,7 +4420,15 @@ void EarthMap::AttackAction() {
 	auto animation2 = Animation::createWithSpriteFrames(animFrames3, 0.1f);
 	auto animate2 = Animate::create(animation2);
 	sst->runAction(animate2);
-	sst->setScale(2.0f);
+	if (monster_char[mons].Type == 22 || monster_char[mons].Type == 23 || monster_char[mons].Type == 28) {
+		sst->setScale(0.5f);
+	}
+	else if (monster_char[mons].Type == 16 || monster_char[mons].Type == 17 || monster_char[mons].Type == 19 || monster_char[mons].Type == 26 || monster_char[mons].Type == 38) {
+		sst->setScale(1.0f);
+	}
+	else {
+		sst->setScale(2.0f);
+	}
 	Vec2 Vector1 = FindCoordPosition(Vec2(EmyMonster_char[ClickEmyMonster].tx, EmyMonster_char[ClickEmyMonster].ty));
 	sst->setPosition(Vec2(Vector1.x - MovePositionX, Vector1.y - 60 - MovePositionY));
 	tmap->addChild(sst, 5, 500);
@@ -4465,7 +4450,7 @@ void EarthMap::AttackAction() {
 }
 
 void EarthMap::callbackrepeatforever(float delta) {
-	log("%d", monster_char[mons].sprite->getTag());
+	//log("%d", monster_char[mons].sprite->getTag());
 	monster_char[mons].sprite->stopAllActions();
 	monster_char[mons].sprite->removeAllChildren();
 	tmap->removeChild(monster_char[mons].sprite, true);
@@ -4670,7 +4655,7 @@ void EarthMap::callbackrepeatforever(float delta) {
 
 	Sprite* hp = Sprite::createWithSpriteFrameName("Monster_HP.png");
 	hp->setPosition(0, -5);
-	hp->setScaleX(monster_char[mons].HPbarPosition / 25 * 2);
+	hp->setScaleX((monster_char[mons].HPbarPosition / 25 * 2) * monster_char[mons].hp / monster_char[mons].Fullhp);
 	hp->setScaleY(2.0f);
 	hp->setAnchorPoint(Vec2(0, 0.5));
 	monster_char[mons].sprite->addChild(hp, 4, 2);
@@ -6475,6 +6460,7 @@ bool EarthMap::CheckPosition(int num1, int num2, int monSize, Monster_num *monst
 				}
 			}
 			else {
+				EmyposSize = 0;
 				Emypos = (Position*)malloc(sizeof(Position) * (EmyposSize + 1));
 				Emypos[EmyposSize].num = i;
 				Emypos[EmyposSize].x = num1;
