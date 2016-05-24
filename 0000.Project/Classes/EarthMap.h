@@ -175,6 +175,8 @@ public:
 	int attackdamage;
 	void callbackrepeatforever(float delta);
 	void MonsterAdd(int num, cocos2d::Sprite *st);
+	void EmyMonsterAttackAction();
+	void callbackrepeatforeverAmy(float delta);
 };
 
 #endif // __EarthMap_SCENE_H__

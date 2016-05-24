@@ -39,7 +39,43 @@ bool EarthMap::init()
 
 	cache = SpriteFrameCache::getInstance();
 	//test
-	cache->addSpriteFramesWithFile("Plist/fx_firetornado.plist");
+	//불공격 액션
+	cache->addSpriteFramesWithFile("Plist/EarthAttackPlist/fx_f5_earthsphere.plist");
+	cache->addSpriteFramesWithFile("Plist/EarthAttackPlist/fx_impactgreen.plist");
+	cache->addSpriteFramesWithFile("Plist/EarthAttackPlist/fx_smoke.plist");
+	cache->addSpriteFramesWithFile("Plist/EarthAttackPlist/fx_smoke2.plist");
+
+	//불공격 액션
+	cache->addSpriteFramesWithFile("Plist/FireAttackPlist/fx_blood_explosion.plist");
+	cache->addSpriteFramesWithFile("Plist/FireAttackPlist/fx_explosionorangesmoke.plist");
+	cache->addSpriteFramesWithFile("Plist/FireAttackPlist/fx_f2_eightgates_purpleflame.plist");
+	cache->addSpriteFramesWithFile("Plist/FireAttackPlist/fx_f2_teleport.plist");
+	cache->addSpriteFramesWithFile("Plist/FireAttackPlist/fx_f2_twinstrike.plist");
+	cache->addSpriteFramesWithFile("Plist/FireAttackPlist/fx_f5_earthsphere_orange.plist");
+	cache->addSpriteFramesWithFile("Plist/FireAttackPlist/fx_firetornado.plist");
+	cache->addSpriteFramesWithFile("Plist/FireAttackPlist/fx_whiteexplosion.plist");
+	//물공격 액션
+	cache->addSpriteFramesWithFile("Plist/WaterAttackPlist/fx_cleanse.plist");
+	cache->addSpriteFramesWithFile("Plist/WaterAttackPlist/fx_distortion_hex_shield.plist");
+	cache->addSpriteFramesWithFile("Plist/WaterAttackPlist/fx_f3_fountainofyouth.plist");
+	cache->addSpriteFramesWithFile("Plist/WaterAttackPlist/fx_f6_cryogenesis.plist");
+	cache->addSpriteFramesWithFile("Plist/WaterAttackPlist/fx_f6_spiritofthewild.plist");
+	cache->addSpriteFramesWithFile("Plist/WaterAttackPlist/fx_frozen.plist");
+	cache->addSpriteFramesWithFile("Plist/WaterAttackPlist/fx_teleportblueorb.plist");
+	cache->addSpriteFramesWithFile("Plist/WaterAttackPlist/fx_teleportrecall2.plist");
+	//바람공격 액션
+	cache->addSpriteFramesWithFile("Plist/WindAttackPlist/fx_bladestorm.plist");
+	cache->addSpriteFramesWithFile("Plist/WindAttackPlist/fx_blueplasma_vertical.plist");
+	cache->addSpriteFramesWithFile("Plist/WindAttackPlist/fx_bluewatersplash.plist");
+	cache->addSpriteFramesWithFile("Plist/WindAttackPlist/fx_clawslash.plist");
+	cache->addSpriteFramesWithFile("Plist/WindAttackPlist/fx_f1_casterprojectile.plist");
+	cache->addSpriteFramesWithFile("Plist/WindAttackPlist/fx_f1_circlelife.plist");
+	cache->addSpriteFramesWithFile("Plist/WindAttackPlist/fx_f1_decimate.plist");
+	cache->addSpriteFramesWithFile("Plist/WindAttackPlist/fx_f1_inmolation.plist");
+	cache->addSpriteFramesWithFile("Plist/WindAttackPlist/fx_f1_lasting_judgment.plist");
+	cache->addSpriteFramesWithFile("Plist/WindAttackPlist/fx_f1_lionheartblessing.plist");
+	cache->addSpriteFramesWithFile("Plist/WindAttackPlist/fx_f2_spiraltechnique02.plist");
+	cache->addSpriteFramesWithFile("Plist/WindAttackPlist/fx_slashfrenzy.plist");
 
 	cache->addSpriteFramesWithFile("Plist/Person1.plist");
 	cache->addSpriteFramesWithFile("Plist/Earth1.plist");
@@ -86,9 +122,43 @@ bool EarthMap::init()
 	cache->addSpriteFramesWithFile("Plist/WindUpgrade.plist");
 	cache->addSpriteFramesWithFile("Plist/WaterUpgrade.plist");
 	//cache->addSpriteFramesWithFile("Plist/UpgradeOK.plist");
-
-	
-
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Person1-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Earth1-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Earth2-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Earth3-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Earth4-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Earth5-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Earth6-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Earth7-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Earth8-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Earth9-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Fire1-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Fire2-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Fire3-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Fire4-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Fire5-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Fire6-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Fire7-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Fire8-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Fire9-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Water1-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Water2-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Water3-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Water4-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Water5-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Water6-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Water7-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Water8-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Water9-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Wind1-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Wind2-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Wind3-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Wind4-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Wind5-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Wind6-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Wind7-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Wind8-A.plist");
+	cache->addSpriteFramesWithFile("Plist/ActionPlist/Wind9-A.plist");
 
 	//this->setPosition(Vec2(0, 0));
 
@@ -1293,7 +1363,772 @@ void EarthMap::deleytime(float f) {
 
 void EarthMap::EmyMove(float f) {
 	log("emynum = %d", emynum);
+
 	Attack(&EmyMonster_char[emynum], &monster_char[monsterNum]);
+}
+
+void EarthMap::EmyMonsterAttackAction() {
+	log("%d", EmyMonster_char[emynum].sprite->getTag());
+	EmyMonster_char[emynum].sprite->stopAllActions();
+	EmyMonster_char[emynum].sprite->removeAllChildren();
+	tmap->removeChild(EmyMonster_char[emynum].sprite, true);
+	//L_R == true 왼쪽 false 오른쪽
+	char str1[100];
+	char str2[100];
+	//Vector<SpriteFrame*> animFrames;
+	char str3[100];
+	char str4[100];
+	Vector<SpriteFrame*> animFrames3;
+	Sprite *sst = Sprite::create();
+	Vector<SpriteFrame*> animFrames_Action;
+
+	if (EmyMonster_char[emynum].Type == 0) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Person1-A1.png");
+		sprintf(str1, "Person1-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_firetornado_000.png");
+		sprintf(str3, "fx_firetornado_0");
+		for (int i = 0; i <= 12; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//땅질퍽이
+	if (EmyMonster_char[emynum].Type == 1) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth1-A1.png");
+		sprintf(str1, "Earth1-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_smokeground_000.png");
+		sprintf(str3, "fx_smokeground_0");
+		for (int i = 0; i <= 7; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 2) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth2-A1.png");
+		sprintf(str1, "Earth2-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_explosiondarkplume_000.png");
+		sprintf(str3, "fx_explosiondarkplume_0");
+		for (int i = 0; i <= 8; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 3) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth3-A1.png");
+		sprintf(str1, "Earth3-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_explosionwhitesmokemedium_000.png");
+		sprintf(str3, "fx_explosionwhitesmokemedium_0");
+		for (int i = 0; i <= 9; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//모닥픽
+	else if (EmyMonster_char[emynum].Type == 4) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth4-A1.png");
+		sprintf(str1, "Earth4-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_impactgreensmall_000.png");
+		sprintf(str3, "fx_impactgreensmall_0");
+		for (int i = 0; i <= 4; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 5) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth5-A1.png");
+		sprintf(str1, "Earth5-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_impactgreenmedium_000.png");
+		sprintf(str3, "fx_impactgreenmedium_0");
+		for (int i = 0; i <= 5; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 6) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth6-A1.png");
+		sprintf(str1, "Earth6-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_impactgreenbig_000.png");
+		sprintf(str3, "fx_impactgreenbig_0");
+		for (int i = 0; i <= 6; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//모래두지
+	else if (EmyMonster_char[emynum].Type == 7) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth7-A1.png");
+		sprintf(str1, "Earth7-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f5_earthsphere_000.png");
+		sprintf(str3, "fx_f5_earthsphere_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 8) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth8-A1.png");
+		sprintf(str1, "Earth8-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f5_earthsphere_000.png");
+		sprintf(str3, "fx_f5_earthsphere_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 9) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth9-A1.png");
+		sprintf(str1, "Earth9-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f5_earthsphere_000.png");
+		sprintf(str3, "fx_f5_earthsphere_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//파이뤼
+	else if (EmyMonster_char[emynum].Type == 11) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire1-A1.png");
+		sprintf(str1, "Fire1-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_explosionorangesmoke_000.png");
+		sprintf(str3, "fx_explosionorangesmoke_0");
+		for (int i = 0; i <= 5; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 12) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire2-A1.png");
+		sprintf(str1, "Fire2-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_whitehotmedium_000.png");
+		sprintf(str3, "fx_whitehotmedium_0");
+		for (int i = 0; i <= 8; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 13) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire3-A1.png");
+		sprintf(str1, "Fire3-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_whitehotbig_000.png");
+		sprintf(str3, "fx_whitehotbig_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//팬템
+	else if (EmyMonster_char[emynum].Type == 14) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire4-A1.png");
+		sprintf(str1, "Fire4-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_bloodmedium_000.png");
+		sprintf(str3, "fx_bloodmedium_0");
+		for (int i = 0; i <= 9; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 15) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire5-A1.png");
+		sprintf(str1, "Fire5-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_bloodbig_000.png");
+		sprintf(str3, "fx_bloodbig_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 16) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire6-A1.png");
+		sprintf(str1, "Fire6-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f2_eightgates_purpleflame_000.png");
+		sprintf(str3, "fx_f2_eightgates_purpleflame_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//블랙매직숀
+	else if (EmyMonster_char[emynum].Type == 17) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire7-A1.png");
+		sprintf(str1, "Fire7-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f5_earthsphere_orange_000.png");
+		sprintf(str3, "fx_f5_earthsphere_orange_0");
+		for (int i = 0; i <= 7; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 18) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire8-A1.png");
+		sprintf(str1, "Fire8-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f2_teleport_000.png");
+		sprintf(str3, "fx_f2_teleport_0");
+		for (int i = 0; i <= 7; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 19) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire9-A1.png");
+		sprintf(str1, "Fire9-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f2_twinstrike_000.png");
+		sprintf(str3, "fx_f2_twinstrike_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//물질퍽이
+	else if (EmyMonster_char[emynum].Type == 21) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water1-A1.png");
+		sprintf(str1, "Water1-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_cleanse_burst_000.png");
+		sprintf(str3, "fx_cleanse_burst_0");
+		for (int i = 0; i <= 6; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 22) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water2-A1.png");
+		sprintf(str1, "Water2-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f6_spiritofthewild_000.png");
+		sprintf(str3, "fx_f6_spiritofthewild_0");
+		for (int i = 0; i <= 8; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 23) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water3-A1.png");
+		sprintf(str1, "Water3-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f6_spiritofthewild_000.png");
+		sprintf(str3, "fx_f6_spiritofthewild_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//꼬북이
+	else if (EmyMonster_char[emynum].Type == 24) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water4-A1.png");
+		sprintf(str1, "Water4-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_cleanse_ripples_000.png");
+		sprintf(str3, "fx_cleanse_ripples_0");
+		for (int i = 0; i <= 6; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 25) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water5-A1.png");
+		sprintf(str1, "Water5-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_teleportblueorb_000.png");
+		sprintf(str3, "fx_teleportblueorb_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 26) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water6-A1.png");
+		sprintf(str1, "Water6-A");
+
+		sst = Sprite::createWithSpriteFrameName("distortion_hex_shield_000.png");
+		sprintf(str3, "distortion_hex_shield_0");
+		for (int i = 0; i <= 9; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//리아커
+	else if (EmyMonster_char[emynum].Type == 27) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water7-A1.png");
+		sprintf(str1, "Water7-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_cleanse_burst_000.png");
+		sprintf(str3, "fx_cleanse_burst_0");
+		for (int i = 0; i <= 6; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 28) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water8-A1.png");
+		sprintf(str1, "Water8-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f6_cryogenesis_000.png");
+		sprintf(str3, "fx_f6_cryogenesis_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 29) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water9-A1.png");
+		sprintf(str1, "Water9-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f3_fountainofyouth_000.png");
+		sprintf(str3, "fx_f3_fountainofyouth_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//코이
+	else if (EmyMonster_char[emynum].Type == 31) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind1-A1.png");
+		sprintf(str1, "Wind1-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f2_spiraltechnique02_000.png");
+		sprintf(str3, "fx_f2_spiraltechnique02_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 32) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind2-A1.png");
+		sprintf(str1, "Wind2-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_blueplasma_vertical_000.png");
+		sprintf(str3, "fx_blueplasma_vertical_0");
+		for (int i = 0; i <= 7; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 33) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind3-A1.png");
+		sprintf(str1, "Wind3-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f1_decimate_000.png");
+		sprintf(str3, "fx_f1_decimate_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//피젼
+	else if (EmyMonster_char[emynum].Type == 34) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind4-A1.png");
+		sprintf(str1, "Wind4-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_clawslash_000.png");
+		sprintf(str3, "fx_clawslash_0");
+		for (int i = 0; i <= 4; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 35) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind5-A1.png");
+		sprintf(str1, "Wind5-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_bluewatersplash_000.png");
+		sprintf(str3, "fx_bluewatersplash_0");
+		for (int i = 0; i <= 8; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 36) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind6-A1.png");
+		sprintf(str1, "Wind6-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f1casterprojectile_000.png");
+		sprintf(str3, "fx_f1casterprojectile_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//토게피
+	else if (EmyMonster_char[emynum].Type == 37) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind7-A1.png");
+		sprintf(str1, "Wind7-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_bladestorm_000.png");
+		sprintf(str3, "fx_bladestorm_0");
+		for (int i = 0; i <= 11; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 38) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind8-A1.png");
+		sprintf(str1, "Wind8-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f1_lionheartblessing_000.png");
+		sprintf(str3, "fx_f1_lionheartblessing_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (EmyMonster_char[emynum].Type == 39) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind9-A1.png");
+		sprintf(str1, "Wind9-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f1_circlelife_000.png");
+		sprintf(str3, "fx_f1_circlelife_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+
+	if (L_R) {
+		if (mons == 0) {
+			for (int i = 1; i <= 4; i++) {
+				sprintf(str2, "%s%d.png", str1, i);
+				SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+				animFrames_Action.pushBack(frame);
+			}
+		}
+		else {
+			for (int i = 1; i <= 3; i++) {
+				sprintf(str2, "%s%d.png", str1, i);
+				SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+				animFrames_Action.pushBack(frame);
+			}
+		}
+
+
+	}
+	else {
+		if (mons == 0) {
+			for (int i = 5; i <= 8; i++) {
+				sprintf(str2, "%s%d.png", str1, i);
+				SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+				animFrames_Action.pushBack(frame);
+			}
+		}
+		else {
+			for (int i = 4; i <= 6; i++) {
+				sprintf(str2, "%s%d.png", str1, i);
+				SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+				animFrames_Action.pushBack(frame);
+			}
+		}
+
+	}
+
+	//공격 사용 스킬 액션
+	auto animation2 = Animation::createWithSpriteFrames(animFrames3, 0.1f);
+	auto animate2 = Animate::create(animation2);
+	sst->runAction(animate2);
+	sst->setScale(2.0f);
+	Vec2 Vector1 = FindCoordPosition(Vec2(monster_char[monsterNum].tx, monster_char[monsterNum].ty));
+	sst->setPosition(Vec2(Vector1.x - MovePositionX, Vector1.y - 60 - MovePositionY));
+	tmap->addChild(sst, 5, 500);
+
+
+
+	auto animation0 = Animation::createWithSpriteFrames(animFrames_Action, 0.2f);
+	auto animate0 = Animate::create(animation0);
+
+	EmyMonster_char[emynum].sprite->runAction(animate0);
+	Vec2 Vector = FindCoordPosition(Vec2(EmyMonster_char[emynum].tx, EmyMonster_char[emynum].ty));
+	//posit.x - MovePositionX,		posit.y - 60 - MovePositionY
+	EmyMonster_char[emynum].sprite->setPosition(Vec2(Vector.x - MovePositionX, Vector.y - 60 - MovePositionY));
+	tmap->addChild(EmyMonster_char[emynum].sprite, 5, 100+emynum);
+
+	//다시 걸어다니는 액션으로 교체
+	this->scheduleOnce(schedule_selector(EarthMap::callbackrepeatforeverAmy), 0.9f);
+}
+
+void EarthMap::callbackrepeatforeverAmy(float delta) {
+	log("%d", EmyMonster_char[emynum].sprite->getTag());
+	EmyMonster_char[emynum].sprite->stopAllActions();
+	EmyMonster_char[emynum].sprite->removeAllChildren();
+	tmap->removeChild(EmyMonster_char[emynum].sprite);
+	//공격효과액션 삭제
+	tmap->removeChildByTag(500);
+	//L_R == true 왼쪽 false 오른쪽
+	char str1[100];
+	char str2[100];
+	Vector<SpriteFrame*> animFrames;
+	Vector<SpriteFrame*> animFrames_Action;
+
+	if (EmyMonster_char[emynum].Type == 0) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Person1-1.png");
+		sprintf(str1, "Person1-");
+	}
+	if (EmyMonster_char[emynum].Type == 1) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth1-1.png");
+		sprintf(str1, "Earth1-");
+	}
+	else if (EmyMonster_char[emynum].Type == 2) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth2-1.png");
+		sprintf(str1, "Earth2-");
+	}
+	else if (EmyMonster_char[emynum].Type == 3) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth3-1.png");
+		sprintf(str1, "Earth3-");
+	}
+	//모닥픽
+	else if (EmyMonster_char[emynum].Type == 4) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth4-1.png");
+		sprintf(str1, "Earth4-");
+	}
+	else if (EmyMonster_char[emynum].Type == 5) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth5-1.png");
+		sprintf(str1, "Earth5-");
+	}
+	else if (EmyMonster_char[emynum].Type == 6) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth6-1.png");
+		sprintf(str1, "Earth6-");
+	}
+	//모래두지
+	else if (EmyMonster_char[emynum].Type == 7) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth7-1.png");
+		sprintf(str1, "Earth7-");
+	}
+	else if (EmyMonster_char[emynum].Type == 8) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth8-1.png");
+		sprintf(str1, "Earth8-");
+	}
+	else if (EmyMonster_char[emynum].Type == 9) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth9-1.png");
+		sprintf(str1, "Earth9-");
+	}
+	//파이뤼
+	else if (EmyMonster_char[emynum].Type == 11) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire1-1.png");
+		sprintf(str1, "Fire1-");
+	}
+	else if (EmyMonster_char[emynum].Type == 12) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire2-1.png");
+		sprintf(str1, "Fire2-");
+	}
+	else if (EmyMonster_char[emynum].Type == 13) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire3-1.png");
+		sprintf(str1, "Fire3-");
+	}
+	//팬템
+	else if (EmyMonster_char[emynum].Type == 14) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire4-1.png");
+		sprintf(str1, "Fire4-");
+	}
+	else if (EmyMonster_char[emynum].Type == 15) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire5-1.png");
+		sprintf(str1, "Fire5-");
+	}
+	else if (EmyMonster_char[emynum].Type == 16) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire6-1.png");
+		sprintf(str1, "Fire6-");
+	}
+	//블랙매직숀
+	else if (EmyMonster_char[emynum].Type == 17) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire7-1.png");
+		sprintf(str1, "Fire7-");
+	}
+	else if (EmyMonster_char[emynum].Type == 18) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire8-1.png");
+		sprintf(str1, "Fire8-");
+	}
+	else if (EmyMonster_char[emynum].Type == 19) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire9-1.png");
+		sprintf(str1, "Fire9-");
+	}
+	//물질퍽이
+	else if (EmyMonster_char[emynum].Type == 21) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water1-1.png");
+		sprintf(str1, "Water1-");
+	}
+	else if (EmyMonster_char[emynum].Type == 22) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water2-1.png");
+		sprintf(str1, "Water2-");
+	}
+	else if (EmyMonster_char[emynum].Type == 23) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water3-1.png");
+		sprintf(str1, "Water3-");
+	}
+	//꼬북이
+	else if (EmyMonster_char[emynum].Type == 24) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water4-1.png");
+		sprintf(str1, "Water4-");
+	}
+	else if (EmyMonster_char[emynum].Type == 25) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water5-1.png");
+		sprintf(str1, "Water5-");
+	}
+	else if (EmyMonster_char[emynum].Type == 26) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water6-1.png");
+		sprintf(str1, "Water6-");
+	}
+	//리아커
+	else if (EmyMonster_char[emynum].Type == 27) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water7-1.png");
+		sprintf(str1, "Water7-");
+	}
+	else if (EmyMonster_char[emynum].Type == 28) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water8-1.png");
+		sprintf(str1, "Water8-");
+	}
+	else if (EmyMonster_char[emynum].Type == 29) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water9-1.png");
+		sprintf(str1, "Water9-");
+	}
+	//코이
+	else if (EmyMonster_char[emynum].Type == 31) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind1-1.png");
+		sprintf(str1, "Wind1-");
+	}
+	else if (EmyMonster_char[emynum].Type == 32) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind2-1.png");
+		sprintf(str1, "Wind2-");
+	}
+	else if (EmyMonster_char[emynum].Type == 33) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind3-1.png");
+		sprintf(str1, "Wind3-");
+	}
+	//피젼
+	else if (EmyMonster_char[emynum].Type == 34) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind4-1.png");
+		sprintf(str1, "Wind4-");
+	}
+	else if (EmyMonster_char[emynum].Type == 35) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind5-1.png");
+		sprintf(str1, "Wind5-");
+	}
+	else if (EmyMonster_char[emynum].Type == 36) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind6-1.png");
+		sprintf(str1, "Wind6-");
+	}
+	//코이
+	else if (EmyMonster_char[emynum].Type == 37) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind7-1.png");
+		sprintf(str1, "Wind7-");
+	}
+	else if (EmyMonster_char[emynum].Type == 38) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind8-1.png");
+		sprintf(str1, "Wind8-");
+	}
+	else if (EmyMonster_char[emynum].Type == 39) {
+		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind9-1.png");
+		sprintf(str1, "Wind9-");
+	}
+
+	if (L_R) {
+		for (int i = 1; i <= 4; i++) {
+			sprintf(str2, "%s%d.png", str1, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+			animFrames.pushBack(frame);
+		}
+	}
+	else {
+		for (int i = 5; i <= 8; i++) {
+			sprintf(str2, "%s%d.png", str1, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+			animFrames.pushBack(frame);
+		}
+	}
+
+	auto animation1 = Animation::createWithSpriteFrames(animFrames, 0.2f);
+	auto animate1 = Animate::create(animation1);
+	auto rep1 = RepeatForever::create(animate1);
+
+	EmyMonster_char[emynum].sprite->runAction(rep1);
+	Vec2 Vector = FindCoordPosition(Vec2(EmyMonster_char[emynum].tx, EmyMonster_char[emynum].ty));
+	//posit.x - MovePositionX, posit.y - 60 - MovePositionY
+	EmyMonster_char[emynum].sprite->setPosition(Vec2(Vector.x - MovePositionX, Vector.y - 60 - MovePositionY));
+	tmap->addChild(EmyMonster_char[emynum].sprite, 5, 100 + emynum);
+
+	Sprite* st = Sprite::createWithSpriteFrameName("HP_bar.png");
+	st->setPosition(0, -5);
+	st->setScaleX(EmyMonster_char[emynum].HPbarPosition / 25 * 2);
+	st->setScaleY(2.0f);
+	st->setAnchorPoint(Vec2(0, 0.5));
+	EmyMonster_char[emynum].sprite->addChild(st, 4, 1);
+
+	Sprite* hp = Sprite::createWithSpriteFrameName("EmyMonseter_HP.png");
+	hp->setPosition(0, -5);
+	hp->setScaleX(EmyMonster_char[emynum].HPbarPosition / 25 * 2);
+	hp->setScaleY(2.0f);
+	hp->setAnchorPoint(Vec2(0, 0.5));
+	EmyMonster_char[emynum].sprite->addChild(hp, 4, 2);
+
+	char level[3];
+	sprintf(level, "%d", EmyMonster_char[emynum].level);
+	auto pLabel3 = LabelAtlas::create(level, "Images/Scene/EmyML.png", 7, 9, '0');
+	pLabel3->setAnchorPoint(Vec2(0, 0));
+	pLabel3->setScale(2.0f);
+	pLabel3->setPosition(Vec2(st->getContentSize().width*(EmyMonster_char[emynum].HPbarPosition / 25 * 2) + 5, -10));
+	EmyMonster_char[emynum].sprite->addChild(pLabel3, 4, 3);
+
+	//monster_char[monsterNum].hp -= attackdamage;
+	//monster_char[monsterNum].sprite->removeChildByTag(2);
+	//hp = Sprite::createWithSpriteFrameName("EmyMonseter_HP.png");
+	//hp->setPosition(2, -5);
+	//hp->setScaleX((monster_char[monsterNum].HPbarPosition / 25 * 2) * monster_char[monsterNum].hp / monster_char[monsterNum].Fullhp);
+	////hp->setContentSize(Size(st->getContentSize().width, st->getContentSize().height));
+	//hp->setAnchorPoint(Vec2(0, 0.5));
+	//monster_char[monsterNum].sprite->addChild(hp, 4, 2);
+
+	
 }
 
 void EarthMap::Attack(Monster_num *monster, Monster_num *Emymonster) {
@@ -1318,6 +2153,11 @@ void EarthMap::Attack(Monster_num *monster, Monster_num *Emymonster) {
 	log("damage = %d, monster->atk = %d, bufDamage = %f, Emymonster->def = %d, bufDefense = %f",
 	damage, monster->atk, bufDamage, Emymonster->def, bufDefense);
 	if (damage > 0) {
+		Vec2 vec1 = FindCoordPosition(Vec2(monster->tx, monster->ty));
+		Vec2 vec2 = FindCoordPosition(Vec2(Emymonster->tx, Emymonster->ty));
+		if (vec1.x < vec2.x)	L_R = false;
+		else 					L_R = true;
+		EmyMonsterAttackAction();
 		log("defore Emymonster->hp = %d", Emymonster->hp);
 		Emymonster->hp -= damage;
 		Emymonster->sprite->removeChildByTag(2);
@@ -3099,217 +3939,519 @@ void EarthMap::AttackAction() {
 	//L_R == true 왼쪽 false 오른쪽
 	char str1[100];
 	char str2[100];
-	Vector<SpriteFrame*> animFrames;
-	Vector<SpriteFrame*> animFrames_Action;
-	if (monster_char[mons].Type == 0) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Person1-1.png");
-		sprintf(str1, "Person1-");
-	}
-	if (monster_char[mons].Type == 1) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth1-1.png");
-		sprintf(str1, "Earth1-");
-	}
-	else if (monster_char[mons].Type == 2) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth2-1.png");
-		sprintf(str1, "Earth2-");
-	}
-	else if (monster_char[mons].Type == 3) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth3-1.png");
-		sprintf(str1, "Earth3-");
-	}
-	//모닥픽
-	else if (monster_char[mons].Type == 4) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth4-1.png");
-		sprintf(str1, "Earth4-");
-	}
-	else if (monster_char[mons].Type == 5) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth5-1.png");
-		sprintf(str1, "Earth5-");
-	}
-	else if (monster_char[mons].Type == 6) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth6-1.png");
-		sprintf(str1, "Earth6-");
-	}
-	//모래두지
-	else if (monster_char[mons].Type == 7) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth7-1.png");
-		sprintf(str1, "Earth7-");
-	}
-	else if (monster_char[mons].Type == 8) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth8-1.png");
-		sprintf(str1, "Earth8-");
-	}
-	else if (monster_char[mons].Type == 9) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth9-1.png");
-		sprintf(str1, "Earth9-");
-	}
-	//파이뤼
-	else if (monster_char[mons].Type == 11) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire1-1.png");
-		sprintf(str1, "Fire1-");
-	}
-	else if (monster_char[mons].Type == 12) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire2-1.png");
-		sprintf(str1, "Fire2-");
-	}
-	else if (monster_char[mons].Type == 13) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire3-1.png");
-		sprintf(str1, "Fire3-");
-	}
-	//팬템
-	else if (monster_char[mons].Type == 14) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire4-1.png");
-		sprintf(str1, "Fire4-");
-	}
-	else if (monster_char[mons].Type == 15) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire5-1.png");
-		sprintf(str1, "Fire5-");
-	}
-	else if (monster_char[mons].Type == 16) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire6-1.png");
-		sprintf(str1, "Fire6-");
-	}
-	//블랙매직숀
-	else if (monster_char[mons].Type == 17) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire7-1.png");
-		sprintf(str1, "Fire7-");
-	}
-	else if (monster_char[mons].Type == 18) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire8-1.png");
-		sprintf(str1, "Fire8-");
-	}
-	else if (monster_char[mons].Type == 19) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire9-1.png");
-		sprintf(str1, "Fire9-");
-	}
-	//물질퍽이
-	else if (monster_char[mons].Type == 21) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water1-1.png");
-		sprintf(str1, "Water1-");
-	}
-	else if (monster_char[mons].Type == 22) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water2-1.png");
-		sprintf(str1, "Water2-");
-	}
-	else if (monster_char[mons].Type == 23) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water3-1.png");
-		sprintf(str1, "Water3-");
-	}
-	//꼬북이
-	else if (monster_char[mons].Type == 24) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water4-1.png");
-		sprintf(str1, "Water4-");
-	}
-	else if (monster_char[mons].Type == 25) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water5-1.png");
-		sprintf(str1, "Water5-");
-	}
-	else if (monster_char[mons].Type == 26) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water6-1.png");
-		sprintf(str1, "Water6-");
-	}
-	//리아커
-	else if (monster_char[mons].Type == 27) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water7-1.png");
-		sprintf(str1, "Water7-");
-	}
-	else if (monster_char[mons].Type == 28) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water8-1.png");
-		sprintf(str1, "Water8-");
-	}
-	else if (monster_char[mons].Type == 29) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water9-1.png");
-		sprintf(str1, "Water9-");
-	}
-	//코이
-	else if (monster_char[mons].Type == 31) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind1-1.png");
-		sprintf(str1, "Wind1-");
-	}
-	else if (monster_char[mons].Type == 32) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind2-1.png");
-		sprintf(str1, "Wind2-");
-	}
-	else if (monster_char[mons].Type == 33) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind3-1.png");
-		sprintf(str1, "Wind3-");
-	}
-	//피젼
-	else if (monster_char[mons].Type == 34) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind4-1.png");
-		sprintf(str1, "Wind4-");
-	}
-	else if (monster_char[mons].Type == 35) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind5-1.png");
-		sprintf(str1, "Wind5-");
-	}
-	else if (monster_char[mons].Type == 36) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind6-1.png");
-		sprintf(str1, "Wind6-");
-	}
-	//코이
-	else if (monster_char[mons].Type == 37) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind7-1.png");
-		sprintf(str1, "Wind7-");
-	}
-	else if (monster_char[mons].Type == 38) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind8-1.png");
-		sprintf(str1, "Wind8-");
-	}
-	else if (monster_char[mons].Type == 39) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind9-1.png");
-		sprintf(str1, "Wind9-");
-	}
-	
-	if(L_R) {
-		for (int i = 9; i <= 15; i++) {
-			sprintf(str2, "%s%d.png", str1, i);
-			SpriteFrame* frame = cache->getSpriteFrameByName(str2);
-			animFrames_Action.pushBack(frame);
-		}
-		for (int i = 1; i <= 4; i++) {
-			sprintf(str2, "%s%d.png", str1, i);
-			SpriteFrame* frame = cache->getSpriteFrameByName(str2);
-			animFrames.pushBack(frame);
-		}
-	}
-	else {
-		for (int i = 16; i <= 22; i++) {
-			sprintf(str2, "%s%d.png", str1, i);
-			SpriteFrame* frame = cache->getSpriteFrameByName(str2);
-			animFrames_Action.pushBack(frame);
-		}
-		for (int i = 5; i <= 8; i++) {
-			sprintf(str2, "%s%d.png", str1, i);
-			SpriteFrame* frame = cache->getSpriteFrameByName(str2);
-			animFrames.pushBack(frame);
-		}
-	}
+	//Vector<SpriteFrame*> animFrames;
 	char str3[100];
 	char str4[100];
 	Vector<SpriteFrame*> animFrames3;
-	Sprite *sst = Sprite::createWithSpriteFrameName("fx_firetornado_000.png");
-	sprintf(str3, "fx_firetornado_0");
-	for (int i = 0; i <= 12; i++) {
-		sprintf(str4, "%s%02d.png", str3, i);
-		SpriteFrame* frame = cache->getSpriteFrameByName(str4);
-		animFrames3.pushBack(frame);
-	}
+	Sprite *sst = Sprite::create();
+	Vector<SpriteFrame*> animFrames_Action;
+	
+	if (monster_char[mons].Type == 0) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Person1-A1.png");
+		sprintf(str1, "Person1-A");
 
+		sst = Sprite::createWithSpriteFrameName("fx_firetornado_000.png");
+		sprintf(str3, "fx_firetornado_0");
+		for (int i = 0; i <= 12; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//땅질퍽이
+	if (monster_char[mons].Type == 1) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth1-A1.png");
+		sprintf(str1, "Earth1-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_smokeground_000.png");
+		sprintf(str3, "fx_smokeground_0");
+		for (int i = 0; i <= 7; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 2) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth2-A1.png");
+		sprintf(str1, "Earth2-A");
+		
+		sst = Sprite::createWithSpriteFrameName("fx_explosiondarkplume_000.png");
+		sprintf(str3, "fx_explosiondarkplume_0");
+		for (int i = 0; i <= 8; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 3) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth3-A1.png");
+		sprintf(str1, "Earth3-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_explosionwhitesmokemedium_000.png");
+		sprintf(str3, "fx_explosionwhitesmokemedium_0");
+		for (int i = 0; i <= 9; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//모닥픽
+	else if (monster_char[mons].Type == 4) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth4-A1.png");
+		sprintf(str1, "Earth4-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_impactgreensmall_000.png");
+		sprintf(str3, "fx_impactgreensmall_0");
+		for (int i = 0; i <= 4; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 5) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth5-A1.png");
+		sprintf(str1, "Earth5-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_impactgreenmedium_000.png");
+		sprintf(str3, "fx_impactgreenmedium_0");
+		for (int i = 0; i <= 5; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 6) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth6-A1.png");
+		sprintf(str1, "Earth6-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_impactgreenbig_000.png");
+		sprintf(str3, "fx_impactgreenbig_0");
+		for (int i = 0; i <= 6; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//모래두지
+	else if (monster_char[mons].Type == 7) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth7-A1.png");
+		sprintf(str1, "Earth7-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f5_earthsphere_000.png");
+		sprintf(str3, "fx_f5_earthsphere_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 8) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth8-A1.png");
+		sprintf(str1, "Earth8-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f5_earthsphere_000.png");
+		sprintf(str3, "fx_f5_earthsphere_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 9) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth9-A1.png");
+		sprintf(str1, "Earth9-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f5_earthsphere_000.png");
+		sprintf(str3, "fx_f5_earthsphere_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//파이뤼
+	else if (monster_char[mons].Type == 11) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire1-A1.png");
+		sprintf(str1, "Fire1-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_explosionorangesmoke_000.png");
+		sprintf(str3, "fx_explosionorangesmoke_0");
+		for (int i = 0; i <= 5; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 12) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire2-A1.png");
+		sprintf(str1, "Fire2-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_whitehotmedium_000.png");
+		sprintf(str3, "fx_whitehotmedium_0");
+		for (int i = 0; i <= 8; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 13) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire3-A1.png");
+		sprintf(str1, "Fire3-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_whitehotbig_000.png");
+		sprintf(str3, "fx_whitehotbig_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//팬템
+	else if (monster_char[mons].Type == 14) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire4-A1.png");
+		sprintf(str1, "Fire4-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_bloodmedium_000.png");
+		sprintf(str3, "fx_bloodmedium_0");
+		for (int i = 0; i <= 9; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 15) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire5-A1.png");
+		sprintf(str1, "Fire5-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_bloodbig_000.png");
+		sprintf(str3, "fx_bloodbig_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 16) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire6-A1.png");
+		sprintf(str1, "Fire6-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f2_eightgates_purpleflame_000.png");
+		sprintf(str3, "fx_f2_eightgates_purpleflame_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//블랙매직숀
+	else if (monster_char[mons].Type == 17) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire7-A1.png");
+		sprintf(str1, "Fire7-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f5_earthsphere_orange_000.png");
+		sprintf(str3, "fx_f5_earthsphere_orange_0");
+		for (int i = 0; i <= 7; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 18) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire8-A1.png");
+		sprintf(str1, "Fire8-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f2_teleport_000.png");
+		sprintf(str3, "fx_f2_teleport_0");
+		for (int i = 0; i <= 7; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 19) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire9-A1.png");
+		sprintf(str1, "Fire9-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f2_twinstrike_000.png");
+		sprintf(str3, "fx_f2_twinstrike_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//물질퍽이
+	else if (monster_char[mons].Type == 21) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water1-A1.png");
+		sprintf(str1, "Water1-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_cleanse_burst_000.png");
+		sprintf(str3, "fx_cleanse_burst_0");
+		for (int i = 0; i <= 6; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 22) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water2-A1.png");
+		sprintf(str1, "Water2-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f6_spiritofthewild_000.png");
+		sprintf(str3, "fx_f6_spiritofthewild_0");
+		for (int i = 0; i <= 8; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 23) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water3-A1.png");
+		sprintf(str1, "Water3-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f6_spiritofthewild_000.png");
+		sprintf(str3, "fx_f6_spiritofthewild_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//꼬북이
+	else if (monster_char[mons].Type == 24) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water4-A1.png");
+		sprintf(str1, "Water4-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_cleanse_burst_000.png");
+		sprintf(str3, "fx_cleanse_burst_0");
+		for (int i = 0; i <= 6; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 25) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water5-A1.png");
+		sprintf(str1, "Water5-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_teleportblueorb_000.png");
+		sprintf(str3, "fx_teleportblueorb_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 26) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water6-A1.png");
+		sprintf(str1, "Water6-A");
+
+		sst = Sprite::createWithSpriteFrameName("distortion_hex_shield_000.png");
+		sprintf(str3, "distortion_hex_shield_0");
+		for (int i = 0; i <= 9; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//리아커
+	else if (monster_char[mons].Type == 27) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water7-A1.png");
+		sprintf(str1, "Water7-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_cleanse_burst_000.png");
+		sprintf(str3, "fx_cleanse_burst_0");
+		for (int i = 0; i <= 6; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 28) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water8-A1.png");
+		sprintf(str1, "Water8-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f6_cryogenesis_000.png");
+		sprintf(str3, "fx_f6_cryogenesis_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 29) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water9-A1.png");
+		sprintf(str1, "Water9-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f3_fountainofyouth_000.png");
+		sprintf(str3, "fx_f3_fountainofyouth_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//코이
+	else if (monster_char[mons].Type == 31) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind1-A1.png");
+		sprintf(str1, "Wind1-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f2_spiraltechnique02_000.png");
+		sprintf(str3, "fx_f2_spiraltechnique02_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 32) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind2-A1.png");
+		sprintf(str1, "Wind2-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_blueplasma_vertical_000.png");
+		sprintf(str3, "fx_blueplasma_vertical_0");
+		for (int i = 0; i <= 7; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 33) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind3-A1.png");
+		sprintf(str1, "Wind3-A");
+		
+		sst = Sprite::createWithSpriteFrameName("fx_f1_decimate_000.png");
+		sprintf(str3, "fx_f1_decimate_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//피젼
+	else if (monster_char[mons].Type == 34) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind4-A1.png");
+		sprintf(str1, "Wind4-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_clawslash_000.png");
+		sprintf(str3, "fx_clawslash_0");
+		for (int i = 0; i <= 4; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 35) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind5-A1.png");
+		sprintf(str1, "Wind5-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_bluewatersplash_000.png");
+		sprintf(str3, "fx_bluewatersplash_0");
+		for (int i = 0; i <= 8; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 36) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind6-A1.png");
+		sprintf(str1, "Wind6-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f1casterprojectile_000.png");
+		sprintf(str3, "fx_f1casterprojectile_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	//토게피
+	else if (monster_char[mons].Type == 37) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind7-A1.png");
+		sprintf(str1, "Wind7-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_bladestorm_000.png");
+		sprintf(str3, "fx_bladestorm_0");
+		for (int i = 0; i <= 11; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 38) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind8-A1.png");
+		sprintf(str1, "Wind8-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f1_lionheartblessing_000.png");
+		sprintf(str3, "fx_f1_lionheartblessing_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	else if (monster_char[mons].Type == 39) {
+		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind9-A1.png");
+		sprintf(str1, "Wind9-A");
+
+		sst = Sprite::createWithSpriteFrameName("fx_f1_circlelife_000.png");
+		sprintf(str3, "fx_f1_circlelife_0");
+		for (int i = 0; i <= 13; i++) {
+			sprintf(str4, "%s%02d.png", str3, i);
+			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
+			animFrames3.pushBack(frame);
+		}
+	}
+	
+	if(L_R) {
+		if (mons == 0) {
+			for (int i = 1; i <= 4; i++) {
+				sprintf(str2, "%s%d.png", str1, i);
+				SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+				animFrames_Action.pushBack(frame);
+			}
+		}
+		else {
+			for (int i = 1; i <= 3; i++) {
+				sprintf(str2, "%s%d.png", str1, i);
+				SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+				animFrames_Action.pushBack(frame);
+			}
+		}
+
+		
+	}
+	else {
+		if (mons == 0) {
+			for (int i = 5; i <= 8; i++) {
+				sprintf(str2, "%s%d.png", str1, i);
+				SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+				animFrames_Action.pushBack(frame);
+			}
+		}
+		else {
+			for (int i = 4; i <= 6; i++) {
+				sprintf(str2, "%s%d.png", str1, i);
+				SpriteFrame* frame = cache->getSpriteFrameByName(str2);
+				animFrames_Action.pushBack(frame);
+			}
+		}
+		
+	}
+	
+	//공격 사용 스킬 액션
 	auto animation2 = Animation::createWithSpriteFrames(animFrames3, 0.1f);
 	auto animate2 = Animate::create(animation2);
 	sst->runAction(animate2);
 	sst->setScale(2.0f);
 	Vec2 Vector1 = FindCoordPosition(Vec2(EmyMonster_char[ClickEmyMonster].tx, EmyMonster_char[ClickEmyMonster].ty));
 	sst->setPosition(Vec2(Vector1.x - MovePositionX, Vector1.y - 60 - MovePositionY));
-	tmap->addChild(sst, 5, ClickEmyMonster);
+	tmap->addChild(sst, 5, 500);
 
-	auto animation1 = Animation::createWithSpriteFrames(animFrames, 0.2f);
+
+
 	auto animation0 = Animation::createWithSpriteFrames(animFrames_Action, 0.2f);
-	auto animate1 = Animate::create(animation1);
 	auto animate0 = Animate::create(animation0);
-	auto rep1 = RepeatForever::create(animate1);
-	auto action = Sequence::create(animate0, rep1, nullptr);
 	
 	monster_char[mons].sprite->runAction(animate0);
 	Vec2 Vector = FindCoordPosition(Vec2(monster_char[mons].tx, monster_char[mons].ty));
@@ -3317,6 +4459,7 @@ void EarthMap::AttackAction() {
 	monster_char[mons].sprite->setPosition(Vec2(Vector.x - MovePositionX, Vector.y - 60 - MovePositionY));
 	tmap->addChild(monster_char[mons].sprite, 5, mons);
 
+	//다시 걸어다니는 액션으로 교체
 	this->scheduleOnce(schedule_selector(EarthMap::callbackrepeatforever), 1.4f);
 	
 }
@@ -3326,6 +4469,8 @@ void EarthMap::callbackrepeatforever(float delta) {
 	monster_char[mons].sprite->stopAllActions();
 	monster_char[mons].sprite->removeAllChildren();
 	tmap->removeChild(monster_char[mons].sprite, true);
+	//공격효과액션 삭제
+	tmap->removeChildByTag(500);
 	//L_R == true 왼쪽 false 오른쪽
 	char str1[100];
 	char str2[100];
@@ -3492,11 +4637,6 @@ void EarthMap::callbackrepeatforever(float delta) {
 	}
 
 	if (L_R) {
-		for (int i = 9; i <= 15; i++) {
-			sprintf(str2, "%s%d.png", str1, i);
-			SpriteFrame* frame = cache->getSpriteFrameByName(str2);
-			animFrames_Action.pushBack(frame);
-		}
 		for (int i = 1; i <= 4; i++) {
 			sprintf(str2, "%s%d.png", str1, i);
 			SpriteFrame* frame = cache->getSpriteFrameByName(str2);
@@ -3504,11 +4644,6 @@ void EarthMap::callbackrepeatforever(float delta) {
 		}
 	}
 	else {
-		for (int i = 16; i <= 22; i++) {
-			sprintf(str2, "%s%d.png", str1, i);
-			SpriteFrame* frame = cache->getSpriteFrameByName(str2);
-			animFrames_Action.pushBack(frame);
-		}
 		for (int i = 5; i <= 8; i++) {
 			sprintf(str2, "%s%d.png", str1, i);
 			SpriteFrame* frame = cache->getSpriteFrameByName(str2);
@@ -3517,11 +4652,8 @@ void EarthMap::callbackrepeatforever(float delta) {
 	}
 
 	auto animation1 = Animation::createWithSpriteFrames(animFrames, 0.2f);
-	//auto animation0 = Animation::createWithSpriteFrames(animFrames_Action, 0.2f);
 	auto animate1 = Animate::create(animation1);
-	//auto animate0 = Animate::create(animation0);
 	auto rep1 = RepeatForever::create(animate1);
-	//auto action = Sequence::create(animate0, rep1, nullptr);
 
 	monster_char[mons].sprite->runAction(rep1);
 	Vec2 Vector = FindCoordPosition(Vec2(monster_char[mons].tx, monster_char[mons].ty));
