@@ -112,9 +112,9 @@ bool ClassChange::init()
 	pMenu->setPosition(Vec2(1000, 360));
 	this->addChild(pMenu);
 
-	auto pMenuItem1 = MenuItemImage::create("Images/Scene/Back.png", "Images/Scene/Back_click.png", CC_CALLBACK_1(ClassChange::doClick1, this));
-	pMenuItem1->setPosition(Vec2(1230, 670));
-	pMenuItem1->setScale(0.2);
+	auto pMenuItem1 = MenuItemImage::create("Images/Scene/BackButton_click.png", "Images/Scene/BackButton.png", CC_CALLBACK_1(ClassChange::doClick1, this));
+	pMenuItem1->setPosition(Vec2(1210, 650));
+	pMenuItem1->setScale(0.5);
 	pMenuItem1->setTag(1);
 	//auto pMenuItem7 = MenuItemImage::create("Images/Scene/Exit.png", "Images/Scene/Exit_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
 	auto pMenu1 = Menu::create(pMenuItem1, nullptr);

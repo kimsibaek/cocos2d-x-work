@@ -186,9 +186,9 @@ bool MainScene::init()
 	pMenuItem6->setPosition(Vec2(200, 80));
 	pMenuItem6->setScale(3);
 	pMenuItem6->setTag(6);
-	auto pMenuItem7 = MenuItemImage::create("Images/Scene/Back.png", "Images/Scene/Back_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
-	pMenuItem7->setPosition(Vec2(1230, 670));
-	pMenuItem7->setScale(0.2);
+	auto pMenuItem7 = MenuItemImage::create("Images/Scene/BackButton_click.png", "Images/Scene/BackButton.png", CC_CALLBACK_1(MainScene::doClick1, this));
+	pMenuItem7->setPosition(Vec2(1210, 650));
+	pMenuItem7->setScale(0.5);
 	pMenuItem7->setTag(7);
 	auto pMenuItem8 = MenuItemImage::create("Images/Scene/Itemmanagement.png", "Images/Scene/Itemmanagement_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
 	pMenuItem8->setPosition(Vec2(250, 330));
@@ -303,13 +303,13 @@ void MainScene::createDatabase()
 	sqlite3_finalize(statement);
 	sqlite3_close(pDB);
 	
-	char level[10];
+	/*char level[10];
 	sprintf(level, "%d", Coin);
 	auto pLabel3 = LabelAtlas::create(level, "Images/Scene/ML.png", 7, 9, '0');
 	pLabel3->setAnchorPoint(Vec2(0, 0));
 	pLabel3->setScale(1.5);
 	pLabel3->setPosition(Vec2(1000, 650));
-	this->addChild(pLabel3, 100);
+	this->addChild(pLabel3, 100);*/
 }
 
 void MainScene::insertData(Ref* pSender)
@@ -369,40 +369,41 @@ void MainScene::doClick1(Ref *pSender) {
 	int i = tItem->getTag();
 	log("%d번째 메뉴가 선택되었습니다.", i);
 	if (i == 1) {
-		auto pScene = EarthMap::createScene();
+		
+		auto pScene = TransitionFade::create(1.0f, EarthMap::createScene());
 		Director::getInstance()->pushScene(pScene);
 		//Director::getInstance()->replaceScene(pScene);
 	}
 	else if (i == 2) {
-		auto pScene = FireMap::createScene();
+		auto pScene = TransitionFade::create(1.0f, FireMap::createScene());
 		Director::getInstance()->replaceScene(pScene);
 	}
 	else if (i == 3) {
-		auto pScene = WaterMap::createScene();
+		auto pScene = TransitionFade::create(1.0f, WaterMap::createScene());
 		Director::getInstance()->replaceScene(pScene);
 	}
 	else if (i == 4) {
-		auto pScene = WindMap::createScene();
+		auto pScene = TransitionFade::create(1.0f, WindMap::createScene());
 		Director::getInstance()->replaceScene(pScene);
 	}
 	else if (i == 5) {
 		//상점
-		auto pScene = StoreScene::createScene();
+		auto pScene = TransitionFade::create(1.0f, StoreScene::createScene());
 		Director::getInstance()->replaceScene(pScene);
 	}
 	else if (i == 6) {
 		//class change
-		auto pScene = ClassChange::createScene();
+		auto pScene = TransitionFade::create(1.0f, ClassChange::createScene());
 		Director::getInstance()->replaceScene(pScene);
 	}
 	else if (i == 7) {
 		//초기화면
-		auto pScene = IntroScene::createScene();
+		auto pScene = TransitionFade::create(1.0f, IntroScene::createScene());
 		Director::getInstance()->replaceScene(pScene);
 	}
 	else if (i == 8) {
 		//아이템 장착화면
-		auto pScene = ItemsEquip::createScene();
+		auto pScene = TransitionFade::create(1.0f, ItemsEquip::createScene());
 		Director::getInstance()->replaceScene(pScene);
 	}
 }

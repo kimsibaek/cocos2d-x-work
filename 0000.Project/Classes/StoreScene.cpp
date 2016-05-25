@@ -80,14 +80,14 @@ bool StoreScene::init()
 
 	//StoreItem_text
 	Sprite* StoreItem_text = Sprite::create("Images/Scene/StoreItem_text.png");
-	StoreItem_text->setPosition(Vec2(35, 670));
+	StoreItem_text->setPosition(Vec2(35, 670 - 20));
 	StoreItem_text->setScale(3.0);
 	StoreItem_text->setAnchorPoint(Vec2(0, 0));
 	this->addChild(StoreItem_text);
 
 	//YourItem_text
 	Sprite* YourItem_text = Sprite::create("Images/Scene/YourItem_text.png");
-	YourItem_text->setPosition(Vec2(660, 670));
+	YourItem_text->setPosition(Vec2(660, 670 - 20));
 	YourItem_text->setScale(3.0);
 	YourItem_text->setAnchorPoint(Vec2(0, 0));
 	this->addChild(YourItem_text);
@@ -104,7 +104,7 @@ bool StoreScene::init()
 	tableView1 = TableView::create(this, Size(600, 500));
 	tableView1->setDirection(ScrollView::Direction::VERTICAL);
 	//tableView1->setDirection(ScrollView::Direction::HORIZONTAL);
-	tableView1->setPosition(Vec2((winSize.width - 1230) / 2, (winSize.height - 400) / 2));
+	tableView1->setPosition(Vec2((winSize.width - 1230) / 2, (winSize.height - 400) / 2 - 20));
 	tableView1->setAnchorPoint(Vec2(0, 0));
 	tableView1->setDelegate(this);
 	tableView1->setTag(100);
@@ -118,7 +118,7 @@ bool StoreScene::init()
 	tableView2 = TableView::create(this, Size(600, 500));
 	tableView2->setDirection(ScrollView::Direction::VERTICAL);
 	//tableView2->setDirection(ScrollView::Direction::HORIZONTAL);
-	tableView2->setPosition(Vec2(630 + (winSize.width - 1230) / 2, (winSize.height - 400) / 2));
+	tableView2->setPosition(Vec2(630 + (winSize.width - 1230) / 2, (winSize.height - 400) / 2 - 20));
 	tableView2->setAnchorPoint(Vec2(0, 0));
 	tableView2->setDelegate(this);
 	tableView2->setTag(200);
@@ -142,9 +142,10 @@ bool StoreScene::init()
 	pMenu->setPosition(Vec2(640, 50));
 	this->addChild(pMenu);
 
-	auto pMenuItem1 = MenuItemImage::create("Images/Scene/Back.png", "Images/Scene/Back_click.png", CC_CALLBACK_1(StoreScene::doClick1, this));
+	auto pMenuItem1 = MenuItemImage::create("Images/Scene/BackButton_click.png", "Images/Scene/BackButton.png", CC_CALLBACK_1(StoreScene::doClick1, this));
 	pMenuItem1->setPosition(Vec2(1230, 670));
-	pMenuItem1->setScale(0.2);
+	pMenuItem1->setScale(0.4);
+	//pMenuItem1->setScaleX(1.5f);
 	pMenuItem1->setTag(1);
 	//auto pMenuItem7 = MenuItemImage::create("Images/Scene/Exit.png", "Images/Scene/Exit_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
 	auto pMenu1 = Menu::create(pMenuItem1, nullptr);
@@ -645,43 +646,53 @@ ssize_t StoreScene::numberOfCellsInTableView(TableView *table) {
 
 void StoreScene::Monster(int num, int row) {
 	Sprite *Items;
-	char Num[3];
+	char Num[5];
 	int price = 0;
+	int ADH = 0;
 	if (num == 0) {
 		Items = Sprite::createWithSpriteFrameName("items0.png");
 		price = 30;
+		ADH = 30;
 	}
 	if (num == 1) {
 		Items = Sprite::createWithSpriteFrameName("items1.png");
 		price = 60;
+		ADH = 60;
 	}
 	if (num == 2) {
 		Items = Sprite::createWithSpriteFrameName("items2.png");
 		price = 90;
+		ADH = 90;
 	}
 	if (num == 3) {
 		Items = Sprite::createWithSpriteFrameName("items3.png");
 		price = 30;
+		ADH = 30;
 	}
 	if (num == 4) {
 		Items = Sprite::createWithSpriteFrameName("items4.png");
 		price = 60;
+		ADH = 60;
 	}
 	if (num == 5) {
 		Items = Sprite::createWithSpriteFrameName("items5.png");
 		price = 90;
+		ADH = 90;
 	}
 	if (num == 6) {
 		Items = Sprite::createWithSpriteFrameName("items6.png");
 		price = 5;
+		ADH = 100;
 	}
 	if (num == 7) {
 		Items = Sprite::createWithSpriteFrameName("items7.png");
 		price = 10;
+		ADH = 200;
 	}
 	if (num == 8) {
 		Items = Sprite::createWithSpriteFrameName("items8.png");
 		price = 20;
+		ADH = 300;
 	}
 	if (setUpdateItemproperty) {
 		sprintf(Num, "%d", price);
@@ -696,6 +707,33 @@ void StoreScene::Monster(int num, int row) {
 		Gold_Img->setScale(0.8);
 		Gold_Img->setPosition(Vec2(temp[row]->getContentSize().width / 2 + 12, 10));
 		temp[row]->addChild(Gold_Img, 4);
+		if (num == 0 || num == 1 || num == 2) {
+			Sprite* String_Img = Sprite::create("Images/Scene/AttackSprite.png");
+			String_Img->setAnchorPoint(Vec2(0, 0));
+			String_Img->setScale(1);
+			String_Img->setPosition(Vec2(temp[row]->getContentSize().width / 3 - 12, temp[row]->getContentSize().height - 20));
+			temp[row]->addChild(String_Img, 5);
+		}
+		else if (num == 3 || num == 4 || num == 5) {
+			Sprite* String_Img = Sprite::create("Images/Scene/DefenceSprite.png");
+			String_Img->setAnchorPoint(Vec2(0, 0));
+			String_Img->setScale(1);
+			String_Img->setPosition(Vec2(temp[row]->getContentSize().width / 3 - 12, temp[row]->getContentSize().height - 20));
+			temp[row]->addChild(String_Img, 5);
+		}
+		else if (num == 6 || num == 7 || num == 8) {
+			Sprite* String_Img = Sprite::create("Images/Scene/HPSprite.png");
+			String_Img->setAnchorPoint(Vec2(0, 0));
+			String_Img->setScale(1);
+			String_Img->setPosition(Vec2(temp[row]->getContentSize().width / 3 - 22, temp[row]->getContentSize().height - 20));
+			temp[row]->addChild(String_Img, 5);
+		}
+		sprintf(Num, "%d", ADH);
+		auto pLabel4 = LabelAtlas::create(Num, "Images/Scene/ML.png", 7, 9, '0');
+		pLabel4->setAnchorPoint(Vec2(1, 0));
+		pLabel4->setScale(1.4);
+		pLabel4->setPosition(Vec2(temp[row]->getContentSize().width * 2 / 3 + 17, temp[row]->getContentSize().height - 20));
+		temp[row]->addChild(pLabel4, 4, 10);
 	}
 	else {
 		char Num[3];

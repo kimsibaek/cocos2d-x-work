@@ -171,7 +171,7 @@ bool EarthMap::init()
 	MovePositionX = tmap->getPosition().x;
 	MovePositionY = tmap->getPosition().y;
 	//log("MovePositionX = %f, MovePositionY = %f", MovePositionX, MovePositionY);
-	BG = Sprite::create("Images/Scene/earthmap.png");
+	BG = Sprite::create("Images/Scene/Earthmap.png");
 	BG->setPosition(Vec2(1072, 795));
 	tmap->addChild(BG, -1);
 	
@@ -1085,7 +1085,8 @@ void EarthMap::doMsgReceived(Ref* obj) {
 	}
 	else {
 		Director::getInstance()->resume();
-		auto pScene = MainScene::createScene();
+		
+		auto pScene = TransitionFade::create(1.0f, MainScene::createScene());
 		Director::getInstance()->replaceScene(pScene);
 	}
 	
@@ -1122,7 +1123,16 @@ void EarthMap::doMsgReceivedTurnEnd(Ref* obj) {
 				monster_char[i].sprite->addChild(End, 4, 4);
 			}
 		}
-
+		//enemy turn 표시
+		Sprite* EnemyTurnLabel = Sprite::create("Images/Scene/EnemyTurnLabel.png");
+		EnemyTurnLabel->setScale(2.0f);
+		EnemyTurnLabel->setPosition(Vec2(1000, 50));
+		this->addChild(EnemyTurnLabel, 200, 200);
+		auto myAction1 = FadeOut::create(0.5f);
+		auto myAction2 = FadeIn::create(0.5f);
+		auto myAction3 = Sequence::create(myAction1, myAction2, nullptr);
+		auto rep1 = RepeatForever::create(myAction3);
+		EnemyTurnLabel->runAction(rep1);
 		//적군 몬스터 턴
 		for (int i = 0; i < EmyMonsterSize; i++) {
 			EmyMonster_char[i]._turn = true;
@@ -1844,7 +1854,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	}
 
 	//공격 사용 스킬 액션
-	auto animation2 = Animation::createWithSpriteFrames(animFrames3, 0.05f);
+	auto animation2 = Animation::createWithSpriteFrames(animFrames3, 0.02f);
 	auto animate2 = Animate::create(animation2);
 	sst->runAction(animate2);
 	if (EmyMonster_char[emynum].Type == 22 || EmyMonster_char[emynum].Type == 23 || EmyMonster_char[emynum].Type == 28) {
@@ -2192,6 +2202,14 @@ void EarthMap::EmyTurn(float f) {
 		monster_char[i].sprite->removeChildByTag(4);
 	}
 	monster_char[0].sprite->removeChildByTag(4);
+
+	//EnemyTurn 삭제
+	this->removeChildByTag(200);
+	//MyTurn 표시
+	Sprite* MyTurnLabel = Sprite::create("Images/Scene/MyTurnLabel.png");
+	MyTurnLabel->setScale(4.0f);
+	MyTurnLabel->setPosition(Vec2(640, 360));
+	this->addChild(MyTurnLabel, 200, 201);
 }
 
 //몬스터 소환 메세지 받기
@@ -2459,7 +2477,9 @@ bool EarthMap::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) {
 	this->removeChildByTag(10);
 	auto touchPoint = touch->getLocation();
 	StartDragPosition = touchPoint;
-	
+	//myTurn Label 삭제
+	this->removeChildByTag(201);
+
 	return true;
 }
 

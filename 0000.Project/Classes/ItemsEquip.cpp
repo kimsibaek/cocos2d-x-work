@@ -140,9 +140,9 @@ bool ItemsEquip::init()
 	pMenu->setPosition(Vec2(300, 50));
 	this->addChild(pMenu);
 
-	auto pMenuItem1 = MenuItemImage::create("Images/Scene/Back.png", "Images/Scene/Back_click.png", CC_CALLBACK_1(ItemsEquip::doClick1, this));
-	pMenuItem1->setPosition(Vec2(1230, 670));
-	pMenuItem1->setScale(0.2);
+	auto pMenuItem1 = MenuItemImage::create("Images/Scene/BackButton_click.png", "Images/Scene/BackButton.png", CC_CALLBACK_1(ItemsEquip::doClick1, this));
+	pMenuItem1->setPosition(Vec2(1210, 650));
+	pMenuItem1->setScale(0.5);
 	pMenuItem1->setTag(1);
 	//auto pMenuItem7 = MenuItemImage::create("Images/Scene/Exit.png", "Images/Scene/Exit_click.png", CC_CALLBACK_1(MainScene::doClick1, this));
 	auto pMenu1 = Menu::create(pMenuItem1, nullptr);
@@ -965,23 +965,30 @@ void ItemsEquip::Monster(int num, int row) {
 	}
 	else {
 		Sprite *Items;
+		int ADH = 0;
 		if (num == 0) {
 			Items = Sprite::createWithSpriteFrameName("items0.png");
+			ADH = 30;
 		}
 		if (num == 1) {
 			Items = Sprite::createWithSpriteFrameName("items1.png");
+			ADH = 60;
 		}
 		if (num == 2) {
 			Items = Sprite::createWithSpriteFrameName("items2.png");
+			ADH = 90;
 		}
 		if (num == 3) {
 			Items = Sprite::createWithSpriteFrameName("items3.png");
+			ADH = 30;
 		}
 		if (num == 4) {
 			Items = Sprite::createWithSpriteFrameName("items4.png");
+			ADH = 60;
 		}
 		if (num == 5) {
 			Items = Sprite::createWithSpriteFrameName("items5.png");
+			ADH = 90;
 		}
 		if (setUpdateItemproperty) {
 
@@ -994,6 +1001,27 @@ void ItemsEquip::Monster(int num, int row) {
 			pLabel2->setScale(1.8);
 			pLabel2->setPosition(Vec2(temp[row]->getContentSize().width / 2 + 8, 10));
 			temp[row]->addChild(pLabel2, 4, 50);
+
+			if (num == 0 || num == 1 || num == 2) {
+				Sprite* String_Img = Sprite::create("Images/Scene/AttackSprite.png");
+				String_Img->setAnchorPoint(Vec2(0, 0));
+				String_Img->setScale(1);
+				String_Img->setPosition(Vec2(temp[row]->getContentSize().width / 3 - 12, temp[row]->getContentSize().height - 20));
+				temp[row]->addChild(String_Img, 5);
+			}
+			else if (num == 3 || num == 4 || num == 5) {
+				Sprite* String_Img = Sprite::create("Images/Scene/DefenceSprite.png");
+				String_Img->setAnchorPoint(Vec2(0, 0));
+				String_Img->setScale(1);
+				String_Img->setPosition(Vec2(temp[row]->getContentSize().width / 3 - 12, temp[row]->getContentSize().height - 20));
+				temp[row]->addChild(String_Img, 5);
+			}
+			sprintf(Num, "%d", ADH);
+			auto pLabel4 = LabelAtlas::create(Num, "Images/Scene/ML.png", 7, 9, '0');
+			pLabel4->setAnchorPoint(Vec2(1, 0));
+			pLabel4->setScale(1.4);
+			pLabel4->setPosition(Vec2(temp[row]->getContentSize().width * 2 / 3 + 17, temp[row]->getContentSize().height - 20));
+			temp[row]->addChild(pLabel4, 4, 10);
 		}
 
 		Items->setScale(2.0f);
