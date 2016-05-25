@@ -43,6 +43,9 @@ public:
 	int WindSize;
 	cocos2d::SpriteFrameCache *cache;
 
+	//효과음 변수
+	unsigned int m_nSoundId;
+
 	cocos2d::Vector<cocos2d::Sprite*> sprite_vector;
 	virtual void scrollViewDidScroll(ScrollView* view) {};
 	virtual void scrollViewDidZoom(ScrollView* view) {};

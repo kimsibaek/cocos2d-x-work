@@ -13,6 +13,8 @@ public:
 	void myTickInce(float f);
 	void tick(float dt);
 	void doClick(Ref *pSender);
+	//효과음 변수
+	unsigned int m_nSoundId;
 };
 
 #endif // __IntroScene_SCENE_H__

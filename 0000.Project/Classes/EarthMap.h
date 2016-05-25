@@ -30,6 +30,8 @@ public:
 
 	cocos2d::SpriteFrameCache *cache;
 	
+	//효과음 변수
+	unsigned int m_nSoundId;
 
 	struct Position {
 		Position *pos2;

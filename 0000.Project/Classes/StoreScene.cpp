@@ -2,7 +2,11 @@
 #include "MainScene.h"
 #include "sqlite3.h"
 #include "stdafx.h"
+#include "SimpleAudioEngine.h"
+
 USING_NS_CC;
+
+using namespace CocosDenshion;
 
 Scene* StoreScene::createScene()
 {
@@ -27,6 +31,10 @@ bool StoreScene::init()
 		return false;
 	}
 	////////////////////
+	SimpleAudioEngine::getInstance()->preloadBackgroundMusic("snd/etc/StoreScene.wav");
+	SimpleAudioEngine::getInstance()->playBackgroundMusic("snd/etc/StoreScene.wav", false);
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/etc/click.wav");
+
 	cache = SpriteFrameCache::getInstance();
 	cache->addSpriteFramesWithFile("Plist/char_bg.plist");
 	cache->addSpriteFramesWithFile("Plist/Earth1.plist");
@@ -129,13 +137,15 @@ bool StoreScene::init()
 	
 	Cell_Num = -1;
 	MonsterCellNum = -1;
+	MonsterCellNum2 = -1;
 
-	MenuItemFont::setFontSize(64);
-	auto pMenuItem2 = MenuItemFont::create("구매", CC_CALLBACK_1(StoreScene::doBuy, this));
-	pMenuItem2->setColor(Color3B(0, 0, 0));
-	
-	auto pMenuItem3 = MenuItemFont::create("판매", CC_CALLBACK_1(StoreScene::doSell, this));
-	pMenuItem3->setColor(Color3B(0, 0, 0));
+	//MenuItemFont::setFontSize(64);
+	auto pMenuItem2 = MenuItemImage::create("Images/Scene/BuyString.png", "Images/Scene/BuyString_click.png", CC_CALLBACK_1(StoreScene::doBuy, this));
+	//auto pMenuItem2 = MenuItemFont::create("구매", CC_CALLBACK_1(StoreScene::doBuy, this));
+	//pMenuItem2->setColor(Color3B(0, 0, 0));
+	auto pMenuItem3 = MenuItemImage::create("Images/Scene/SellString.png", "Images/Scene/SellString_click.png", CC_CALLBACK_1(StoreScene::doSell, this));
+	//auto pMenuItem3 = MenuItemFont::create("판매", CC_CALLBACK_1(StoreScene::doSell, this));
+	//pMenuItem3->setColor(Color3B(0, 0, 0));
 
 	auto pMenu = Menu::create(pMenuItem2, pMenuItem3, nullptr);
 	pMenu->alignItemsHorizontallyWithPadding(300.0f);
@@ -159,7 +169,7 @@ bool StoreScene::init()
 
 void StoreScene::doClick1(Ref *pSender) {
 	auto tItem = (MenuItem *)pSender;
-
+	m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/click.wav");
 	int i = tItem->getTag();
 	log("%d번째 메뉴가 선택되었습니다.", i);
 	if (i == 1) {
@@ -391,6 +401,10 @@ void StoreScene::UpdateItemsDB(int num) {
 }
 
 void StoreScene::doBuy(Ref* pSender) {
+	if (MonsterCellNum == -1) {
+		return;
+	}
+	m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/buy.wav");
 	if (MonsterCellNum == 0) {
 		if (Gold - 30 < 0) {
 			doSendMsg(0);
@@ -474,6 +488,10 @@ void StoreScene::doBuy(Ref* pSender) {
 }
 
 void StoreScene::doSell(Ref* pSender) {
+	if (MonsterCellNum2 == -1) {
+		return;
+	}
+	m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/sell.wav");
 	if (Items_List[MonsterCellNum2].Num < 1) {
 		doSendMsg(1);
 		return;
@@ -529,7 +547,7 @@ void StoreScene::doSendMsg(int num) {
 	//option Scene
 	this->removeChild(TexScene);
 
-	TexScene = Sprite::create("Images/Scene/TexScene.png");
+	TexScene = Sprite::create("Images/Scene/TexScene2.png");
 	TexScene->setAnchorPoint(Vec2(0.5, 0.5));
 	TexScene->setScale(2.0f);
 	TexScene->setPosition(Vec2((winSize.width) / 2, (winSize.height) / 2));

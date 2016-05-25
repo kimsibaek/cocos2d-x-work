@@ -2,8 +2,11 @@
 #include "sqlite3.h"
 #include "stdafx.h"
 #include "CustomTableViewCell.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
+
+using namespace CocosDenshion;
 
 Scene* Toolbag::createScene()
 {
@@ -48,7 +51,7 @@ bool Toolbag::init()
 	popLayer->addChild(tableView1);
 	tableView1->reloadData();
 	num = 0;
-
+	MenuItemFont::setFontSize(24);
 	auto pMenuItem2 = MenuItemFont::create("선택", CC_CALLBACK_1(Toolbag::doContinue, this));
 	pMenuItem2->setColor(Color3B(255, 255, 255));
 	auto pMenuItem3 = MenuItemFont::create("나가기", CC_CALLBACK_1(Toolbag::doClose, this));
@@ -117,7 +120,7 @@ void Toolbag::doContinue(Ref* pSender) {
 			if (Items_List[i].Num <= 0) {
 				//아이템 없음
 				MenuItemFont::setFontSize(24);
-				Sprite *BG = Sprite::create("Images/Scene/TexScene.png");
+				Sprite *BG = Sprite::create("Images/Scene/TexScene2.png");
 				BG->setAnchorPoint(Vec2(0.5, 0.5));
 				BG->setScale(2.0f);
 				BG->setPosition(Vec2((winSize.width) / 2, (winSize.height) / 2));
@@ -132,7 +135,7 @@ void Toolbag::doContinue(Ref* pSender) {
 			}
 		}
 	}
-	
+	m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/click.wav");
 	char str2[20] = { 0 };
 	sprintf(str2, "%d", num + 1);
 	NotificationCenter::getInstance()->postNotification("TouchTool", (Ref*)str2);
@@ -168,7 +171,7 @@ void Toolbag::doSendMsg(Ref* pSender) {
 }
 
 void Toolbag::doClose(Ref* pSender) {
-
+	m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/sell.wav");
 	std::string str1 = "0";
 	char str2[20] = { 0 };
 	sprintf(str2, "%s", str1.c_str());

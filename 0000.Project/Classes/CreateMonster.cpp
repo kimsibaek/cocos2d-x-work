@@ -2,8 +2,11 @@
 #include "sqlite3.h"
 #include "stdafx.h"
 #include "CustomTableViewCell.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
+
+using namespace CocosDenshion;
 
 Scene* CreateMonster::createScene()
 {
@@ -47,7 +50,7 @@ bool CreateMonster::init()
 	popLayer->addChild(tableView1);
 	tableView1->reloadData();
 	num = 0;
-
+	MenuItemFont::setFontSize(24);
 	auto pMenuItem2 = MenuItemFont::create("선택", CC_CALLBACK_1(CreateMonster::doContinue, this));
 	pMenuItem2->setColor(Color3B(255, 255, 255));
 	auto pMenuItem3 = MenuItemFont::create("나가기", CC_CALLBACK_1(CreateMonster::doClose, this));
@@ -180,7 +183,7 @@ void CreateMonster::doContinue(Ref* pSender) {
 	if (ViewNum == -1) {
 		log("소환할 몬스터가 없습니다.");
 		MenuItemFont::setFontSize(24);
-		Sprite *BG = Sprite::create("Images/Scene/TexScene.png");
+		Sprite *BG = Sprite::create("Images/Scene/TexScene2.png");
 		BG->setAnchorPoint(Vec2(0.5f, 0.5f));
 		BG->setScale(2.0f);
 		BG->setPosition(Vec2((winSize.width) / 2, (winSize.height) / 2));
@@ -192,7 +195,7 @@ void CreateMonster::doContinue(Ref* pSender) {
 		BG->addChild(pMenuItem, 11, 11);
 		return;
 	}
-
+	m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/click.wav");
 	NotificationCenter::getInstance()->postNotification("TouchMonster", (Ref*)str2);
 	this->removeFromParentAndCleanup(true);
 }
@@ -202,7 +205,7 @@ void CreateMonster::doSendMsg(Ref* pSender) {
 }
 
 void CreateMonster::doClose(Ref* pSender) {
-	
+	m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/sell.wav");
 	std::string str1 = "0";
 	char str2[20] = { 0 };
 	sprintf(str2, "%s", str1.c_str());

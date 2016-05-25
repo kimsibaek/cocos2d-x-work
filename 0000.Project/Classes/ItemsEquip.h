@@ -27,7 +27,8 @@ public:
 	void doSell(Ref* pSender);
 	virtual void onEnter();
 	virtual void onExit();
-
+	//효과음 변수
+	unsigned int m_nSoundId;
 	cocos2d::EventListenerTouchOneByOne* listener;
 	virtual bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
 	cocos2d::Size winSize;

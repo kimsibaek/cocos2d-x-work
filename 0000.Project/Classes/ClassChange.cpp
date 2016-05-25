@@ -2,7 +2,11 @@
 #include "MainScene.h"
 #include "sqlite3.h"
 #include "stdafx.h"
+#include "SimpleAudioEngine.h"
+
 USING_NS_CC;
+
+using namespace CocosDenshion;
 
 Scene* ClassChange::createScene()
 {
@@ -100,8 +104,9 @@ bool ClassChange::init()
 	Cell_Num = -1;
 	MonsterCellNum = -1;
 
-	MenuItemFont::setFontSize(64);
-	auto pMenuItem2 = MenuItemFont::create("진화", CC_CALLBACK_1(ClassChange::doContinue, this));
+	//MenuItemFont::setFontSize(64);
+	auto pMenuItem2 = MenuItemImage::create("Images/Scene/ClassUpString.png", "Images/Scene/ClassUpString_click.png", CC_CALLBACK_1(ClassChange::doContinue, this));
+	//auto pMenuItem2 = MenuItemFont::create("진화", CC_CALLBACK_1(ClassChange::doContinue, this));
 	pMenuItem2->setColor(Color3B(255, 255, 255));
 	/*
 	auto pMenuItem3 = MenuItemFont::create("방출", CC_CALLBACK_1(ClassChange::doClose, this));
@@ -127,7 +132,7 @@ bool ClassChange::init()
 
 void ClassChange::doClick1(Ref *pSender) {
 	auto tItem = (MenuItem *)pSender;
-
+	m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/click.wav");
 	int i = tItem->getTag();
 	log("%d번째 메뉴가 선택되었습니다.", i);
 	if (i == 1) {
@@ -251,11 +256,15 @@ void ClassChange::UpdateMonsterDB(int num, int Type) {
 }
 
 void ClassChange::doContinue(Ref* pSender) {
+	if (MonsterCellNum = -1) {
+		return;
+	}
 	if (Monster_List[MonsterCellNum].level != 10) {
 		log("Monster_List[%d] = %d 레벨이 부족합니다.", MonsterCellNum, Monster_List[MonsterCellNum].level);
 		return;
 	}
 	else {
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/ClassUp.wav");
 		if (CheckClass(Monster_List[MonsterCellNum].Type)) {
 			Monster_List[MonsterCellNum].Type++;
 			Monster_List[MonsterCellNum].level = 1;

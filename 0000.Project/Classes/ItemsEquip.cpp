@@ -2,7 +2,11 @@
 #include "MainScene.h"
 #include "sqlite3.h"
 #include "stdafx.h"
+#include "SimpleAudioEngine.h"
+
 USING_NS_CC;
+
+using namespace CocosDenshion;
 
 Scene* ItemsEquip::createScene()
 {
@@ -131,13 +135,14 @@ bool ItemsEquip::init()
 	Cell_Num = -1;
 	MonsterCellNum = -1;
 
-	MenuItemFont::setFontSize(64);
-	auto pMenuItem2 = MenuItemFont::create("장착", CC_CALLBACK_1(ItemsEquip::doEquipment, this));
-	pMenuItem2->setColor(Color3B(0, 0, 0));
+	//MenuItemFont::setFontSize(64);
+	auto pMenuItem2 = MenuItemImage::create("Images/Scene/WearString.png", "Images/Scene/WearString_click.png", CC_CALLBACK_1(ItemsEquip::doEquipment, this));
+	//auto pMenuItem2 = MenuItemFont::create("장착", CC_CALLBACK_1(ItemsEquip::doEquipment, this));
+	//pMenuItem2->setColor(Color3B(0, 0, 0));
 	
 	auto pMenu = Menu::create(pMenuItem2, nullptr);
 	pMenu->alignItemsHorizontallyWithPadding(300.0f);
-	pMenu->setPosition(Vec2(300, 50));
+	pMenu->setPosition(Vec2(300, 100));
 	this->addChild(pMenu);
 
 	auto pMenuItem1 = MenuItemImage::create("Images/Scene/BackButton_click.png", "Images/Scene/BackButton.png", CC_CALLBACK_1(ItemsEquip::doClick1, this));
@@ -175,7 +180,7 @@ bool ItemsEquip::init()
 
 void ItemsEquip::doClick1(Ref *pSender) {
 	auto tItem = (MenuItem *)pSender;
-
+	m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/click.wav");
 	int i = tItem->getTag();
 	log("%d번째 메뉴가 선택되었습니다.", i);
 	if (i == 1) {
@@ -433,7 +438,7 @@ void ItemsEquip::doEquipment(Ref* pSender) {
 		//아이템 부족
 		return;
 	}
-
+	m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/buy.wav");
 	//아이템 테이블 최신화
 	Items_List[MonsterCellNum2].Num--;
 	TableViewCell *cell1 = tableView2->cellAtIndex(MonsterCellNum2 / 3);
@@ -505,7 +510,7 @@ void ItemsEquip::doSendMsg(int num) {
 	//option Scene
 	this->removeChild(TexScene);
 
-	TexScene = Sprite::create("Images/Scene/TexScene.png");
+	TexScene = Sprite::create("Images/Scene/TexScene2.png");
 	TexScene->setAnchorPoint(Vec2(0.5, 0.5));
 	TexScene->setScale(2.0f);
 	TexScene->setPosition(Vec2((winSize.width) / 2, (winSize.height) / 2));

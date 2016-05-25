@@ -15,6 +15,8 @@ public:
 	std::string dbfileName;
 	void createDatabase();
 	void insertData(Ref* pSender);
+	//효과음 변수
+	unsigned int m_nSoundId;
 };
 
 #endif // __MainScene_SCENE_H__

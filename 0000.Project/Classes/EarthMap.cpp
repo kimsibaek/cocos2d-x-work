@@ -8,7 +8,11 @@
 #include <time.h>
 #include "Toolbag.h"
 #include "EndGame.h"
+#include "SimpleAudioEngine.h"
+
 USING_NS_CC;
+
+using namespace CocosDenshion;
 
 Scene* EarthMap::createScene()
 {
@@ -39,12 +43,19 @@ bool EarthMap::init()
 
 	cache = SpriteFrameCache::getInstance();
 
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/etc/click.wav");
+
 	//대지공격 액션
 	cache->addSpriteFramesWithFile("Plist/EarthAttackPlist/fx_f5_earthsphere.plist");
 	cache->addSpriteFramesWithFile("Plist/EarthAttackPlist/fx_impactgreen.plist");
 	cache->addSpriteFramesWithFile("Plist/EarthAttackPlist/fx_smoke.plist");
 	cache->addSpriteFramesWithFile("Plist/EarthAttackPlist/fx_smoke2.plist");
 
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Earth/fx_impactgreen.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Earth/fx_smoke.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Earth/fx_smoke2.wav");
+	
+	
 	//불공격 액션
 	cache->addSpriteFramesWithFile("Plist/FireAttackPlist/fx_blood_explosion.plist");
 	cache->addSpriteFramesWithFile("Plist/FireAttackPlist/fx_explosionorangesmoke.plist");
@@ -54,6 +65,16 @@ bool EarthMap::init()
 	cache->addSpriteFramesWithFile("Plist/FireAttackPlist/fx_f5_earthsphere_orange.plist");
 	cache->addSpriteFramesWithFile("Plist/FireAttackPlist/fx_firetornado.plist");
 	cache->addSpriteFramesWithFile("Plist/FireAttackPlist/fx_whiteexplosion.plist");
+
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Fire/fx_blood_explosion.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Fire/fx_explosionorangesmoke.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Fire/fx_f2_eightgates_purpleflame.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Fire/fx_f2_teleport.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Fire/fx_f2_twinstrike.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Fire/fx_f5_earthsphere_orange.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Fire/fx_firetornado.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Fire/fx_whiteexplosion.wav");
+
 	//물공격 액션
 	cache->addSpriteFramesWithFile("Plist/WaterAttackPlist/fx_cleanse.plist");
 	cache->addSpriteFramesWithFile("Plist/WaterAttackPlist/fx_distortion_hex_shield.plist");
@@ -63,6 +84,13 @@ bool EarthMap::init()
 	cache->addSpriteFramesWithFile("Plist/WaterAttackPlist/fx_frozen.plist");
 	cache->addSpriteFramesWithFile("Plist/WaterAttackPlist/fx_teleportblueorb.plist");
 	cache->addSpriteFramesWithFile("Plist/WaterAttackPlist/fx_teleportrecall2.plist");
+
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Water/fx_cleanse.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Water/fx_distortion_hex_shield.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Water/fx_f6_cryogenesis.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Water/fx_f6_spiritofthewild.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Water/fx_teleportblueorb.wav");
+
 	//바람공격 액션
 	cache->addSpriteFramesWithFile("Plist/WindAttackPlist/fx_bladestorm.plist");
 	cache->addSpriteFramesWithFile("Plist/WindAttackPlist/fx_blueplasma_vertical.plist");
@@ -76,6 +104,19 @@ bool EarthMap::init()
 	cache->addSpriteFramesWithFile("Plist/WindAttackPlist/fx_f1_lionheartblessing.plist");
 	cache->addSpriteFramesWithFile("Plist/WindAttackPlist/fx_f2_spiraltechnique02.plist");
 	cache->addSpriteFramesWithFile("Plist/WindAttackPlist/fx_slashfrenzy.plist");
+
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Wind/fx_bladestorm.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Wind/fx_blueplasma_vertical.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Wind/fx_bluewatersplash.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Wind/fx_clawslash.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Wind/fx_f1_casterprojectile.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Wind/fx_f1_circlelife.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Wind/fx_f1_decimate.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Wind/fx_f1_inmolation.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Wind/fx_f1_lionheartblessing.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Wind/fx_f2_spiraltechnique02.wav");
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/Wind/fx_slashfrenzy.wav");
+
 
 	cache->addSpriteFramesWithFile("Plist/Person1.plist");
 	cache->addSpriteFramesWithFile("Plist/Earth1.plist");
@@ -171,14 +212,14 @@ bool EarthMap::init()
 	MovePositionX = tmap->getPosition().x;
 	MovePositionY = tmap->getPosition().y;
 	//log("MovePositionX = %f, MovePositionY = %f", MovePositionX, MovePositionY);
-	BG = Sprite::create("Images/Scene/Earthmap.png");
+	BG = Sprite::create("Images/Scene/earthmap.png");
 	BG->setPosition(Vec2(1072, 795));
 	tmap->addChild(BG, -1);
 	
 
-	auto pMenuItem1 = MenuItemImage::create("Images/Scene/TurnEnd.png", "Images/Scene/TurnEnd_click.png", CC_CALLBACK_1(EarthMap::doClick1, this));
-	pMenuItem1->setPosition(Vec2(100, 660));
-	pMenuItem1->setScale(4);
+	auto pMenuItem1 = MenuItemImage::create("Images/Scene/End_Turn.png", "Images/Scene/End_Turn_click.png", CC_CALLBACK_1(EarthMap::doClick1, this));
+	pMenuItem1->setPosition(Vec2(100, 630));
+	pMenuItem1->setScale(1.5);
 	pMenuItem1->setTag(1);
 	auto pMenuItem2 = MenuItemImage::create("Images/Scene/pause.png", "Images/Scene/pause_click.png", CC_CALLBACK_1(EarthMap::doClick1, this));
 	pMenuItem2->setPosition(Vec2(1200, 650));
@@ -308,7 +349,7 @@ bool EarthMap::init()
 
 void EarthMap::doClick1(Ref *pSender) {
 	auto tItem = (MenuItem *)pSender;
-
+	m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/click.wav");
 	int i = tItem->getTag();
 	if (i == 1) {
 		//턴종료
@@ -1398,6 +1439,7 @@ void EarthMap::EmyMonsterAttackAction() {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth1-A1.png");
 		sprintf(str1, "Earth1-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_smoke.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_smokeground_000.png");
 		sprintf(str3, "fx_smokeground_0");
 		for (int i = 0; i <= 7; i++) {
@@ -1410,6 +1452,7 @@ void EarthMap::EmyMonsterAttackAction() {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth2-A1.png");
 		sprintf(str1, "Earth2-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_smoke.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_explosiondarkplume_000.png");
 		sprintf(str3, "fx_explosiondarkplume_0");
 		for (int i = 0; i <= 8; i++) {
@@ -1421,7 +1464,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 3) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth3-A1.png");
 		sprintf(str1, "Earth3-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_smoke.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_explosionwhitesmokemedium_000.png");
 		sprintf(str3, "fx_explosionwhitesmokemedium_0");
 		for (int i = 0; i <= 9; i++) {
@@ -1434,7 +1477,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 4) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth4-A1.png");
 		sprintf(str1, "Earth4-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_impactgreen.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_impactgreensmall_000.png");
 		sprintf(str3, "fx_impactgreensmall_0");
 		for (int i = 0; i <= 4; i++) {
@@ -1446,7 +1489,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 5) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth5-A1.png");
 		sprintf(str1, "Earth5-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_impactgreen.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_impactgreenmedium_000.png");
 		sprintf(str3, "fx_impactgreenmedium_0");
 		for (int i = 0; i <= 5; i++) {
@@ -1458,7 +1501,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 6) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth6-A1.png");
 		sprintf(str1, "Earth6-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_impactgreen.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_impactgreenbig_000.png");
 		sprintf(str3, "fx_impactgreenbig_0");
 		for (int i = 0; i <= 6; i++) {
@@ -1471,7 +1514,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 7) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth7-A1.png");
 		sprintf(str1, "Earth7-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_impactgreen.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f5_earthsphere_000.png");
 		sprintf(str3, "fx_f5_earthsphere_0");
 		for (int i = 0; i <= 13; i++) {
@@ -1483,7 +1526,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 8) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth8-A1.png");
 		sprintf(str1, "Earth8-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_impactgreen.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f5_earthsphere_000.png");
 		sprintf(str3, "fx_f5_earthsphere_0");
 		for (int i = 0; i <= 13; i++) {
@@ -1495,7 +1538,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 9) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Earth9-A1.png");
 		sprintf(str1, "Earth9-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_impactgreen.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f5_earthsphere_000.png");
 		sprintf(str3, "fx_f5_earthsphere_0");
 		for (int i = 0; i <= 13; i++) {
@@ -1508,7 +1551,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 11) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire1-A1.png");
 		sprintf(str1, "Fire1-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_explosionorangesmoke.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_explosionorangesmoke_000.png");
 		sprintf(str3, "fx_explosionorangesmoke_0");
 		for (int i = 0; i <= 5; i++) {
@@ -1520,7 +1563,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 12) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire2-A1.png");
 		sprintf(str1, "Fire2-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_whiteexplosion.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_whitehotmedium_000.png");
 		sprintf(str3, "fx_whitehotmedium_0");
 		for (int i = 0; i <= 8; i++) {
@@ -1532,7 +1575,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 13) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire3-A1.png");
 		sprintf(str1, "Fire3-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_whiteexplosion.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_whitehotbig_000.png");
 		sprintf(str3, "fx_whitehotbig_0");
 		for (int i = 0; i <= 13; i++) {
@@ -1545,7 +1588,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 14) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire4-A1.png");
 		sprintf(str1, "Fire4-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_blood_explosion.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_bloodmedium_000.png");
 		sprintf(str3, "fx_bloodmedium_0");
 		for (int i = 0; i <= 9; i++) {
@@ -1557,7 +1600,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 15) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire5-A1.png");
 		sprintf(str1, "Fire5-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_blood_explosion.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_bloodbig_000.png");
 		sprintf(str3, "fx_bloodbig_0");
 		for (int i = 0; i <= 13; i++) {
@@ -1569,7 +1612,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 16) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire6-A1.png");
 		sprintf(str1, "Fire6-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_f2_eightgates_purpleflame.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f2_eightgates_purpleflame_000.png");
 		sprintf(str3, "fx_f2_eightgates_purpleflame_0");
 		for (int i = 0; i <= 13; i++) {
@@ -1582,7 +1625,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 17) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire7-A1.png");
 		sprintf(str1, "Fire7-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_f5_earthsphere_orange.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f5_earthsphere_orange_000.png");
 		sprintf(str3, "fx_f5_earthsphere_orange_0");
 		for (int i = 0; i <= 7; i++) {
@@ -1594,7 +1637,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 18) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire8-A1.png");
 		sprintf(str1, "Fire8-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_f2_teleport.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f2_teleport_000.png");
 		sprintf(str3, "fx_f2_teleport_0");
 		for (int i = 0; i <= 7; i++) {
@@ -1606,7 +1649,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 19) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Fire9-A1.png");
 		sprintf(str1, "Fire9-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_f2_twinstrike.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f2_twinstrike_000.png");
 		sprintf(str3, "fx_f2_twinstrike_0");
 		for (int i = 0; i <= 13; i++) {
@@ -1619,7 +1662,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 21) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water1-A1.png");
 		sprintf(str1, "Water1-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_cleanse.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_cleanse_ripples_000.png");
 		sprintf(str3, "fx_cleanse_ripples_0");
 		for (int i = 0; i <= 6; i++) {
@@ -1631,7 +1674,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 22) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water2-A1.png");
 		sprintf(str1, "Water2-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_f6_spiritofthewild.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f6_spiritofthewild_000.png");
 		sprintf(str3, "fx_f6_spiritofthewild_0");
 		for (int i = 0; i <= 8; i++) {
@@ -1643,7 +1686,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 23) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water3-A1.png");
 		sprintf(str1, "Water3-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_f6_spiritofthewild.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f6_spiritofthewild_000.png");
 		sprintf(str3, "fx_f6_spiritofthewild_0");
 		for (int i = 0; i <= 13; i++) {
@@ -1656,7 +1699,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 24) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water4-A1.png");
 		sprintf(str1, "Water4-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_cleanse.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_cleanse_ripples_000.png");
 		sprintf(str3, "fx_cleanse_ripples_0");
 		for (int i = 0; i <= 6; i++) {
@@ -1668,7 +1711,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 25) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water5-A1.png");
 		sprintf(str1, "Water5-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_teleportblueorb.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_teleportblueorb_000.png");
 		sprintf(str3, "fx_teleportblueorb_0");
 		for (int i = 0; i <= 13; i++) {
@@ -1680,7 +1723,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 26) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water6-A1.png");
 		sprintf(str1, "Water6-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_distortion_hex_shield.wav");
 		sst = Sprite::createWithSpriteFrameName("distortion_hex_shield_000.png");
 		sprintf(str3, "distortion_hex_shield_0");
 		for (int i = 0; i <= 9; i++) {
@@ -1693,9 +1736,9 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 27) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water7-A1.png");
 		sprintf(str1, "Water7-A");
-
-		sst = Sprite::createWithSpriteFrameName("fx_cleanse_burst_000.png");
-		sprintf(str3, "fx_cleanse_burst_0");
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_cleanse.wav");
+		sst = Sprite::createWithSpriteFrameName("fx_cleanse_ripples_000.png");
+		sprintf(str3, "fx_cleanse_ripples_0");
 		for (int i = 0; i <= 6; i++) {
 			sprintf(str4, "%s%02d.png", str3, i);
 			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
@@ -1705,7 +1748,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 28) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water8-A1.png");
 		sprintf(str1, "Water8-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_f6_cryogenesis.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f6_cryogenesis_000.png");
 		sprintf(str3, "fx_f6_cryogenesis_0");
 		for (int i = 0; i <= 13; i++) {
@@ -1717,7 +1760,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 29) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Water9-A1.png");
 		sprintf(str1, "Water9-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_f3_fountainofyouth.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f3_fountainofyouth_000.png");
 		sprintf(str3, "fx_f3_fountainofyouth_0");
 		for (int i = 0; i <= 13; i++) {
@@ -1730,7 +1773,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 31) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind1-A1.png");
 		sprintf(str1, "Wind1-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_f2_spiraltechnique02.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f2_spiraltechnique02_000.png");
 		sprintf(str3, "fx_f2_spiraltechnique02_0");
 		for (int i = 0; i <= 13; i++) {
@@ -1742,7 +1785,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 32) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind2-A1.png");
 		sprintf(str1, "Wind2-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_blueplasma_vertical.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_blueplasma_vertical_000.png");
 		sprintf(str3, "fx_blueplasma_vertical_0");
 		for (int i = 0; i <= 7; i++) {
@@ -1754,7 +1797,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 33) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind3-A1.png");
 		sprintf(str1, "Wind3-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_f1_decimate.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f1_decimate_000.png");
 		sprintf(str3, "fx_f1_decimate_0");
 		for (int i = 0; i <= 13; i++) {
@@ -1767,7 +1810,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 34) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind4-A1.png");
 		sprintf(str1, "Wind4-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_clawslash.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_clawslash_000.png");
 		sprintf(str3, "fx_clawslash_0");
 		for (int i = 0; i <= 4; i++) {
@@ -1779,7 +1822,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 35) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind5-A1.png");
 		sprintf(str1, "Wind5-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_bluewatersplash.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_bluewatersplash_000.png");
 		sprintf(str3, "fx_bluewatersplash_0");
 		for (int i = 0; i <= 8; i++) {
@@ -1791,7 +1834,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 36) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind6-A1.png");
 		sprintf(str1, "Wind6-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_f1_casterprojectile.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f1casterprojectile_000.png");
 		sprintf(str3, "fx_f1casterprojectile_0");
 		for (int i = 0; i <= 13; i++) {
@@ -1804,7 +1847,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 37) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind7-A1.png");
 		sprintf(str1, "Wind7-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_bladestorm.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_bladestorm_000.png");
 		sprintf(str3, "fx_bladestorm_0");
 		for (int i = 0; i <= 11; i++) {
@@ -1816,7 +1859,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 38) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind8-A1.png");
 		sprintf(str1, "Wind8-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_f1_lionheartblessing.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f1_lionheartblessing_000.png");
 		sprintf(str3, "fx_f1_lionheartblessing_0");
 		for (int i = 0; i <= 13; i++) {
@@ -1828,7 +1871,7 @@ void EarthMap::EmyMonsterAttackAction() {
 	else if (EmyMonster_char[emynum].Type == 39) {
 		EmyMonster_char[emynum].sprite = Sprite::createWithSpriteFrameName("Wind9-A1.png");
 		sprintf(str1, "Wind9-A");
-
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_f1_circlelife.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f1_circlelife_000.png");
 		sprintf(str3, "fx_f1_circlelife_0");
 		for (int i = 0; i <= 13; i++) {
@@ -2185,10 +2228,12 @@ void EarthMap::Attack(Monster_num *monster, Monster_num *Emymonster) {
 		else 					L_R = true;
 		log("defore Emymonster->hp = %d", Emymonster->hp);
 		EmyMonsterAttackAction();
-		
-		
 	}
-	
+	else {
+		//miss
+
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/sell.wav");
+	}
 }
 
 //적군 턴이 끝날 경우 아군 end표시 삭제
@@ -2206,6 +2251,7 @@ void EarthMap::EmyTurn(float f) {
 	//EnemyTurn 삭제
 	this->removeChildByTag(200);
 	//MyTurn 표시
+	m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/click.wav");
 	Sprite* MyTurnLabel = Sprite::create("Images/Scene/MyTurnLabel.png");
 	MyTurnLabel->setScale(4.0f);
 	MyTurnLabel->setPosition(Vec2(640, 360));
@@ -2554,10 +2600,11 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 	if (b_CreateMonster) {
 		ReturnState = false;
 		Msgerror = true;
-
+		
 		for (int i = 0; i < createPosSize; i++) {
 			if (m_pos == Vec2(createMonsterPos[i].x, createMonsterPos[i].y)) {
 				//아군몬스터 소환 createMonsterNum
+				m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/create.wav");
 				sqlite3* pDB = NULL;
 				char* errMsg = nullptr;
 				int result;
@@ -3328,6 +3375,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 			//log("%d, %f", per, hp_per);
 			if(per <= (int)hp_per){
 				//GET!!!
+				m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/create.wav");
 				char str1[100];
 				char str2[100];
 
@@ -3410,7 +3458,10 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 					return;
 				}
 			}
-			
+			else {
+				//fall
+				m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/sell.wav");
+			}
 			statusAttack = false;
 			for (int i = 0; i < EmyMovePosition.size(); i++) {
 				tmap->removeChild(EmyMovePosition.at(i));
@@ -3946,7 +3997,8 @@ void EarthMap::AttackAction() {
 	if (monster_char[mons].Type == 0) {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Person1-A1.png");
 		sprintf(str1, "Person1-A");
-
+		
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_firetornado.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_firetornado_000.png");
 		sprintf(str3, "fx_firetornado_0");
 		for (int i = 0; i <= 12; i++) {
@@ -3960,6 +4012,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth1-A1.png");
 		sprintf(str1, "Earth1-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_smoke.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_smokeground_000.png");
 		sprintf(str3, "fx_smokeground_0");
 		for (int i = 0; i <= 7; i++) {
@@ -3972,6 +4025,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth2-A1.png");
 		sprintf(str1, "Earth2-A");
 		
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_smoke.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_explosiondarkplume_000.png");
 		sprintf(str3, "fx_explosiondarkplume_0");
 		for (int i = 0; i <= 8; i++) {
@@ -3984,6 +4038,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth3-A1.png");
 		sprintf(str1, "Earth3-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_smoke.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_explosionwhitesmokemedium_000.png");
 		sprintf(str3, "fx_explosionwhitesmokemedium_0");
 		for (int i = 0; i <= 9; i++) {
@@ -3997,6 +4052,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth4-A1.png");
 		sprintf(str1, "Earth4-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_impactgreen.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_impactgreensmall_000.png");
 		sprintf(str3, "fx_impactgreensmall_0");
 		for (int i = 0; i <= 4; i++) {
@@ -4009,6 +4065,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth5-A1.png");
 		sprintf(str1, "Earth5-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_impactgreen.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_impactgreenmedium_000.png");
 		sprintf(str3, "fx_impactgreenmedium_0");
 		for (int i = 0; i <= 5; i++) {
@@ -4021,6 +4078,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth6-A1.png");
 		sprintf(str1, "Earth6-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_impactgreen.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_impactgreenbig_000.png");
 		sprintf(str3, "fx_impactgreenbig_0");
 		for (int i = 0; i <= 6; i++) {
@@ -4034,6 +4092,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth7-A1.png");
 		sprintf(str1, "Earth7-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_impactgreen.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f5_earthsphere_000.png");
 		sprintf(str3, "fx_f5_earthsphere_0");
 		for (int i = 0; i <= 13; i++) {
@@ -4046,6 +4105,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth8-A1.png");
 		sprintf(str1, "Earth8-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_impactgreen.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f5_earthsphere_000.png");
 		sprintf(str3, "fx_f5_earthsphere_0");
 		for (int i = 0; i <= 13; i++) {
@@ -4058,6 +4118,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth9-A1.png");
 		sprintf(str1, "Earth9-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_impactgreen.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f5_earthsphere_000.png");
 		sprintf(str3, "fx_f5_earthsphere_0");
 		for (int i = 0; i <= 13; i++) {
@@ -4071,6 +4132,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire1-A1.png");
 		sprintf(str1, "Fire1-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_explosionorangesmoke.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_explosionorangesmoke_000.png");
 		sprintf(str3, "fx_explosionorangesmoke_0");
 		for (int i = 0; i <= 5; i++) {
@@ -4083,6 +4145,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire2-A1.png");
 		sprintf(str1, "Fire2-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_whiteexplosion.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_whitehotmedium_000.png");
 		sprintf(str3, "fx_whitehotmedium_0");
 		for (int i = 0; i <= 8; i++) {
@@ -4095,6 +4158,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire3-A1.png");
 		sprintf(str1, "Fire3-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_whiteexplosion.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_whitehotbig_000.png");
 		sprintf(str3, "fx_whitehotbig_0");
 		for (int i = 0; i <= 13; i++) {
@@ -4108,6 +4172,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire4-A1.png");
 		sprintf(str1, "Fire4-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_blood_explosion.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_bloodmedium_000.png");
 		sprintf(str3, "fx_bloodmedium_0");
 		for (int i = 0; i <= 9; i++) {
@@ -4120,6 +4185,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire5-A1.png");
 		sprintf(str1, "Fire5-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_blood_explosion.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_bloodbig_000.png");
 		sprintf(str3, "fx_bloodbig_0");
 		for (int i = 0; i <= 13; i++) {
@@ -4132,6 +4198,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire6-A1.png");
 		sprintf(str1, "Fire6-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_f2_eightgates_purpleflame.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f2_eightgates_purpleflame_000.png");
 		sprintf(str3, "fx_f2_eightgates_purpleflame_0");
 		for (int i = 0; i <= 13; i++) {
@@ -4145,6 +4212,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire7-A1.png");
 		sprintf(str1, "Fire7-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_f5_earthsphere_orange.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f5_earthsphere_orange_000.png");
 		sprintf(str3, "fx_f5_earthsphere_orange_0");
 		for (int i = 0; i <= 7; i++) {
@@ -4157,6 +4225,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire8-A1.png");
 		sprintf(str1, "Fire8-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_f2_teleport.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f2_teleport_000.png");
 		sprintf(str3, "fx_f2_teleport_0");
 		for (int i = 0; i <= 7; i++) {
@@ -4169,6 +4238,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire9-A1.png");
 		sprintf(str1, "Fire9-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_f2_twinstrike.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f2_twinstrike_000.png");
 		sprintf(str3, "fx_f2_twinstrike_0");
 		for (int i = 0; i <= 13; i++) {
@@ -4182,6 +4252,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water1-A1.png");
 		sprintf(str1, "Water1-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_cleanse.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_cleanse_ripples_000.png");
 		sprintf(str3, "fx_cleanse_ripples_0");
 		for (int i = 0; i <= 6; i++) {
@@ -4194,6 +4265,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water2-A1.png");
 		sprintf(str1, "Water2-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_f6_spiritofthewild.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f6_spiritofthewild_000.png");
 		sprintf(str3, "fx_f6_spiritofthewild_0");
 		for (int i = 0; i <= 8; i++) {
@@ -4206,6 +4278,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water3-A1.png");
 		sprintf(str1, "Water3-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_f6_spiritofthewild.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f6_spiritofthewild_000.png");
 		sprintf(str3, "fx_f6_spiritofthewild_0");
 		for (int i = 0; i <= 13; i++) {
@@ -4219,6 +4292,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water4-A1.png");
 		sprintf(str1, "Water4-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_cleanse.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_cleanse_ripples_000.png");
 		sprintf(str3, "fx_cleanse_ripples_0");
 		for (int i = 0; i <= 6; i++) {
@@ -4231,6 +4305,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water5-A1.png");
 		sprintf(str1, "Water5-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_teleportblueorb.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_teleportblueorb_000.png");
 		sprintf(str3, "fx_teleportblueorb_0");
 		for (int i = 0; i <= 13; i++) {
@@ -4243,6 +4318,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water6-A1.png");
 		sprintf(str1, "Water6-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_distortion_hex_shield.wav");
 		sst = Sprite::createWithSpriteFrameName("distortion_hex_shield_000.png");
 		sprintf(str3, "distortion_hex_shield_0");
 		for (int i = 0; i <= 9; i++) {
@@ -4256,8 +4332,9 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water7-A1.png");
 		sprintf(str1, "Water7-A");
 
-		sst = Sprite::createWithSpriteFrameName("fx_cleanse_burst_000.png");
-		sprintf(str3, "fx_cleanse_burst_0");
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_cleanse.wav");
+		sst = Sprite::createWithSpriteFrameName("fx_cleanse_ripples_000.png");
+		sprintf(str3, "fx_cleanse_ripples_0");
 		for (int i = 0; i <= 6; i++) {
 			sprintf(str4, "%s%02d.png", str3, i);
 			SpriteFrame* frame = cache->getSpriteFrameByName(str4);
@@ -4268,6 +4345,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water8-A1.png");
 		sprintf(str1, "Water8-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_f6_cryogenesis.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f6_cryogenesis_000.png");
 		sprintf(str3, "fx_f6_cryogenesis_0");
 		for (int i = 0; i <= 13; i++) {
@@ -4280,6 +4358,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water9-A1.png");
 		sprintf(str1, "Water9-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_f3_fountainofyouth.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f3_fountainofyouth_000.png");
 		sprintf(str3, "fx_f3_fountainofyouth_0");
 		for (int i = 0; i <= 13; i++) {
@@ -4293,6 +4372,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind1-A1.png");
 		sprintf(str1, "Wind1-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_f2_spiraltechnique02.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f2_spiraltechnique02_000.png");
 		sprintf(str3, "fx_f2_spiraltechnique02_0");
 		for (int i = 0; i <= 13; i++) {
@@ -4305,6 +4385,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind2-A1.png");
 		sprintf(str1, "Wind2-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_blueplasma_vertical.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_blueplasma_vertical_000.png");
 		sprintf(str3, "fx_blueplasma_vertical_0");
 		for (int i = 0; i <= 7; i++) {
@@ -4317,6 +4398,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind3-A1.png");
 		sprintf(str1, "Wind3-A");
 		
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_f1_decimate.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f1_decimate_000.png");
 		sprintf(str3, "fx_f1_decimate_0");
 		for (int i = 0; i <= 13; i++) {
@@ -4330,6 +4412,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind4-A1.png");
 		sprintf(str1, "Wind4-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_clawslash.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_clawslash_000.png");
 		sprintf(str3, "fx_clawslash_0");
 		for (int i = 0; i <= 4; i++) {
@@ -4342,6 +4425,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind5-A1.png");
 		sprintf(str1, "Wind5-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_bluewatersplash.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_bluewatersplash_000.png");
 		sprintf(str3, "fx_bluewatersplash_0");
 		for (int i = 0; i <= 8; i++) {
@@ -4354,6 +4438,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind6-A1.png");
 		sprintf(str1, "Wind6-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_f1_casterprojectile.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f1casterprojectile_000.png");
 		sprintf(str3, "fx_f1casterprojectile_0");
 		for (int i = 0; i <= 13; i++) {
@@ -4367,6 +4452,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind7-A1.png");
 		sprintf(str1, "Wind7-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_bladestorm.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_bladestorm_000.png");
 		sprintf(str3, "fx_bladestorm_0");
 		for (int i = 0; i <= 11; i++) {
@@ -4379,6 +4465,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind8-A1.png");
 		sprintf(str1, "Wind8-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_f1_lionheartblessing.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f1_lionheartblessing_000.png");
 		sprintf(str3, "fx_f1_lionheartblessing_0");
 		for (int i = 0; i <= 13; i++) {
@@ -4391,6 +4478,7 @@ void EarthMap::AttackAction() {
 		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind9-A1.png");
 		sprintf(str1, "Wind9-A");
 
+		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_f1_circlelife.wav");
 		sst = Sprite::createWithSpriteFrameName("fx_f1_circlelife_000.png");
 		sprintf(str3, "fx_f1_circlelife_0");
 		for (int i = 0; i <= 13; i++) {
@@ -4937,7 +5025,7 @@ bool EarthMap::CreateMonsterPositionCheck() {
 		//소환할 위치가 없습니다.
 		log("소환할 위치가 없습니다.");
 		MenuItemFont::setFontSize(24);
-		Sprite *BG_tex = Sprite::create("Images/Scene/TexScene.png");
+		Sprite *BG_tex = Sprite::create("Images/Scene/TexScene2.png");
 		BG_tex->setAnchorPoint(Vec2(0.5, 0.5));
 		BG_tex->setScale(2.0f);
 		BG_tex->setPosition(Vec2((winSize.width) / 2, (winSize.height) / 2));
@@ -6702,7 +6790,7 @@ Vec2 EarthMap::tileCoordForPosition(cocos2d::Vec2 position) {
 void EarthMap::EndGame(int num) {
 	UpdateMonsterDB();
 	EndGame_Num = num;
-	
+	m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/GameEnd.wav");
 	Scene* popWin;
 	popWin = EndGame::createScene();
 	this->addChild(popWin, 3000, 3000);

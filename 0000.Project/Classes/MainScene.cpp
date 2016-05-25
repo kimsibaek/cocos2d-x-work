@@ -7,8 +7,11 @@
 #include "ClassChange.h"
 #include "StoreScene.h"
 #include "ItemsEquip.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
+
+using namespace CocosDenshion;
 
 Scene* MainScene::createScene()
 {
@@ -33,6 +36,10 @@ bool MainScene::init()
 		return false;
 	}
 	////////////////////
+	SimpleAudioEngine::getInstance()->preloadBackgroundMusic("snd/etc/MapSceneBGM.wav");
+	SimpleAudioEngine::getInstance()->playBackgroundMusic("snd/etc/MapSceneBGM.wav", true);
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/etc/click.wav");
+	////////////////////
 	CCSprite* title = CCSprite::create("Images/Scene/mapScene.png");
 	title->setPosition(Vec2(640, 360));
 	this->addChild(title);
@@ -40,6 +47,16 @@ bool MainScene::init()
 	auto cache = SpriteFrameCache::getInstance();
 	cache->addSpriteFramesWithFile("Plist/Color.plist");
 	char str[100];
+
+	CCSprite* Lighting_Background = CCSprite::create("Images/Scene/Lighting_Background2.png");
+	Lighting_Background->setPosition(Vec2(640, 720 - 200));
+	this->addChild(Lighting_Background);
+
+	auto myAction28 = FadeOut::create(1.5f);
+	auto myAction29 = FadeIn::create(1.5f);
+	auto myAction30 = Sequence::create(myAction28, myAction29, nullptr);
+	auto rep13 = RepeatForever::create(myAction30);
+	Lighting_Background->runAction(rep13);
 
 	//blue
 	Vector<SpriteFrame*> animFrames1;
@@ -361,11 +378,10 @@ void MainScene::insertData(Ref* pSender)
 	sqlite3_close(pDB);
 }
 
-
-
 void MainScene::doClick1(Ref *pSender) {
 	auto tItem = (MenuItem *)pSender;
-
+	m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/click.wav");
+	SimpleAudioEngine::getInstance()->stopBackgroundMusic(true);
 	int i = tItem->getTag();
 	log("%d번째 메뉴가 선택되었습니다.", i);
 	if (i == 1) {

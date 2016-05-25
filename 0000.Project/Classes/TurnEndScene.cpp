@@ -18,7 +18,7 @@ bool TurnEndScene::init()
 
 	auto winSize = Director::getInstance()->getWinSize();
 
-	auto popLayer = CCLayerColor::create(Color4B(255, 255, 255, 255), 772, 268);
+	auto popLayer = CCLayerColor::create(Color4B(255, 255, 255, 0), 772, 268);
 	popLayer->setAnchorPoint(Vec2(0, 0));
 	popLayer->setPosition(Vec2((winSize.width - popLayer->getContentSize().width) / 2, (winSize.height - popLayer->getContentSize().height) / 2));
 
@@ -27,7 +27,7 @@ bool TurnEndScene::init()
 	MenuItemFont::setFontSize(32.0f);
 	
 	Sprite *BG;
-	BG = Sprite::create("Images/Scene/TexScene.png");
+	BG = Sprite::create("Images/Scene/TexScene2.png");
 	BG->setAnchorPoint(Vec2(0, 0));
 	BG->setScale(2.0f);
 	BG->setPosition(Vec2((winSize.width - popLayer->getContentSize().width) / 2, (winSize.height - popLayer->getContentSize().height) / 2));

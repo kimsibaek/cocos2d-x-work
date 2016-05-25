@@ -3,7 +3,10 @@
 #include <time.h>
 #include <string.h>
 #include "sqlite3.h"
+#include "SimpleAudioEngine.h"
 USING_NS_CC;
+
+using namespace CocosDenshion;
 
 Scene* IntroScene::createScene()
 {
@@ -30,19 +33,32 @@ bool IntroScene::init()
 	////////////////////
 	srand(time(NULL));
 
-
-	CCSprite* BG = CCSprite::create("Images/Scene/BG.png");
-	BG->setPosition(Vec2(640, 360-80));
-	BG->setScale(1.6);
+	SimpleAudioEngine::getInstance()->preloadBackgroundMusic("snd/etc/MapSceneBGM.wav");
+	SimpleAudioEngine::getInstance()->playBackgroundMusic("snd/etc/MapSceneBGM.wav", true);
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/etc/click.wav");
+	CCSprite* BG = CCSprite::create("Images/Scene/bgtest.png");
+	BG->setPosition(Vec2(640, 360));
+	BG->setScale(1);
 	this->addChild(BG);
 
-	auto myAction = MoveTo::create(3, Vec2(640, 360+80));
+	//auto myAction = MoveTo::create(3, Vec2(640, 360+80));
 	//auto myAction2 = FadeTo::create(2.0f, 200);
 	//auto myAction3 = Spawn::create(myAction, nullptr);
-	BG->runAction(myAction);
+	//BG->runAction(myAction);
 
+	CCSprite* All_Light = CCSprite::create("Images/Scene/All_Light.png");
+	All_Light->setPosition(Vec2(640, 360));
+	this->addChild(All_Light, 1);
 
-	this->scheduleOnce(schedule_selector(IntroScene::myTickInce), 3.0f);
+	CCSprite* Flash_001 = CCSprite::create("Images/Scene/Flash_001.png");
+	Flash_001->setPosition(Vec2(640, 360));
+	this->addChild(Flash_001, 1);
+
+	CCSprite* Flash_002 = CCSprite::create("Images/Scene/Flash_002.png");
+	Flash_002->setPosition(Vec2(640, 360));
+	this->addChild(Flash_002, 1);
+
+	this->scheduleOnce(schedule_selector(IntroScene::myTickInce), 0.1f);
 	
 	return true;
 }
@@ -52,33 +68,48 @@ void IntroScene::myTickInce(float f) {
 	title->setPosition(Vec2(640, 480 + 80));
 	this->addChild(title);
 
-	auto myAction1 = MoveTo::create(1.5, Vec2(640, 360+60));
-	auto myAction2 = MoveTo::create(1.5, Vec2(640, 360+80));
+	auto myAction1 = MoveTo::create(1.5, Vec2(640, 400+60));
+	auto myAction2 = MoveTo::create(1.5, Vec2(640, 400+80));
 	auto myAction3 = Sequence::create(myAction1, myAction2, nullptr);
 	auto myAction7 = Spawn::create(myAction3, nullptr);
 	auto rep1 = RepeatForever::create(myAction7);
 	title->runAction(rep1);
 
+	auto pMenuItem1 = MenuItemImage::create("Images/Scene/StartGame.png", "Images/Scene/StartGame_click.png", CC_CALLBACK_1(IntroScene::doClick, this));
+	//pMenuItem1->setPosition(Vec2(200, 80));
+	pMenuItem1->setScale(2);
+	pMenuItem1->setTag(1);
+	auto pMenuItem2 = MenuItemImage::create("Images/Scene/Option.png", "Images/Scene/Option_click.png", CC_CALLBACK_1(IntroScene::doClick, this));
+	//pMenuItem2->setPosition(Vec2(1210, 650));
+	pMenuItem2->setScale(2);
+	pMenuItem2->setTag(2);
+	auto pMenuItem3 = MenuItemImage::create("Images/Scene/Exit.png", "Images/Scene/Exit_click.png", CC_CALLBACK_1(IntroScene::doClick, this));
+	//pMenuItem3->setPosition(Vec2(250, 330));
+	pMenuItem3->setScale(2);
+	pMenuItem3->setTag(3);
+	
+
+	/*MenuItemFont::setFontSize(34);
 	auto pMenuItem1 = MenuItemFont::create("Start Game", CC_CALLBACK_1(IntroScene::doClick, this));
-	pMenuItem1->setColor(Color3B(0, 0, 0));
+	pMenuItem1->setColor(Color3B(255, 255, 255));
 	pMenuItem1->setScale(1.5);
 	auto pMenuItem2 = MenuItemFont::create("Option", CC_CALLBACK_1(IntroScene::doClick, this));
-	pMenuItem2->setColor(Color3B(0, 0, 0));
+	pMenuItem2->setColor(Color3B(255, 255, 255));
 	pMenuItem2->setScale(1.5);
 	auto pMenuItem3 = MenuItemFont::create("Exit", CC_CALLBACK_1(IntroScene::doClick, this));
-	pMenuItem3->setColor(Color3B(0, 0, 0));
+	pMenuItem3->setColor(Color3B(255, 255, 255));
 	pMenuItem3->setScale(1.5);
 	pMenuItem1->setTag(1);
 	pMenuItem2->setTag(2);
-	pMenuItem3->setTag(3);
+	pMenuItem3->setTag(3);*/
 
 	auto pMenu = Menu::create(pMenuItem1, pMenuItem2, pMenuItem3, nullptr);
-	pMenu->setPosition(Vec2(640, 200));
+	pMenu->setPosition(Vec2(640, 250));
 	pMenu->alignItemsVertically();
 	pMenu->alignItemsVerticallyWithPadding(30.0f);
 	this->addChild(pMenu);
 
-	this->schedule(schedule_selector(IntroScene::tick), 1);
+	//this->schedule(schedule_selector(IntroScene::tick),0.1);
 
 }
 
@@ -312,10 +343,11 @@ void IntroScene::tick(float dt) {
 
 void IntroScene::doClick(Ref *pSender) {
 	auto tItem = (MenuItem *)pSender;
-
+	m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/click.wav");
 	int i = tItem->getTag();
 	log("%d번째 메뉴가 선택되었습니다.", i);
 	if (i == 1) {
+		SimpleAudioEngine::getInstance()->stopBackgroundMusic(true);
 		auto pScene = MainScene::createScene();
 		Director::getInstance()->replaceScene(pScene);
 	}
