@@ -202,17 +202,36 @@ bool EarthMap::init()
 	cache->addSpriteFramesWithFile("Plist/ActionPlist/Wind9-A.plist");
 
 	//this->setPosition(Vec2(0, 0));
-
-	tmap = TMXTiledMap::create("Images/Scene/EarthMap.tmx");
+	if (Mapdata == 1) {
+		//earth map
+		tmap = TMXTiledMap::create("Images/Scene/EarthMap.tmx");
+		BG = Sprite::create("Images/Scene/Earthmap.png");
+	}
+	else if (Mapdata == 2) {
+		//fire map
+		tmap = TMXTiledMap::create("Images/Scene/FireMap.tmx");
+		BG = Sprite::create("Images/Scene/Firemap.png");
+	}
+	else if (Mapdata == 3) {
+		//water map
+		tmap = TMXTiledMap::create("Images/Scene/WaterMap.tmx");
+		BG = Sprite::create("Images/Scene/WaterMap.png");
+	}
+	else if (Mapdata == 4) {
+		//wind map
+		tmap = TMXTiledMap::create("Images/Scene/WindMap.tmx");
+		BG = Sprite::create("Images/Scene/WindMap.png");
+	}
+	//tmap = TMXTiledMap::create("Images/Scene/EarthMap.tmx");
 	tmap->setPosition(Vec2(-66, -32));
 	metainfo = tmap->getLayer("MetaInfo");
-	metainfo->setVisible(false);
+	//metainfo->setVisible(false);
 	this->addChild(tmap, 2, 11);
 
 	MovePositionX = tmap->getPosition().x;
 	MovePositionY = tmap->getPosition().y;
 	//log("MovePositionX = %f, MovePositionY = %f", MovePositionX, MovePositionY);
-	BG = Sprite::create("Images/Scene/earthmap.png");
+	//BG = Sprite::create("Images/Scene/Earthmap.png");
 	BG->setPosition(Vec2(1072, 795));
 	tmap->addChild(BG, -1);
 	
@@ -1165,10 +1184,10 @@ void EarthMap::doMsgReceivedTurnEnd(Ref* obj) {
 			}
 		}
 		//enemy turn 표시
-		Sprite* EnemyTurnLabel = Sprite::create("Images/Scene/EnemyTurnLabel.png");
+		Sprite* EnemyTurnLabel = Sprite::create("Images/Scene/EnemyTurnLabel2.png");
 		EnemyTurnLabel->setScale(2.0f);
 		EnemyTurnLabel->setPosition(Vec2(1000, 50));
-		this->addChild(EnemyTurnLabel, 200, 200);
+		this->addChild(EnemyTurnLabel, 10, 200);
 		auto myAction1 = FadeOut::create(0.5f);
 		auto myAction2 = FadeIn::create(0.5f);
 		auto myAction3 = Sequence::create(myAction1, myAction2, nullptr);
@@ -2410,6 +2429,8 @@ void EarthMap::onEnter() {
 
 void EarthMap::onExit() {
 	_eventDispatcher->removeEventListener(listener);
+	this->removeAllChildren();
+	this->removeAllChildrenWithCleanup(true);
 	//변수 초기화
 	if (monsterSize) {
 		free(monster_char);
@@ -3980,10 +4001,11 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 }
 
 void EarthMap::AttackAction() {
-	log("%d", monster_char[mons].sprite->getTag());
-	monster_char[mons].sprite->stopAllActions();
-	monster_char[mons].sprite->removeAllChildren();
-	tmap->removeChild(monster_char[mons].sprite, true);
+	attackMonster = mons;
+	log("%d", monster_char[attackMonster].sprite->getTag());
+	monster_char[attackMonster].sprite->stopAllActions();
+	monster_char[attackMonster].sprite->removeAllChildren();
+	tmap->removeChild(monster_char[attackMonster].sprite, true);
 	//L_R == true 왼쪽 false 오른쪽
 	char str1[100];
 	char str2[100];
@@ -3994,8 +4016,8 @@ void EarthMap::AttackAction() {
 	Sprite *sst = Sprite::create();
 	Vector<SpriteFrame*> animFrames_Action;
 	
-	if (monster_char[mons].Type == 0) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Person1-A1.png");
+	if (monster_char[attackMonster].Type == 0) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Person1-A1.png");
 		sprintf(str1, "Person1-A");
 		
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_firetornado.wav");
@@ -4008,8 +4030,8 @@ void EarthMap::AttackAction() {
 		}
 	}
 	//땅질퍽이
-	if (monster_char[mons].Type == 1) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth1-A1.png");
+	if (monster_char[attackMonster].Type == 1) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Earth1-A1.png");
 		sprintf(str1, "Earth1-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_smoke.wav");
@@ -4021,8 +4043,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 2) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth2-A1.png");
+	else if (monster_char[attackMonster].Type == 2) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Earth2-A1.png");
 		sprintf(str1, "Earth2-A");
 		
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_smoke.wav");
@@ -4034,8 +4056,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 3) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth3-A1.png");
+	else if (monster_char[attackMonster].Type == 3) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Earth3-A1.png");
 		sprintf(str1, "Earth3-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_smoke.wav");
@@ -4048,8 +4070,8 @@ void EarthMap::AttackAction() {
 		}
 	}
 	//모닥픽
-	else if (monster_char[mons].Type == 4) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth4-A1.png");
+	else if (monster_char[attackMonster].Type == 4) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Earth4-A1.png");
 		sprintf(str1, "Earth4-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_impactgreen.wav");
@@ -4061,8 +4083,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 5) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth5-A1.png");
+	else if (monster_char[attackMonster].Type == 5) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Earth5-A1.png");
 		sprintf(str1, "Earth5-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_impactgreen.wav");
@@ -4074,8 +4096,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 6) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth6-A1.png");
+	else if (monster_char[attackMonster].Type == 6) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Earth6-A1.png");
 		sprintf(str1, "Earth6-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_impactgreen.wav");
@@ -4088,8 +4110,8 @@ void EarthMap::AttackAction() {
 		}
 	}
 	//모래두지
-	else if (monster_char[mons].Type == 7) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth7-A1.png");
+	else if (monster_char[attackMonster].Type == 7) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Earth7-A1.png");
 		sprintf(str1, "Earth7-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_impactgreen.wav");
@@ -4101,8 +4123,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 8) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth8-A1.png");
+	else if (monster_char[attackMonster].Type == 8) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Earth8-A1.png");
 		sprintf(str1, "Earth8-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_impactgreen.wav");
@@ -4114,8 +4136,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 9) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth9-A1.png");
+	else if (monster_char[attackMonster].Type == 9) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Earth9-A1.png");
 		sprintf(str1, "Earth9-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Earth/fx_impactgreen.wav");
@@ -4128,8 +4150,8 @@ void EarthMap::AttackAction() {
 		}
 	}
 	//파이뤼
-	else if (monster_char[mons].Type == 11) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire1-A1.png");
+	else if (monster_char[attackMonster].Type == 11) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Fire1-A1.png");
 		sprintf(str1, "Fire1-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_explosionorangesmoke.wav");
@@ -4141,8 +4163,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 12) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire2-A1.png");
+	else if (monster_char[attackMonster].Type == 12) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Fire2-A1.png");
 		sprintf(str1, "Fire2-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_whiteexplosion.wav");
@@ -4154,8 +4176,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 13) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire3-A1.png");
+	else if (monster_char[attackMonster].Type == 13) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Fire3-A1.png");
 		sprintf(str1, "Fire3-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_whiteexplosion.wav");
@@ -4168,8 +4190,8 @@ void EarthMap::AttackAction() {
 		}
 	}
 	//팬템
-	else if (monster_char[mons].Type == 14) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire4-A1.png");
+	else if (monster_char[attackMonster].Type == 14) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Fire4-A1.png");
 		sprintf(str1, "Fire4-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_blood_explosion.wav");
@@ -4181,8 +4203,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 15) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire5-A1.png");
+	else if (monster_char[attackMonster].Type == 15) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Fire5-A1.png");
 		sprintf(str1, "Fire5-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_blood_explosion.wav");
@@ -4194,8 +4216,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 16) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire6-A1.png");
+	else if (monster_char[attackMonster].Type == 16) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Fire6-A1.png");
 		sprintf(str1, "Fire6-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_f2_eightgates_purpleflame.wav");
@@ -4208,8 +4230,8 @@ void EarthMap::AttackAction() {
 		}
 	}
 	//블랙매직숀
-	else if (monster_char[mons].Type == 17) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire7-A1.png");
+	else if (monster_char[attackMonster].Type == 17) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Fire7-A1.png");
 		sprintf(str1, "Fire7-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_f5_earthsphere_orange.wav");
@@ -4221,8 +4243,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 18) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire8-A1.png");
+	else if (monster_char[attackMonster].Type == 18) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Fire8-A1.png");
 		sprintf(str1, "Fire8-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_f2_teleport.wav");
@@ -4234,8 +4256,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 19) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire9-A1.png");
+	else if (monster_char[attackMonster].Type == 19) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Fire9-A1.png");
 		sprintf(str1, "Fire9-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Fire/fx_f2_twinstrike.wav");
@@ -4248,8 +4270,8 @@ void EarthMap::AttackAction() {
 		}
 	}
 	//물질퍽이
-	else if (monster_char[mons].Type == 21) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water1-A1.png");
+	else if (monster_char[attackMonster].Type == 21) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Water1-A1.png");
 		sprintf(str1, "Water1-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_cleanse.wav");
@@ -4261,8 +4283,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 22) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water2-A1.png");
+	else if (monster_char[attackMonster].Type == 22) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Water2-A1.png");
 		sprintf(str1, "Water2-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_f6_spiritofthewild.wav");
@@ -4274,8 +4296,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 23) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water3-A1.png");
+	else if (monster_char[attackMonster].Type == 23) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Water3-A1.png");
 		sprintf(str1, "Water3-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_f6_spiritofthewild.wav");
@@ -4288,8 +4310,8 @@ void EarthMap::AttackAction() {
 		}
 	}
 	//꼬북이
-	else if (monster_char[mons].Type == 24) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water4-A1.png");
+	else if (monster_char[attackMonster].Type == 24) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Water4-A1.png");
 		sprintf(str1, "Water4-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_cleanse.wav");
@@ -4301,8 +4323,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 25) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water5-A1.png");
+	else if (monster_char[attackMonster].Type == 25) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Water5-A1.png");
 		sprintf(str1, "Water5-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_teleportblueorb.wav");
@@ -4314,8 +4336,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 26) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water6-A1.png");
+	else if (monster_char[attackMonster].Type == 26) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Water6-A1.png");
 		sprintf(str1, "Water6-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_distortion_hex_shield.wav");
@@ -4328,8 +4350,8 @@ void EarthMap::AttackAction() {
 		}
 	}
 	//리아커
-	else if (monster_char[mons].Type == 27) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water7-A1.png");
+	else if (monster_char[attackMonster].Type == 27) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Water7-A1.png");
 		sprintf(str1, "Water7-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_cleanse.wav");
@@ -4341,8 +4363,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 28) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water8-A1.png");
+	else if (monster_char[attackMonster].Type == 28) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Water8-A1.png");
 		sprintf(str1, "Water8-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_f6_cryogenesis.wav");
@@ -4354,8 +4376,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 29) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water9-A1.png");
+	else if (monster_char[attackMonster].Type == 29) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Water9-A1.png");
 		sprintf(str1, "Water9-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Water/fx_f3_fountainofyouth.wav");
@@ -4368,8 +4390,8 @@ void EarthMap::AttackAction() {
 		}
 	}
 	//코이
-	else if (monster_char[mons].Type == 31) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind1-A1.png");
+	else if (monster_char[attackMonster].Type == 31) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Wind1-A1.png");
 		sprintf(str1, "Wind1-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_f2_spiraltechnique02.wav");
@@ -4381,8 +4403,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 32) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind2-A1.png");
+	else if (monster_char[attackMonster].Type == 32) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Wind2-A1.png");
 		sprintf(str1, "Wind2-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_blueplasma_vertical.wav");
@@ -4394,8 +4416,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 33) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind3-A1.png");
+	else if (monster_char[attackMonster].Type == 33) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Wind3-A1.png");
 		sprintf(str1, "Wind3-A");
 		
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_f1_decimate.wav");
@@ -4408,8 +4430,8 @@ void EarthMap::AttackAction() {
 		}
 	}
 	//피젼
-	else if (monster_char[mons].Type == 34) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind4-A1.png");
+	else if (monster_char[attackMonster].Type == 34) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Wind4-A1.png");
 		sprintf(str1, "Wind4-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_clawslash.wav");
@@ -4421,8 +4443,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 35) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind5-A1.png");
+	else if (monster_char[attackMonster].Type == 35) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Wind5-A1.png");
 		sprintf(str1, "Wind5-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_bluewatersplash.wav");
@@ -4434,8 +4456,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 36) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind6-A1.png");
+	else if (monster_char[attackMonster].Type == 36) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Wind6-A1.png");
 		sprintf(str1, "Wind6-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_f1_casterprojectile.wav");
@@ -4448,8 +4470,8 @@ void EarthMap::AttackAction() {
 		}
 	}
 	//토게피
-	else if (monster_char[mons].Type == 37) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind7-A1.png");
+	else if (monster_char[attackMonster].Type == 37) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Wind7-A1.png");
 		sprintf(str1, "Wind7-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_bladestorm.wav");
@@ -4461,8 +4483,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 38) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind8-A1.png");
+	else if (monster_char[attackMonster].Type == 38) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Wind8-A1.png");
 		sprintf(str1, "Wind8-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_f1_lionheartblessing.wav");
@@ -4474,8 +4496,8 @@ void EarthMap::AttackAction() {
 			animFrames3.pushBack(frame);
 		}
 	}
-	else if (monster_char[mons].Type == 39) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind9-A1.png");
+	else if (monster_char[attackMonster].Type == 39) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Wind9-A1.png");
 		sprintf(str1, "Wind9-A");
 
 		m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/Wind/fx_f1_circlelife.wav");
@@ -4528,10 +4550,10 @@ void EarthMap::AttackAction() {
 	auto animation2 = Animation::createWithSpriteFrames(animFrames3, 0.1f);
 	auto animate2 = Animate::create(animation2);
 	sst->runAction(animate2);
-	if (monster_char[mons].Type == 22 || monster_char[mons].Type == 23 || monster_char[mons].Type == 28) {
+	if (monster_char[attackMonster].Type == 22 || monster_char[attackMonster].Type == 23 || monster_char[attackMonster].Type == 28) {
 		sst->setScale(0.5f);
 	}
-	else if (monster_char[mons].Type == 16 || monster_char[mons].Type == 17 || monster_char[mons].Type == 19 || monster_char[mons].Type == 26 || monster_char[mons].Type == 38) {
+	else if (monster_char[attackMonster].Type == 16 || monster_char[attackMonster].Type == 17 || monster_char[attackMonster].Type == 19 || monster_char[attackMonster].Type == 26 || monster_char[attackMonster].Type == 38) {
 		sst->setScale(1.0f);
 	}
 	else {
@@ -4546,11 +4568,11 @@ void EarthMap::AttackAction() {
 	auto animation0 = Animation::createWithSpriteFrames(animFrames_Action, 0.2f);
 	auto animate0 = Animate::create(animation0);
 	
-	monster_char[mons].sprite->runAction(animate0);
-	Vec2 Vector = FindCoordPosition(Vec2(monster_char[mons].tx, monster_char[mons].ty));
+	monster_char[attackMonster].sprite->runAction(animate0);
+	Vec2 Vector = FindCoordPosition(Vec2(monster_char[attackMonster].tx, monster_char[attackMonster].ty));
 		//posit.x - MovePositionX,		posit.y - 60 - MovePositionY
-	monster_char[mons].sprite->setPosition(Vec2(Vector.x - MovePositionX, Vector.y - 60 - MovePositionY));
-	tmap->addChild(monster_char[mons].sprite, 5, mons);
+	monster_char[attackMonster].sprite->setPosition(Vec2(Vector.x - MovePositionX, Vector.y - 60 - MovePositionY));
+	tmap->addChild(monster_char[attackMonster].sprite, 5, mons);
 
 	//다시 걸어다니는 액션으로 교체
 	this->scheduleOnce(schedule_selector(EarthMap::callbackrepeatforever), 1.4f);
@@ -4558,10 +4580,10 @@ void EarthMap::AttackAction() {
 }
 
 void EarthMap::callbackrepeatforever(float delta) {
-	//log("%d", monster_char[mons].sprite->getTag());
-	monster_char[mons].sprite->stopAllActions();
-	monster_char[mons].sprite->removeAllChildren();
-	tmap->removeChild(monster_char[mons].sprite, true);
+	//log("%d", monster_char[attackMonster].sprite->getTag());
+	monster_char[attackMonster].sprite->stopAllActions();
+	monster_char[attackMonster].sprite->removeAllChildren();
+	tmap->removeChild(monster_char[attackMonster].sprite, true);
 	//공격효과액션 삭제
 	tmap->removeChildByTag(500);
 	//L_R == true 왼쪽 false 오른쪽
@@ -4569,163 +4591,163 @@ void EarthMap::callbackrepeatforever(float delta) {
 	char str2[100];
 	Vector<SpriteFrame*> animFrames;
 	Vector<SpriteFrame*> animFrames_Action;
-	if (monster_char[mons].Type == 0) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Person1-1.png");
+	if (monster_char[attackMonster].Type == 0) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Person1-1.png");
 		sprintf(str1, "Person1-");
 	}
-	if (monster_char[mons].Type == 1) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth1-1.png");
+	if (monster_char[attackMonster].Type == 1) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Earth1-1.png");
 		sprintf(str1, "Earth1-");
 	}
-	else if (monster_char[mons].Type == 2) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth2-1.png");
+	else if (monster_char[attackMonster].Type == 2) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Earth2-1.png");
 		sprintf(str1, "Earth2-");
 	}
-	else if (monster_char[mons].Type == 3) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth3-1.png");
+	else if (monster_char[attackMonster].Type == 3) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Earth3-1.png");
 		sprintf(str1, "Earth3-");
 	}
 	//모닥픽
-	else if (monster_char[mons].Type == 4) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth4-1.png");
+	else if (monster_char[attackMonster].Type == 4) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Earth4-1.png");
 		sprintf(str1, "Earth4-");
 	}
-	else if (monster_char[mons].Type == 5) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth5-1.png");
+	else if (monster_char[attackMonster].Type == 5) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Earth5-1.png");
 		sprintf(str1, "Earth5-");
 	}
-	else if (monster_char[mons].Type == 6) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth6-1.png");
+	else if (monster_char[attackMonster].Type == 6) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Earth6-1.png");
 		sprintf(str1, "Earth6-");
 	}
 	//모래두지
-	else if (monster_char[mons].Type == 7) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth7-1.png");
+	else if (monster_char[attackMonster].Type == 7) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Earth7-1.png");
 		sprintf(str1, "Earth7-");
 	}
-	else if (monster_char[mons].Type == 8) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth8-1.png");
+	else if (monster_char[attackMonster].Type == 8) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Earth8-1.png");
 		sprintf(str1, "Earth8-");
 	}
-	else if (monster_char[mons].Type == 9) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Earth9-1.png");
+	else if (monster_char[attackMonster].Type == 9) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Earth9-1.png");
 		sprintf(str1, "Earth9-");
 	}
 	//파이뤼
-	else if (monster_char[mons].Type == 11) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire1-1.png");
+	else if (monster_char[attackMonster].Type == 11) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Fire1-1.png");
 		sprintf(str1, "Fire1-");
 	}
-	else if (monster_char[mons].Type == 12) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire2-1.png");
+	else if (monster_char[attackMonster].Type == 12) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Fire2-1.png");
 		sprintf(str1, "Fire2-");
 	}
-	else if (monster_char[mons].Type == 13) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire3-1.png");
+	else if (monster_char[attackMonster].Type == 13) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Fire3-1.png");
 		sprintf(str1, "Fire3-");
 	}
 	//팬템
-	else if (monster_char[mons].Type == 14) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire4-1.png");
+	else if (monster_char[attackMonster].Type == 14) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Fire4-1.png");
 		sprintf(str1, "Fire4-");
 	}
-	else if (monster_char[mons].Type == 15) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire5-1.png");
+	else if (monster_char[attackMonster].Type == 15) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Fire5-1.png");
 		sprintf(str1, "Fire5-");
 	}
-	else if (monster_char[mons].Type == 16) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire6-1.png");
+	else if (monster_char[attackMonster].Type == 16) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Fire6-1.png");
 		sprintf(str1, "Fire6-");
 	}
 	//블랙매직숀
-	else if (monster_char[mons].Type == 17) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire7-1.png");
+	else if (monster_char[attackMonster].Type == 17) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Fire7-1.png");
 		sprintf(str1, "Fire7-");
 	}
-	else if (monster_char[mons].Type == 18) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire8-1.png");
+	else if (monster_char[attackMonster].Type == 18) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Fire8-1.png");
 		sprintf(str1, "Fire8-");
 	}
-	else if (monster_char[mons].Type == 19) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Fire9-1.png");
+	else if (monster_char[attackMonster].Type == 19) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Fire9-1.png");
 		sprintf(str1, "Fire9-");
 	}
 	//물질퍽이
-	else if (monster_char[mons].Type == 21) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water1-1.png");
+	else if (monster_char[attackMonster].Type == 21) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Water1-1.png");
 		sprintf(str1, "Water1-");
 	}
-	else if (monster_char[mons].Type == 22) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water2-1.png");
+	else if (monster_char[attackMonster].Type == 22) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Water2-1.png");
 		sprintf(str1, "Water2-");
 	}
-	else if (monster_char[mons].Type == 23) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water3-1.png");
+	else if (monster_char[attackMonster].Type == 23) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Water3-1.png");
 		sprintf(str1, "Water3-");
 	}
 	//꼬북이
-	else if (monster_char[mons].Type == 24) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water4-1.png");
+	else if (monster_char[attackMonster].Type == 24) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Water4-1.png");
 		sprintf(str1, "Water4-");
 	}
-	else if (monster_char[mons].Type == 25) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water5-1.png");
+	else if (monster_char[attackMonster].Type == 25) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Water5-1.png");
 		sprintf(str1, "Water5-");
 	}
-	else if (monster_char[mons].Type == 26) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water6-1.png");
+	else if (monster_char[attackMonster].Type == 26) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Water6-1.png");
 		sprintf(str1, "Water6-");
 	}
 	//리아커
-	else if (monster_char[mons].Type == 27) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water7-1.png");
+	else if (monster_char[attackMonster].Type == 27) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Water7-1.png");
 		sprintf(str1, "Water7-");
 	}
-	else if (monster_char[mons].Type == 28) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water8-1.png");
+	else if (monster_char[attackMonster].Type == 28) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Water8-1.png");
 		sprintf(str1, "Water8-");
 	}
-	else if (monster_char[mons].Type == 29) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Water9-1.png");
+	else if (monster_char[attackMonster].Type == 29) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Water9-1.png");
 		sprintf(str1, "Water9-");
 	}
 	//코이
-	else if (monster_char[mons].Type == 31) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind1-1.png");
+	else if (monster_char[attackMonster].Type == 31) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Wind1-1.png");
 		sprintf(str1, "Wind1-");
 	}
-	else if (monster_char[mons].Type == 32) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind2-1.png");
+	else if (monster_char[attackMonster].Type == 32) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Wind2-1.png");
 		sprintf(str1, "Wind2-");
 	}
-	else if (monster_char[mons].Type == 33) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind3-1.png");
+	else if (monster_char[attackMonster].Type == 33) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Wind3-1.png");
 		sprintf(str1, "Wind3-");
 	}
 	//피젼
-	else if (monster_char[mons].Type == 34) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind4-1.png");
+	else if (monster_char[attackMonster].Type == 34) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Wind4-1.png");
 		sprintf(str1, "Wind4-");
 	}
-	else if (monster_char[mons].Type == 35) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind5-1.png");
+	else if (monster_char[attackMonster].Type == 35) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Wind5-1.png");
 		sprintf(str1, "Wind5-");
 	}
-	else if (monster_char[mons].Type == 36) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind6-1.png");
+	else if (monster_char[attackMonster].Type == 36) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Wind6-1.png");
 		sprintf(str1, "Wind6-");
 	}
 	//코이
-	else if (monster_char[mons].Type == 37) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind7-1.png");
+	else if (monster_char[attackMonster].Type == 37) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Wind7-1.png");
 		sprintf(str1, "Wind7-");
 	}
-	else if (monster_char[mons].Type == 38) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind8-1.png");
+	else if (monster_char[attackMonster].Type == 38) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Wind8-1.png");
 		sprintf(str1, "Wind8-");
 	}
-	else if (monster_char[mons].Type == 39) {
-		monster_char[mons].sprite = Sprite::createWithSpriteFrameName("Wind9-1.png");
+	else if (monster_char[attackMonster].Type == 39) {
+		monster_char[attackMonster].sprite = Sprite::createWithSpriteFrameName("Wind9-1.png");
 		sprintf(str1, "Wind9-");
 	}
 
@@ -4748,33 +4770,33 @@ void EarthMap::callbackrepeatforever(float delta) {
 	auto animate1 = Animate::create(animation1);
 	auto rep1 = RepeatForever::create(animate1);
 
-	monster_char[mons].sprite->runAction(rep1);
-	Vec2 Vector = FindCoordPosition(Vec2(monster_char[mons].tx, monster_char[mons].ty));
+	monster_char[attackMonster].sprite->runAction(rep1);
+	Vec2 Vector = FindCoordPosition(Vec2(monster_char[attackMonster].tx, monster_char[attackMonster].ty));
 	//posit.x - MovePositionX, posit.y - 60 - MovePositionY
-	monster_char[mons].sprite->setPosition(Vec2(Vector.x - MovePositionX, Vector.y - 60 - MovePositionY));
-	tmap->addChild(monster_char[mons].sprite, 5, mons);
+	monster_char[attackMonster].sprite->setPosition(Vec2(Vector.x - MovePositionX, Vector.y - 60 - MovePositionY));
+	tmap->addChild(monster_char[attackMonster].sprite, 5, mons);
 
 	Sprite* st = Sprite::createWithSpriteFrameName("HP_bar.png");
 	st->setPosition(0, -5);
-	st->setScaleX(monster_char[mons].HPbarPosition / 25 * 2);
+	st->setScaleX(monster_char[attackMonster].HPbarPosition / 25 * 2);
 	st->setScaleY(2.0f);
 	st->setAnchorPoint(Vec2(0, 0.5));
-	monster_char[mons].sprite->addChild(st, 4, 1);
+	monster_char[attackMonster].sprite->addChild(st, 4, 1);
 
 	Sprite* hp = Sprite::createWithSpriteFrameName("Monster_HP.png");
 	hp->setPosition(0, -5);
-	hp->setScaleX((monster_char[mons].HPbarPosition / 25 * 2) * monster_char[mons].hp / monster_char[mons].Fullhp);
+	hp->setScaleX((monster_char[attackMonster].HPbarPosition / 25 * 2) * monster_char[attackMonster].hp / monster_char[attackMonster].Fullhp);
 	hp->setScaleY(2.0f);
 	hp->setAnchorPoint(Vec2(0, 0.5));
-	monster_char[mons].sprite->addChild(hp, 4, 2);
+	monster_char[attackMonster].sprite->addChild(hp, 4, 2);
 
 	char level[3];
-	sprintf(level, "%d", monster_char[mons].level);
+	sprintf(level, "%d", monster_char[attackMonster].level);
 	auto pLabel3 = LabelAtlas::create(level, "Images/Scene/ML.png", 7, 9, '0');
 	pLabel3->setAnchorPoint(Vec2(0, 0));
 	pLabel3->setScale(2.0f);
-	pLabel3->setPosition(Vec2(st->getContentSize().width*(monster_char[mons].HPbarPosition / 25 * 2) + 5, -10));
-	monster_char[mons].sprite->addChild(pLabel3, 4, 3);
+	pLabel3->setPosition(Vec2(st->getContentSize().width*(monster_char[attackMonster].HPbarPosition / 25 * 2) + 5, -10));
+	monster_char[attackMonster].sprite->addChild(pLabel3, 4, 3);
 
 	EmyMonster_char[ClickEmyMonster].hp -= attackdamage;
 	EmyMonster_char[ClickEmyMonster].sprite->removeChildByTag(2);
@@ -4809,8 +4831,8 @@ void EarthMap::callbackrepeatforever(float delta) {
 		End->setAnchorPoint(Vec2(0, 0));
 		End->setPosition(Vec2(0, 0));
 		End->setScale(2.0f);
-		monster_char[mons]._turn = false;
-		monster_char[mons].sprite->addChild(End, 4, 4);
+		monster_char[attackMonster]._turn = false;
+		monster_char[attackMonster].sprite->addChild(End, 4, 4);
 	}
 }
 
@@ -5032,7 +5054,7 @@ bool EarthMap::CreateMonsterPositionCheck() {
 		this->addChild(BG_tex, 10, 10);
 
 		auto pMenuItem = MenuItemFont::create("소환할 위치가 없습니다.");
-		pMenuItem->setColor(Color3B(0, 0, 0));
+		pMenuItem->setColor(Color3B(255, 255, 255));
 		pMenuItem->setPosition(Vec2(200, 80));
 		BG_tex->addChild(pMenuItem, 11, 11);
 		return false;

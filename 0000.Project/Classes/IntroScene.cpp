@@ -66,6 +66,7 @@ bool IntroScene::init()
 void IntroScene::myTickInce(float f) {
 	CCSprite* title = CCSprite::create("Images/Scene/title.png");
 	title->setPosition(Vec2(640, 480 + 80));
+	title->setScale(2);
 	this->addChild(title);
 
 	auto myAction1 = MoveTo::create(1.5, Vec2(640, 400+60));
@@ -75,17 +76,13 @@ void IntroScene::myTickInce(float f) {
 	auto rep1 = RepeatForever::create(myAction7);
 	title->runAction(rep1);
 
-	auto pMenuItem1 = MenuItemImage::create("Images/Scene/StartGame.png", "Images/Scene/StartGame_click.png", CC_CALLBACK_1(IntroScene::doClick, this));
+	auto pMenuItem1 = MenuItemImage::create("Images/Scene/StartGame1.png", "Images/Scene/StartGame1_click.png", CC_CALLBACK_1(IntroScene::doClick, this));
 	//pMenuItem1->setPosition(Vec2(200, 80));
-	pMenuItem1->setScale(2);
+	pMenuItem1->setScale(1);
 	pMenuItem1->setTag(1);
-	auto pMenuItem2 = MenuItemImage::create("Images/Scene/Option.png", "Images/Scene/Option_click.png", CC_CALLBACK_1(IntroScene::doClick, this));
-	//pMenuItem2->setPosition(Vec2(1210, 650));
-	pMenuItem2->setScale(2);
-	pMenuItem2->setTag(2);
-	auto pMenuItem3 = MenuItemImage::create("Images/Scene/Exit.png", "Images/Scene/Exit_click.png", CC_CALLBACK_1(IntroScene::doClick, this));
+	auto pMenuItem3 = MenuItemImage::create("Images/Scene/Exit1.png", "Images/Scene/Exit1_click.png", CC_CALLBACK_1(IntroScene::doClick, this));
 	//pMenuItem3->setPosition(Vec2(250, 330));
-	pMenuItem3->setScale(2);
+	pMenuItem3->setScale(1);
 	pMenuItem3->setTag(3);
 	
 
@@ -103,7 +100,7 @@ void IntroScene::myTickInce(float f) {
 	pMenuItem2->setTag(2);
 	pMenuItem3->setTag(3);*/
 
-	auto pMenu = Menu::create(pMenuItem1, pMenuItem2, pMenuItem3, nullptr);
+	auto pMenu = Menu::create(pMenuItem1, pMenuItem3, nullptr);
 	pMenu->setPosition(Vec2(640, 250));
 	pMenu->alignItemsVertically();
 	pMenu->alignItemsVerticallyWithPadding(30.0f);

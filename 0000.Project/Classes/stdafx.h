@@ -2,6 +2,7 @@
 
 #include "cocos2d.h"
 
+extern int Mapdata;
 
 struct Monster_num {
 	int ID;

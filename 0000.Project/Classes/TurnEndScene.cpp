@@ -24,7 +24,7 @@ bool TurnEndScene::init()
 
 	this->addChild(popLayer);
 
-	MenuItemFont::setFontSize(32.0f);
+	MenuItemFont::setFontSize(30.0f);
 	
 	Sprite *BG;
 	BG = Sprite::create("Images/Scene/TexScene2.png");
@@ -34,17 +34,17 @@ bool TurnEndScene::init()
 	this->addChild(BG, 1);
 
 	auto pMenuItem = MenuItemFont::create("턴을 종료하시겠습니까?");
-	pMenuItem->setColor(Color3B(0, 0, 0));
-	pMenuItem->setPosition(Vec2(200, 80));
+	pMenuItem->setColor(Color3B(255, 255, 255));
+	pMenuItem->setPosition(Vec2(190, 90));
 	BG->addChild(pMenuItem, 2);
 
 	auto pMenuItem1 = MenuItemFont::create("예", CC_CALLBACK_1(TurnEndScene::doContinue, this));
-	pMenuItem1->setColor(Color3B(0, 0, 0));
+	pMenuItem1->setColor(Color3B(255, 255, 255));
 	auto pMenuItem2 = MenuItemFont::create("아니오", CC_CALLBACK_1(TurnEndScene::doClose, this));
-	pMenuItem2->setColor(Color3B(0, 0, 0));
+	pMenuItem2->setColor(Color3B(255, 255, 255));
 	auto pMenu = Menu::create(pMenuItem1, pMenuItem2, nullptr);
 	pMenu->alignItemsHorizontallyWithPadding(20.0f);
-	pMenu->setPosition(Vec2(200, 25));
+	pMenu->setPosition(Vec2(190, 45));
 	BG->addChild(pMenu, 2);
 
 

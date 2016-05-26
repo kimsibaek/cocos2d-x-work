@@ -127,7 +127,7 @@ void Toolbag::doContinue(Ref* pSender) {
 				this->addChild(BG, 10, 10);
 
 				auto pMenuItem = MenuItemFont::create("선택한 아이템이 부족합니다.");
-				pMenuItem->setColor(Color3B(0, 0, 0));
+				pMenuItem->setColor(Color3B(255, 255, 255));
 				pMenuItem->setPosition(Vec2(200, 80));
 				BG->addChild(pMenuItem, 11, 11);
 

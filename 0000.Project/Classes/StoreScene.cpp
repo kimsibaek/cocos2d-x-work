@@ -555,13 +555,13 @@ void StoreScene::doSendMsg(int num) {
 	MenuItemFont::setFontSize(30.0f);
 	if (num == 0) {
 		auto pMenuItem = MenuItemFont::create("Gold가 부족합니다.");
-		pMenuItem->setColor(Color3B(0, 0, 0));
+		pMenuItem->setColor(Color3B(255, 255, 255));
 		pMenuItem->setPosition(Vec2(200, 80));
 		TexScene->addChild(pMenuItem, 2);
 	}
 	else {
 		auto pMenuItem = MenuItemFont::create("아이템이 부족합니다.");
-		pMenuItem->setColor(Color3B(0, 0, 0));
+		pMenuItem->setColor(Color3B(255, 255, 255));
 		pMenuItem->setPosition(Vec2(200, 80));
 		TexScene->addChild(pMenuItem, 2);
 	}

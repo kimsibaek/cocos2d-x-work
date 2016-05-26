@@ -366,6 +366,14 @@ void MainScene::insertData(Ref* pSender)
 	//Monster table
 	sqlStr = "insert into Monster(Monster_Id, Type, level, Item1, Item2, Item3, Exp) values (0, 0, 1, -1, -1, -1, 0)";
 	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+	sqlStr = "insert into Monster(Monster_Id, Type, level, Item1, Item2, Item3, Exp) values (1, 1, 1, -1, -1, -1, 0)";
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+	sqlStr = "insert into Monster(Monster_Id, Type, level, Item1, Item2, Item3, Exp) values (2, 11, 1, -1, -1, -1, 0)";
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+	sqlStr = "insert into Monster(Monster_Id, Type, level, Item1, Item2, Item3, Exp) values (3, 21, 1, -1, -1, -1, 0)";
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
+	sqlStr = "insert into Monster(Monster_Id, Type, level, Item1, Item2, Item3, Exp) values (4, 31, 1, -1, -1, -1, 0)";
+	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
 	//Player table
 	sqlStr = "insert into Player(_id, Coin) values (1, 0)";
 	result = sqlite3_exec(pDB, sqlStr.c_str(), nullptr, nullptr, &errMsg);
@@ -385,21 +393,24 @@ void MainScene::doClick1(Ref *pSender) {
 	int i = tItem->getTag();
 	log("%d번째 메뉴가 선택되었습니다.", i);
 	if (i == 1) {
-		
+		Mapdata = 1;
 		auto pScene = TransitionFade::create(1.0f, EarthMap::createScene());
 		Director::getInstance()->pushScene(pScene);
 		//Director::getInstance()->replaceScene(pScene);
 	}
 	else if (i == 2) {
-		auto pScene = TransitionFade::create(1.0f, FireMap::createScene());
+		Mapdata = 2;
+		auto pScene = TransitionFade::create(1.0f, EarthMap::createScene());
 		Director::getInstance()->replaceScene(pScene);
 	}
 	else if (i == 3) {
-		auto pScene = TransitionFade::create(1.0f, WaterMap::createScene());
+		Mapdata = 3;
+		auto pScene = TransitionFade::create(1.0f, EarthMap::createScene());
 		Director::getInstance()->replaceScene(pScene);
 	}
 	else if (i == 4) {
-		auto pScene = TransitionFade::create(1.0f, WindMap::createScene());
+		Mapdata = 4;
+		auto pScene = TransitionFade::create(1.0f, EarthMap::createScene());
 		Director::getInstance()->replaceScene(pScene);
 	}
 	else if (i == 5) {

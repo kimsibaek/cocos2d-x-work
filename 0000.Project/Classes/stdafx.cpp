@@ -1,5 +1,7 @@
 ﻿#include "stdafx.h"
 
+int Mapdata = 0;
+
 Monster_num *monster_char;
 int monsterSize = 0;
 
