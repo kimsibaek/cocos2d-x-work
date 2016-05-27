@@ -44,7 +44,7 @@ bool EarthMap::init()
 	cache = SpriteFrameCache::getInstance();
 
 	SimpleAudioEngine::getInstance()->preloadEffect("snd/etc/click.wav");
-
+	SimpleAudioEngine::getInstance()->preloadEffect("snd/etc/GameEnd2.wav");
 	//대지공격 액션
 	cache->addSpriteFramesWithFile("Plist/EarthAttackPlist/fx_f5_earthsphere.plist");
 	cache->addSpriteFramesWithFile("Plist/EarthAttackPlist/fx_impactgreen.plist");
@@ -2199,8 +2199,12 @@ void EarthMap::callbackrepeatforeverAmy(float delta) {
 		if (monster_char[monsterNum].Type == 0) {
 			log("주인공 죽음");
 			//주인공 죽음 화면 전환
-
+			m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/GameEnd2.wav");
+			this->unschedule(schedule_selector(EarthMap::EmyMoveAttack));
+			this->unschedule(schedule_selector(EarthMap::doChange));
+			
 			EndGame(2);
+			return;
 		}
 		else {
 			int monster_num;
@@ -2304,7 +2308,7 @@ void EarthMap::EmyTurn(float f) {
 	for (int i = monsterSize - 1; i >= 0; i--) {
 		monster_char[i]._turn = true;
 		log("%d : %d", i, monster_char[i].Type);
-		monster_char[i].sprite->removeChildByTag(4);
+		//monster_char[i].sprite->removeChildByTag(4);
 	}
 	monster_char[0].sprite->removeChildByTag(4);
 	TouchTurnEnd = true;
@@ -3552,6 +3556,7 @@ void EarthMap::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) {
 				if (!EmyMonsterSize) {
 					log("적군 몬스터 전멸");
 					//적군 몬스터 전멸
+					m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/GameEnd.wav");
 					EndGame(1);
 					return;
 				}
@@ -4932,6 +4937,7 @@ void EarthMap::callbackrepeatforever(float delta) {
 		if (!EmyMonsterSize) {
 			log("적군 몬스터 전멸");
 			//적군 몬스터 전멸
+			m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/GameEnd.wav");
 			EndGame(1);
 			return;
 		}
@@ -6921,9 +6927,12 @@ Vec2 EarthMap::tileCoordForPosition(cocos2d::Vec2 position) {
 }
 
 void EarthMap::EndGame(int num) {
-	UpdateMonsterDB();
+	if (num == 1) {
+		UpdateMonsterDB();
+	}
+	
 	EndGame_Num = num;
-	m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/GameEnd.wav");
+	
 	Scene* popWin;
 	popWin = EndGame::createScene();
 	this->addChild(popWin, 3000, 3000);

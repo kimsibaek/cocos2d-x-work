@@ -256,7 +256,7 @@ void ClassChange::UpdateMonsterDB(int num, int Type) {
 }
 
 void ClassChange::doContinue(Ref* pSender) {
-	if (MonsterCellNum = -1) {
+	if (MonsterCellNum == -1) {
 		return;
 	}
 	if (Monster_List[MonsterCellNum].level != 10) {
