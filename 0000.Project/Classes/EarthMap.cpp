@@ -43,6 +43,9 @@ bool EarthMap::init()
 
 	cache = SpriteFrameCache::getInstance();
 
+	SimpleAudioEngine::getInstance()->preloadBackgroundMusic("snd/etc/MapSceneBGM.wav");
+	SimpleAudioEngine::getInstance()->playBackgroundMusic("snd/etc/MapSceneBGM.wav", true);
+
 	SimpleAudioEngine::getInstance()->preloadEffect("snd/etc/click.wav");
 	SimpleAudioEngine::getInstance()->preloadEffect("snd/etc/GameEnd2.wav");
 	//대지공격 액션
@@ -1161,6 +1164,7 @@ void EarthMap::doMsgReceived(Ref* obj) {
 void EarthMap::doChange(float f) {
 	if (ChageSchedule) {
 		ChageSchedule = false;
+		
 		this->schedule(schedule_selector(EarthMap::EmyMoveAttack), 2.0f, EmyMonsterSize - 1, 0.1f);
 	}
 	else {
@@ -1226,6 +1230,7 @@ void EarthMap::doMsgReceivedTurnEnd(Ref* obj) {
 }
 
 void EarthMap::EmyMoveAttack(float f) {
+	//FocusMonster(&EmyMonster_char[emynum]);
 	Vec2 mon_pos = Vec2(EmyMonster_char[emynum].tx, EmyMonster_char[emynum].ty);
 	log("mon_pos[%d] = %f, %f", emynum, mon_pos.x, mon_pos.y);
 	if (EmyMonster_char[emynum].move == 4) {
@@ -1249,7 +1254,7 @@ void EarthMap::EmyMoveAttack(float f) {
 		free(Emypos);
 		EmyposSize = 0;
 	}
-
+	bool move_t = false;
 	GrobalTempsize = 0;
 	pos = CheckPosition(mon_pos, pos, posSize, EmyMonster_char[emynum].move + 1, 0, EmyMonsterSize, EmyMonster_char, monsterSize, monster_char);
 	posSize = GrobalTempsize;
@@ -1265,7 +1270,7 @@ void EarthMap::EmyMoveAttack(float f) {
 				free(createMonsterPos);
 				createPosSize = 0;
 			}
-			bool move_t = false;
+			
 			for (int j = 0; j < EmyposSize; j++) {
 				if (!move_t) {
 					GrobalTempsize = 0;
@@ -2308,7 +2313,7 @@ void EarthMap::EmyTurn(float f) {
 	for (int i = monsterSize - 1; i >= 0; i--) {
 		monster_char[i]._turn = true;
 		log("%d : %d", i, monster_char[i].Type);
-		//monster_char[i].sprite->removeChildByTag(4);
+		monster_char[i].sprite->removeChildByTag(4);
 	}
 	monster_char[0].sprite->removeChildByTag(4);
 	TouchTurnEnd = true;
