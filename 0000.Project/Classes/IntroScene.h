@@ -15,6 +15,7 @@ public:
 	void doClick(Ref *pSender);
 	//효과음 변수
 	unsigned int m_nSoundId;
+	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keycode, cocos2d::Event *event);
 };
 
 #endif // __IntroScene_SCENE_H__

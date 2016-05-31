@@ -59,8 +59,16 @@ bool IntroScene::init()
 	this->addChild(Flash_002, 1);
 
 	this->scheduleOnce(schedule_selector(IntroScene::myTickInce), 0.1f);
-	
+
+	this->setKeypadEnabled(true);
 	return true;
+}
+
+void IntroScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keycode, cocos2d::Event *event)
+{
+	if (keycode == EventKeyboard::KeyCode::KEY_BACK) {
+		Director::getInstance()->end();
+	}
 }
 
 void IntroScene::myTickInce(float f) {
@@ -353,8 +361,9 @@ void IntroScene::doClick(Ref *pSender) {
 		//Director::getInstance()->replaceScene(pScene);
 	}
 	else if (i == 3) {
-		//auto pScene = SecendScene::createScene();
-		//Director::getInstance()->replaceScene(pScene);
+		//나가기
+		Director::getInstance()->end();
+
 	}
 	
 

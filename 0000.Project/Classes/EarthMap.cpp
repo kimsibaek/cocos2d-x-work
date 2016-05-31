@@ -160,7 +160,7 @@ bool EarthMap::init()
 	cache->addSpriteFramesWithFile("Plist/Wind9.plist");
 	cache->addSpriteFramesWithFile("Plist/HexInfo.plist");
 	cache->addSpriteFramesWithFile("Plist/etc.plist");
-
+	cache->addSpriteFramesWithFile("Plist/etc2.plist");
 	cache->addSpriteFramesWithFile("Plist/EarthUpgrade.plist");
 	cache->addSpriteFramesWithFile("Plist/FireUpgrade.plist");
 	cache->addSpriteFramesWithFile("Plist/WindUpgrade.plist");
@@ -1195,7 +1195,7 @@ void EarthMap::doMsgReceivedTurnEnd(Ref* obj) {
 			}
 		}
 		//enemy turn 표시
-		Sprite* EnemyTurnLabel = Sprite::create("Images/Scene/EnemyTurnLabel2.png");
+		Sprite* EnemyTurnLabel = Sprite::createWithSpriteFrameName("EnemyTurnLabel2.png");
 		EnemyTurnLabel->setScale(2.0f);
 		EnemyTurnLabel->setPosition(Vec2(1000, 50));
 		this->addChild(EnemyTurnLabel, 10, 200);
@@ -2321,7 +2321,7 @@ void EarthMap::EmyTurn(float f) {
 	this->removeChildByTag(200);
 	//MyTurn 표시
 	m_nSoundId = SimpleAudioEngine::getInstance()->playEffect("snd/etc/click.wav");
-	Sprite* MyTurnLabel = Sprite::create("Images/Scene/MyTurnLabel.png");
+	Sprite* MyTurnLabel = Sprite::createWithSpriteFrameName("MyTurnLabel.png");
 	MyTurnLabel->setScale(4.0f);
 	MyTurnLabel->setPosition(Vec2(640, 360));
 	this->addChild(MyTurnLabel, 200, 201);
